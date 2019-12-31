@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on </title>
-    <link>http://judequintana.github.io/posts/</link>
+    <link>https://judequintana.github.io/posts/</link>
     <description>Recent content in Posts on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Tue, 31 Dec 2019 09:28:34 -0700</lastBuildDate>
     
-	<atom:link href="http://judequintana.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://judequintana.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Place Holder</title>
-      <link>http://judequintana.github.io/posts/place_holder/</link>
+      <link>https://judequintana.github.io/posts/place_holder/</link>
       <pubDate>Tue, 31 Dec 2019 09:28:34 -0700</pubDate>
       
-      <guid>http://judequintana.github.io/posts/place_holder/</guid>
+      <guid>https://judequintana.github.io/posts/place_holder/</guid>
       <description></description>
     </item>
     
