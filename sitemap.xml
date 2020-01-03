@@ -3,7 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://jq1.io/posts/place_holder/</loc>
+    <loc>https://jq1.io/posts/storm/</loc>
+    <lastmod>2020-01-02T19:51:30-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/</loc>
+    <lastmod>2020-01-02T19:51:30-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/posts/</loc>
+    <lastmod>2020-01-02T19:51:30-07:00</lastmod>
   </url>
   
   <url>
@@ -12,14 +23,6 @@
   
   <url>
     <loc>https://jq1.io/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://jq1.io/</loc>
-  </url>
-  
-  <url>
-    <loc>https://jq1.io/posts/</loc>
   </url>
   
   <url>
