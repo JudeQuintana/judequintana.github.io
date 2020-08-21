@@ -222,7 +222,7 @@ resource &quot;aws_subnet&quot; &quot;private&quot; {
   count                   = length(var.azs)
 
   vpc_id                  = aws_vpc.vpc.id
-  availbaility_zone       = format(&quot;%s%s&quot;, local.region_name, var.azs[count.index])
+  availability_zone       = format(&quot;%s%s&quot;, local.region_name, var.azs[count.index])
   cidr_block              = cidrsubnet(var.cidr_block, 8, count.index)
   map_public_ip_on_launch = false
 }
@@ -285,7 +285,7 @@ resource &quot;aws_subnet&quot; &quot;private&quot; {
   for_each = var.azs
 
   vpc_id                  = aws_vpc.vpc.id
-  availbaility_zone       = format(&quot;%s%s&quot;, local.region_name, each.key)
+  availability_zone       = format(&quot;%s%s&quot;, local.region_name, each.key)
   cidr_block              = cidrsubnet(var.cidr_block, 8, each.value)
   map_public_ip_on_launch = false
 }
