@@ -324,7 +324,7 @@ create a new list contaning private subnet IDs via the splat operator:</p>
 }
 </code></pre><p>Both will give us:</p>
 <pre><code>[ &quot;private-subnet-id-1&quot;, &quot;private-subnet-id-2&quot;, &quot;private-subnet-id-3&quot; ]
-</code></pre><p><code>output</code> a new map AZs associated to private subnet IDs:</p>
+</code></pre><p><code>output</code> a new map of AZs associated to private subnet IDs:</p>
 <pre><code>output &quot;private_subnet_ids&quot; {
   value = { for az, subnet in aws_subnet.private : az =&gt; subnet.id }
 }
