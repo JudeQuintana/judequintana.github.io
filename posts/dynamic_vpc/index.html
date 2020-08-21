@@ -400,7 +400,16 @@ This can all be simplified with a different pattern.</p>
 <h2 id="dynamically-generated-resources">Dynamically Generated Resources</h2>
 <p>The complicated <code>for</code> example above can be further simplified by using a shared static map that <code>for_each</code>
 iterates over for related resources and using functions to access resource maps generated at runtime.</p>
-<pre><code>...
+<pre><code>variable &quot;azs&quot; {
+ type = map(number)
+ default = {
+   a = 1
+   b = 2
+   c = 3
+ }
+}
+...
+</code></pre><pre><code>...
 
 resource &quot;aws_route_table_association&quot; &quot;private&quot; {
   for_each = var.azs
