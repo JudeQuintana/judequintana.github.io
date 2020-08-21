@@ -256,7 +256,7 @@ the list would need to be recomputed. This will force new resources which is wha
 aws_subnet.private = [a, b, c]
 =&gt; remove b subnet
 aws_subnet.private = [a, c]
-tf apply =&gt; (forced to rebuild ALL resources based on the index change for c)
+tf plan =&gt; (forced to rebuild ALL resources based on the index change for c)
 </code></pre><p>If <code>c</code> is removed from the end of the list to delete only <code>c</code> related resources, the other resources would not be affected because their index would
 not have changed.</p>
 <p>However, if <code>b</code> was removed then the index for <code>c</code> would change from <code>2</code>
@@ -446,7 +446,7 @@ var.azs = {
   b = 2
   c = 3
 }
-tf apply =&gt; (unexpected changes to resources releated to AZs a and c)
+tf plan =&gt; (unexpected changes to resources releated to AZs a and c)
 </code></pre><p>It seems when the <code>b</code> subnet is added back into the map, somewhere in the dependency
 chain certain resource maps want to re-compute their attribute values, some of
 which will force new resources like <code>route_table_id</code> and <code>subnet_id</code> in
