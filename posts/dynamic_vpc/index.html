@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.69.2" />
+
+    
+    
+    
+
+<title>Dynamic VPC Module in Terraform 0.12 • jq1.io</title>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dynamic VPC Module in Terraform 0.12"/>
+<meta name="twitter:description" content="TL;DR Just show me the code! This is a Dynamic VPC Module that builds a redundant network architecture in AWS based on structured input using for_each and for constructs. It will build a VPC with private and public subnets per AZ with the proper routing and labeling.
+Here is the related VPC network diagram for visual reference. Preface I was planning on releasing this blog post shortly after Terraform 0.12 released but there were unexpected delays."/>
+
+<meta property="og:title" content="Dynamic VPC Module in Terraform 0.12" />
+<meta property="og:description" content="TL;DR Just show me the code! This is a Dynamic VPC Module that builds a redundant network architecture in AWS based on structured input using for_each and for constructs. It will build a VPC with private and public subnets per AZ with the proper routing and labeling.
+Here is the related VPC network diagram for visual reference. Preface I was planning on releasing this blog post shortly after Terraform 0.12 released but there were unexpected delays." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jq1.io/posts/dynamic_vpc/" />
+<meta property="article:published_time" content="2020-08-21T10:28:58-06:00" />
+<meta property="article:modified_time" content="2020-08-21T10:28:58-06:00" /><meta property="og:site_name" content="Demolition Man" />
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://jq1.io/">jq1.io</a>
+      </span>
+      
+        
+        
+        
+        <div class="author-image">
+          <img src="https://jq1.io/img/thought.png" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+      
+      
+      <p class="site__description">
+         thoughts as code 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">jq1.io</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/JayQ_One" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	<a href="https://github.com/judequintana" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="posts/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2020 Jude Quintana
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a>
+</div>
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Dynamic VPC Module in Terraform 0.12</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Aug 21, 2020
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 11 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="post">
+    <h2 id="tldr-just-show-me-the-code">TL;DR Just show me the code!</h2>
+<p>This is a <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/dynamic_vpc">Dynamic VPC Module</a> that builds a redundant network
+architecture in AWS based on structured input using <code>for_each</code> and <code>for</code>
+constructs. It will build a VPC with private and public subnets per AZ with the proper routing and labeling.</p>
+<p>Here is the related VPC network diagram for visual reference.
+<img src="https://docs.aws.amazon.com/vpc/latest/userguide/images/nat-gateway-diagram.png" alt="example_vpc"></p>
+<h2 id="preface">Preface</h2>
+<p>I was planning on releasing this blog post shortly after Terraform 0.12 released but there were unexpected delays. Now Terraform 0.13 is GA and
+the patterns I&rsquo;m presenting here will change significantly but I hope this post will help others with their module development.</p>
+<p>I&rsquo;m also attempting to accomodate a beginner to intermediate audience so the general terminolgy I use is more about how I think
+about Terraform than about how Terraform works. Because of that, I may make incorrect assumptions and my design will probably leave areas for improvement.</p>
+<h2 id="intro">Intro</h2>
+<p>This <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/dynamic_vpc">Dynamic VPC Module</a> is a demonstration of how to build flexible module behavior using <code>for_each</code> meta-arguments and <code>for</code> expressions to orchestrate resource building more fluidly within a single module while exploring basic network design.  I&rsquo;m a big fan of utilizing nested modules to compose bigger architecture but this post is not about module composition patterns. I&rsquo;ll save that for a future post.</p>
+<p>Terraform 0.12 supports building resources with the <code>for_each</code> meta-arguments and <code>for</code> expressions.
+This allows us to design modules with minimal input requirments while providing flexible DAG behavior based on the object structures being passed in.</p>
+<p>There is no shortage of highly configurable VPC modules online but most of them
+aren&rsquo;t using the new 0.12 feature set.  Even the official <a href="https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/2.44.0">AWS VPC module</a>
+has minimal <code>for_each</code> usage and has a big interface with lots of internal logic that supports many different configurations but it&rsquo;s hard to follow.</p>
+<p>In general, I prefer my Terraform modules have specific behavior out of the box like the TL;DR says, I want a VPC module that builds a private and public subnet per AZ with the proper routing and labeling. I&rsquo;d like to control which AZs get built with an AZ to subnet configuration map.</p>
+<p>Note: In the code examples, <code>...</code> means the code in-between, its not the Terraform ellipsis character.</p>
+<h2 id="the-old-way">The Old Way</h2>
+<h4 id="count">count</h4>
+<p>Previously in Terraform 0.11 we could only build resource lists with <code>count</code>.  Notice that the third octet of the subnet CIDR is generated based on the index of resource objects in the list.</p>
+<pre><code>variable = &quot;cidr_block&quot; {
+  default = &quot;10.0.0.0/16&quot;
+}
+
+variable &quot;azs&quot; {
+  type = list
+  default = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+}
+...
+
+resource &quot;aws_subnet&quot; &quot;private&quot; {
+  count                   = length(var.azs)
+
+  vpc_id                  = aws_vpc.vpc.id
+  availbaility_zone       = format(&quot;%s%s&quot;, local.region_name, var.azs[count.index])
+  cidr_block              = cidrsubnet(var.cidr_block, 8, count.index)
+  map_public_ip_on_launch = false
+}
+...
+
+output &quot;private_subnet_ids&quot; {
+  value = aws_subnet.private[*].id
+}
+
+</code></pre><p>We would get us an indexed list of resource <code>aws_subnet.private</code> objects similar to this
+abstract example:</p>
+<pre><code>aws_subnet.private = [
+  {
+    az     = &quot;us-east-1a&quot;,
+    subnet = &quot;10.0.0.0/24&quot;
+  },
+  {
+    az     = &quot;us-east-1b&quot;,
+    subnet = &quot;10.0.1.0/24&quot;
+  },
+  {
+    az     = &quot;us-east-1c&quot;,
+    subnet = &quot;10.0.2.0/24&quot;
+  }
+]
+
+</code></pre><p>When resource creation depends on the index of a list it&rsquo;s usually a static configuration becuase if the ordering changes
+the list would need to be recomputed. This will force new resources which is what we don&rsquo;t want.</p>
+<p>Continuing the abstract example:</p>
+<pre><code># a, b, and c are objects
+aws_subnet.private = [a, b, c]
+=&gt; remove b subnet
+aws_subnet.private = [a, c]
+tf apply =&gt; (forced to rebuild ALL resources based on the index change for c)
+</code></pre><p>If <code>c</code> is removed from the end of the list to delete only <code>c</code> related resources, the other resources would not be affected because their index would
+not have changed.</p>
+<p>However, if <code>b</code> was removed then the index for <code>c</code> would change from <code>2</code>
+to <code>1</code> causing the subnet to be recomputed with a different CIDR forcing new resources.</p>
+<p>The <code>for_each</code> meta-argument replaces <code>count</code> in most cases so we can iterate over more
+flexible data structures like maps and sets that will avoid destructive re-ordering behavior.
+However, <code>count</code> is still useful in cases when I want simple toggle logic on a resource (ie <code>count = var.enabled ? 1 : 0</code>,
+<code>count = length(var.some_list) &gt; 0 ? 1 : 0</code>, etc).</p>
+<h2 id="a-new-way">A New Way</h2>
+<h4 id="for_each">for_each</h4>
+<p>The <code>for_each</code> meta-argument can iterate over a static map/set to create a resource
+map/set. However, it cant iterate over a resource map/set generated at runtime
+directly but there are exceptions to this using <code>for</code>.</p>
+<pre><code>variable &quot;azs&quot; {
+ type = map(number)
+ default = {
+   a = 1
+   b = 2
+   c = 3
+ }
+}
+...
+</code></pre><pre><code>...
+
+resource &quot;aws_subnet&quot; &quot;private&quot; {
+  for_each = var.azs
+
+  vpc_id                  = aws_vpc.vpc.id
+  availbaility_zone       = format(&quot;%s%s&quot;, local.region_name, each.key)
+  cidr_block              = cidrsubnet(var.cidr_block, 8, each.value)
+  map_public_ip_on_launch = false
+}
+...
+</code></pre><p>Now, we&rsquo;ll get an <code>aws_subnet.private</code> resource map with the same keys as the
+static map that was passed into <code>for_each</code>.</p>
+<p>Abstract example:</p>
+<pre><code>aws_subnet.private = {
+  a = {
+    az     = &quot;us-east-1a&quot;,
+    subnet = &quot;10.0.0.0/24&quot;
+  },
+  b = {
+    az     = &quot;us-east-1b&quot;,
+    subnet = &quot;10.0.1.0/24&quot;
+  },
+  c = {
+    az     = &quot;us-east-1c&quot;,
+    subnet = &quot;10.0.2.0/24&quot;
+  }
+}
+</code></pre><h4 id="for">For</h4>
+<p><code>for</code> experessions are a way to transform a static map/list/set or
+a runtime generated resource maps/lists into a new map or list.
+It&rsquo;s similar to Python dict/list comprehensions with different syntax.</p>
+<p>It&rsquo;s important to know that the splat operator <code>[*]</code> is
+a short hand <code>for</code> expression. Splat is for lists only.</p>
+<p>We can iterate over <code>aws_subnet.private</code> resource list created with <code>count</code> and
+create a new list contaning private subnet IDs via the splat operator:</p>
+<pre><code>output &quot;private_subnet_ids&quot; {
+  value = aws_subnet.private[*].id
+}
+</code></pre><p>This is equivalent to:</p>
+<pre><code>output &quot;private_subnet_ids&quot; {
+  value = [ for subnet in aws_subnet.private : subnet.id ]
+}
+</code></pre><p>Both will give us:</p>
+<pre><code>[ &quot;private-subnet-id-1&quot;, &quot;private-subnet-id-2&quot;, &quot;private-subnet-id-3&quot; ]
+</code></pre><p><code>output</code> a new map AZs associated to private subnet IDs:</p>
+<pre><code>output &quot;private_subnet_ids&quot; {
+  value = { for az, subnet in aws_subnet.private : az =&gt; subnet.id }
+}
+</code></pre><p>This gives us:</p>
+<pre><code>{
+  a = &quot;private-subnet-id-1&quot;
+  b = &quot;private-subnet-id-2&quot;
+  c = &quot;private-subnet-id-3&quot;
+}
+</code></pre><p>You can also use <code>for</code> as a filter.</p>
+<p>Filter a list of objects based on an attribute:</p>
+<pre><code>locals {
+  list_of_objects = [
+    { type = &quot;typeA&quot; },
+    { type = &quot;typeB&quot; },
+    { type = &quot;typeC&quot; }
+  ]
+}
+
+output &quot;filtered_list_of_objects_based_on_type&quot; {
+  value = [ for o in local.list_of_objects : o if o.type == &quot;typeA&quot; ]
+}
+=&gt;
+[ {type = &quot;typeA&quot;} ]
+
+</code></pre><p>Filter a map by value:</p>
+<pre><code>locals {
+  some_map = {
+    key1 = &quot;value1&quot;
+    key2 = &quot;value2&quot;
+    key3 = &quot;value1&quot;
+  }
+}
+
+output &quot;filtered_map_value&quot; {
+value = { for k, v in local.some_map : k =&gt; v if v == &quot;value1&quot; }
+}
+=&gt;
+{
+  key1 = &quot;value1&quot;
+  key3 = &quot;value1&quot;
+}
+
+</code></pre><p><code>for</code> can be used just about anywhere.  I&rsquo;ve seen it be used to generate a new map from a runtime generated
+resource map as input into <code>for_each</code> which can get around this limitation:</p>
+<pre><code>resource &quot;aws_route_table_association&quot; &quot;private&quot; {
+  for_each = aws_subnet.private #&lt;=== NOT ALLOWED
+  ...
+}
+</code></pre><p>Here&rsquo;s an complicated example to show how
+far you can push the use of <code>for</code> leading to unnecessary complexity (not recommended):</p>
+<pre><code>...
+
+resource &quot;aws_route_table_association&quot; &quot;private&quot; {
+  for_each = { for az, subnet in aws_subnet.private: az =&gt; subnet.id }
+
+  route_table_id = lookup(
+    { for az, route_table in aws_route_table.private : az =&gt; route_table.id },
+    each.key
+  )
+  subnet_id = lookup(
+    { for az, subnet in aws_subnet.private : az =&gt; subnet.id },
+    each.key
+  )
+}
+...
+
+</code></pre><p>I don&rsquo;t recommend building resources using <code>for</code> to generate a new map from a runtime generated resource map as input into <code>for_each</code>. Because,
+not only does this make reasoning about the resource more difficult but now the resource creation directly depends on another resource&rsquo;s state
+to build itself which leaves us with less flexibility and control when state changes upstream.
+Also, there&rsquo;s an unnessary amount of <code>for</code> iteration when setting attribute values via the lookup function.
+This can all be simplified with a different pattern.</p>
+<h2 id="dynamically-generated-resources">Dynamically Generated Resources</h2>
+<p>The complicated <code>for</code> example above can be further simplified by using a shared static map that <code>for_each</code>
+iterates over for related resources and using functions to access resource maps generated at runtime.</p>
+<pre><code>...
+
+resource &quot;aws_route_table_association&quot; &quot;private&quot; {
+  for_each = var.azs
+
+  route_table_id = lookup(aws_route_table.private, each.key).id
+  subnet_id      = lookup(aws_subnet.private, each.key).id
+}
+...
+</code></pre><p>This pattern allows us to dynamically generate resources for those in-between resources (ie association resources).
+They will link themselves together based on looking up the same keys as the other related resource maps. This is
+the advantage of using the shared static map in <code>for_each</code>.</p>
+<h2 id="bringing-it-together">Bringing It Together</h2>
+<p>Now that we can dynamically generate resources, in theory, we should be able to remove AZ <code>b</code> from the AZ map
+which will then remove all resources related to it while not affecting resources ralated to the other AZs.</p>
+<pre><code>var.azs = {
+  a = 1
+  b = 2
+  c = 3
+}
+=&gt; remove b subnet
+var.azs = {
+  a = 1
+  c = 3
+}
+tf apply =&gt; (successful, no conflicts)
+</code></pre><p>This works as expected. Now we should be able to add AZ <code>b</code> back in:</p>
+<pre><code>var.azs = {
+  a = 1
+  c = 3
+}
+=&gt; add b subnet back in
+var.azs = {
+  a = 1
+  b = 2
+  c = 3
+}
+tf apply =&gt; (unexpected changes to resources releated to AZs a and c)
+</code></pre><p>It seems when the <code>b</code> subnet is added back into the map, somewhere in the dependency
+chain certain resource maps want to re-compute their attribute values, some of
+which will force new resources like <code>route_table_id</code> and <code>subnet_id</code> in
+an association resource:</p>
+<pre><code>...
+
+resource &quot;aws_route_table_association&quot; &quot;private&quot; {
+  for_each = var.azs
+
+  route_table_id = lookup(aws_route_table.private, each.key).id
+  subnet_id      = lookup(aws_subnet.private, each.key).id
+}
+...
+</code></pre><p>It appears an attribute that triggers a &ldquo;force a new resource&rdquo; assumes the value will change
+(even if the value stays the same) during resource iteration via <code>for_each</code>.</p>
+<p>We can address this issue with an <code>ignore_changes</code> in a <code>lifecycle</code>
+meta-argument block. For every dynamically generated resource
+we&rsquo;ll ignore the attribute that&rsquo;s being set. Excuse the broken
+syntax highlighting in this example.</p>
+<pre><code>...
+
+resource &quot;aws_route_table_association&quot; &quot;private&quot; {
+  for_each = var.azs
+
+  route_table_id = lookup(aws_route_table.private, each.key).id
+  subnet_id      = lookup(aws_subnet.private, each.key).id
+
+  lifecycle {
+    ignore_changes = [subnet_id, route_table_id]
+  }
+}
+...
+</code></pre><p>Setting <code>ignore_changes</code> for <code>subnet_id</code> and <code>route_table_id</code> is OK because we know that the re-computation results will be
+the same value as before because we are not changing the adjecent resources in the resource map.
+So we&rsquo;ll ignore changes to those attributes that want to force a new resource.</p>
+<p>It&rsquo;s advised that <code>ignore_changes</code> is used sparingly because now the
+module won&rsquo;t detect state drift on those resources if there are changes made in the AWS console.</p>
+<p>Now we can add AZ <code>b</code> back in without affecting the other resources.</p>
+<pre><code>var.azs = {
+  a = 1
+  c = 3
+}
+=&gt; add AZ b back in
+var.azs = {
+  a = 1
+  b = 2
+  c = 3
+}
+tf apply =&gt; (successful, no conflicts)
+</code></pre><h2 id="using-the-vpc-module">Using the VPC module</h2>
+<p>This configuration will create a VPC in the us-east-1 region with a NAT Gatway per AZ with
+routing for each private and public subnets. Every taggable resource
+will have proper naming including environment, region and AZ. Everything
+is in <code>main.tf</code> and <code>variables.tf</code> because I wanted less directory structure focus.</p>
+<p>Also, I like being explicit about passing in an aliased <code>provider</code> into the module. It makes it
+easier to identify which region or account I&rsquo;m applying module resources into.</p>
+<pre><code>terraform {
+  required_version = &quot;&gt;= 0.12.6&quot;
+  required_providers {
+    aws = &quot;2.70.0&quot;
+  }
+}
+
+# base provider
+provider &quot;aws&quot; {
+  region = &quot;us-east-1&quot;
+}
+
+provider &quot;aws&quot; {
+  region = &quot;us-east-1&quot;
+  alias  = &quot;use1&quot;
+}
+</code></pre><pre><code>
+variable &quot;region_az_short_names&quot; {
+  description = &quot;Region and AZ names mapped to short naming conventions for labeling&quot;
+  type = map(string)
+
+  default = {
+    us-east-1  = &quot;use1&quot;
+    us-east-1a = &quot;use1a&quot;
+    us-east-1b = &quot;use1b&quot;
+    us-east-1c = &quot;use1c&quot;
+    us-west-2  = &quot;usw2&quot;
+    us-west-2a = &quot;usw2a&quot;
+    us-west-2b = &quot;usw2b&quot;
+    us-west-2c = &quot;usw2c&quot;
+  }
+}
+
+module &quot;stage_use1_vpc&quot; {
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/vpc?ref=v1.0.0&quot;
+
+  providers = {
+    aws = aws.use1
+  }
+
+  env_prefix            = &quot;stage&quot;
+  region_az_short_names = var.region_az_short_names
+  cidr_block            = &quot;10.0.0.0/16&quot;
+  azs = {
+    a = 1
+    b = 2
+    c = 3
+  }
+}
+</code></pre><p>Note: The third octet of the private subnets correspond to the values in the
+<code>var.azs</code> map. The third octect of the public subnets are n + 32.</p>
+<table>
+<thead>
+<tr>
+<th>az</th>
+<th>resource</th>
+<th>subnet cidr</th>
+<th>routing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>private subnet</td>
+<td>10.0.1.0/24</td>
+<td>traffic routes out nat gateway in AZ a</td>
+</tr>
+<tr>
+<td>a</td>
+<td>public subnet</td>
+<td>10.0.33.0/24</td>
+<td>traffic routes out igw</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>b</td>
+<td>private subnet</td>
+<td>10.0.2.0/24</td>
+<td>traffic routes out nat gateway in AZ b</td>
+</tr>
+<tr>
+<td>b</td>
+<td>public subnet</td>
+<td>10.0.34.0/24</td>
+<td>traffic routes out igw</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>c</td>
+<td>private subnet</td>
+<td>10.0.3.0/24</td>
+<td>traffic routes out nat gateway in AZ c</td>
+</tr>
+<tr>
+<td>c</td>
+<td>public subnet</td>
+<td>10.0.35.0/24</td>
+<td>traffic routes out igw</td>
+</tr>
+</tbody>
+</table>
+<p>Again, here is the related VPC network diagram for visual reference.
+<img src="https://docs.aws.amazon.com/vpc/latest/userguide/images/nat-gateway-diagram.png" alt="example_vpc"></p>
+<h4 id="caveats">Caveats</h4>
+<p>This VPC module more of a learning excersize and it does generate resources that cost money (ie NAT Gateways and EIPs).
+When it comes to scaling out networks via peer links it&rsquo;s best practice to segment your network tiers with their own subnets per AZ (ie
+private app subnet, public load balancer subnet, etc). Network segmentation makes it easier configure security groups across the VPC Peer links
+because you can&rsquo;t share security group IDs across VPCs, only subnets!</p>
+<h2 id="closing-thoughts">Closing Thoughts</h2>
+<p>I hope this shows how far you can get with dynamic behavior within a single module.
+The new Terrarform 0.13 feature set forces me to reconsider my initial desgins. I&rsquo;m planning to
+refactor this VPC module into a sub component design to experiment with <code>for_each</code> on modules.
+This will open up even more module composibility and abstraction options so I&rsquo;m looking forward to the future.</p>
+<p>~jq1</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/storm/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">A Storm is Brewing</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+  
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-155122887-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+
+
+    
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+        
+    
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>
