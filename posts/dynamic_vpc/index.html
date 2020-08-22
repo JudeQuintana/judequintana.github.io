@@ -504,7 +504,7 @@ is in <code>main.tf</code> and <code>variables.tf</code> because I wanted less d
 <p>Also, I like being explicit about passing in an aliased <code>provider</code> into the module. It makes it
 easier to identify which region or account I&rsquo;m applying module resources into.</p>
 <pre><code>terraform {
-  required_version = &quot;&gt;= 0.12.6&quot;
+  required_version = &quot;~&gt; 0.12.6&quot;
   required_providers {
     aws = &quot;2.70.0&quot;
   }
