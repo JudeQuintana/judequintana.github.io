@@ -461,7 +461,7 @@ resource &quot;aws_route_table_association&quot; &quot;private&quot; {
 }
 ...
 </code></pre><p>It appears an attribute that triggers a &ldquo;force a new resource&rdquo; assumes the value will change
-(even if the value stays the same) during resource iteration via <code>for_each</code>.</p>
+(even if the value stays the same) during resource creation or modification during iteration via <code>for_each</code>.</p>
 <p>We can address this issue with an <code>ignore_changes</code> in a <code>lifecycle</code>
 meta-argument block. For every dynamically generated resource
 we&rsquo;ll ignore the attribute that&rsquo;s being set. Excuse the broken
