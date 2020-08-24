@@ -204,7 +204,7 @@ This allows us to design modules with minimal input requirments while providing 
 aren&rsquo;t using the new 0.12 feature set.  Even the official <a href="https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/2.44.0">AWS VPC module</a>
 has minimal <code>for_each</code> usage and has a big interface with lots of internal logic that supports many different configurations but it&rsquo;s hard to follow.</p>
 <p>In general, I prefer my Terraform modules have specific behavior out of the box like the TL;DR says, I want a VPC module that builds a private and public subnet per AZ with the proper routing and labeling. I&rsquo;d like to control which AZs get built with an AZ to subnet configuration map.</p>
-<p>Note: In the code examples, <code>...</code> means the code in-between, its not the Terraform ellipsis character.</p>
+<p>Note: In the code examples, <code>...</code> means the code in-between, it&rsquo;s not the Terraform expansion symbol.</p>
 <h2 id="the-old-way">The Old Way</h2>
 <h4 id="count">count</h4>
 <p>Previously in Terraform 0.11 we could only build resource lists with <code>count</code>.  Notice that the third octet of the subnet CIDR is generated based on the index of resource objects in the list.</p>
@@ -638,6 +638,11 @@ This will open up even more module composibility and abstraction options so I&rs
       <span class="navigation-tittle">A Storm is Brewing</span>
     </a>
     
+    
+    <a href="/posts/expanding_function_arguments/" class="navigation-next">
+      <span class="navigation-tittle">Expanding Function Arguments in Terraform</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
     
 </div>
 
