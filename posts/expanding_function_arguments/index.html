@@ -217,7 +217,9 @@ Error: Duplicate object key
 Two different items produced the key &quot;t&quot; in this 'for' expression. If
 duplicates are expected, use the ellipsis (...) after the value expression to
 enable grouping by key.
-</code></pre><p>It&rsquo;s weird that the error refers to <code>...</code> as an ellipsis.</p>
+</code></pre><p>The error message says to use the ellipsis but it&rsquo;s not clear on how to use it.
+It&rsquo;s weird that the error refers to <code>...</code> as an ellipsis because
+the docs call it an expansion symbol.</p>
 <p>Now <code>...</code> enters the ring!</p>
 <pre><code>$ terraform console
 &gt; { for s in [&quot;here&quot;, &quot;there&quot;, &quot;this&quot;] : substr(s, 0, 1) =&gt; s... if s != &quot;&quot; }
