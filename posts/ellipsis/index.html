@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.69.2" />
+
+    
+    
+    
+
+<title>Terraform Ellipsis • jq1.io</title>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Terraform Ellipsis"/>
+<meta name="twitter:description" content="The other day I was wondering if it was possble to unpack a list of elements as args to a function in Terraform similar to * in Python? Because this code will give invalid function argument errors:
+locals { new_bits = [4,4,8,4] subnets = cidrsubnets(&quot;10.1.0.0/16&quot;, local.new_bits) # &lt;= can i unpack? } It turns out you can do this with the ellipsis ... character. In the Terraform docs its called Expanding Function Arguements:"/>
+
+<meta property="og:title" content="Terraform Ellipsis" />
+<meta property="og:description" content="The other day I was wondering if it was possble to unpack a list of elements as args to a function in Terraform similar to * in Python? Because this code will give invalid function argument errors:
+locals { new_bits = [4,4,8,4] subnets = cidrsubnets(&quot;10.1.0.0/16&quot;, local.new_bits) # &lt;= can i unpack? } It turns out you can do this with the ellipsis ... character. In the Terraform docs its called Expanding Function Arguements:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jq1.io/posts/ellipsis/" />
+<meta property="article:published_time" content="2020-08-23T16:31:18-06:00" />
+<meta property="article:modified_time" content="2020-08-23T16:31:18-06:00" /><meta property="og:site_name" content="Demolition Man" />
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://jq1.io/">jq1.io</a>
+      </span>
+      
+        
+        
+        
+        <div class="author-image">
+          <img src="https://jq1.io/img/thought.png" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+      
+      
+      <p class="site__description">
+         thoughts as code 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">jq1.io</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/JayQ_One" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	<a href="https://github.com/judequintana" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="posts/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2020 Jude Quintana
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a>
+</div>
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Terraform Ellipsis</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Aug 23, 2020
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 2 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="post">
+    <p>The other day I was wondering if it was possble to unpack a list of elements as args to a function in Terraform similar to <code>*</code> in Python?
+Because this code will give invalid function argument errors:</p>
+<pre><code>locals {
+  new_bits = [4,4,8,4]
+  subnets = cidrsubnets(&quot;10.1.0.0/16&quot;, local.new_bits) # &lt;= can i unpack?
+}
+</code></pre><p>It turns out you can do this with the ellipsis <code>...</code> character. In the Terraform docs its called <a href="https://www.terraform.io/docs/configuration/expressions.html#expanding-function-arguments">Expanding Function Arguements</a>:</p>
+<pre><code>locals {
+  new_bits = [4,4,8,4]
+  subnets = cidrsubnets(&quot;10.1.0.0/16&quot;, local.new_bits...)
+}
+</code></pre><p>Resulting subnets list:</p>
+<pre><code>local.subnets = [
+  &quot;10.1.0.0/20&quot;,
+  &quot;10.1.16.0/20&quot;,
+  &quot;10.1.32.0/24&quot;,
+  &quot;10.1.48.0/20&quot;,
+]
+</code></pre><p>It&rsquo;s pretty straight forward now that we know to use the ellipsis character for &ldquo;unpacking&rdquo; behavior. But wait, there&rsquo;s more! While reading through the <a href="https://www.terraform.io/docs/configuration/expressions.html#for-expressions">For Expressions</a> section I came accross using an ellipses in a <code>for</code> loop &ldquo;if the result type is an object (using { and } delimiters) then the value result expression can be followed by the &hellip; symbol to group together results that have a common key&rdquo;.</p>
+<p>Apparently, if we attempt to group values with the same key using <code>for</code> without an
+ellipsis to generate a new map then you get a <code>Duplicate object key</code> error:</p>
+<pre><code>$ terraform console
+&gt; { for s in [&quot;here&quot;, &quot;there&quot;, &quot;this&quot;] : substr(s, 0, 1) =&gt; s if s != &quot;&quot; }
+
+Error: Duplicate object key
+
+  on &lt;console-input&gt; line 1:
+  (source code not available)
+
+Two different items produced the key &quot;t&quot; in this 'for' expression. If
+duplicates are expected, use the ellipsis (...) after the value expression to
+enable grouping by key.
+</code></pre><p>Enter ellipsis:</p>
+<pre><code>$ terraform console
+&gt; { for s in [&quot;here&quot;, &quot;there&quot;, &quot;this&quot;] : substr(s, 0, 1) =&gt; s... if s != &quot;&quot; }
+{
+  &quot;h&quot; = [
+    &quot;here&quot;,
+  ]
+  &quot;t&quot; = [
+    &quot;there&quot;,
+    &quot;this&quot;,
+  ]
+}
+</code></pre><p>I havent needed a <code>for</code> filter with group by behavior but this will definitely come in handy when I do!</p>
+<p>~jq1</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/dynamic_vpc/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Dynamic VPC Module in Terraform 0.12</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+  
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-155122887-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+
+
+    
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+        
+    
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

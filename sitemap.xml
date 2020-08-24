@@ -3,17 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://jq1.io/posts/dynamic_vpc/</loc>
-    <lastmod>2020-08-21T10:28:58-06:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://jq1.io/</loc>
-    <lastmod>2020-08-21T10:28:58-06:00</lastmod>
+    <lastmod>2020-08-23T16:31:18-06:00</lastmod>
   </url>
   
   <url>
     <loc>https://jq1.io/posts/</loc>
+    <lastmod>2020-08-23T16:31:18-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/posts/ellipsis/</loc>
+    <lastmod>2020-08-23T16:31:18-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/posts/dynamic_vpc/</loc>
     <lastmod>2020-08-21T10:28:58-06:00</lastmod>
   </url>
   
