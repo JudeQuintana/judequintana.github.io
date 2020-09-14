@@ -669,7 +669,7 @@ variable &quot;vpc_cidrs &quot;{
   ]
 }
 
-module &quot;staging_vpc&quot; {
+module &quot;staging_vpcs&quot; {
   source   = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/dynamic_vpc?ref=v1.0.2&quot;
   for_each = toset(local.vpc_cidrs)
 
