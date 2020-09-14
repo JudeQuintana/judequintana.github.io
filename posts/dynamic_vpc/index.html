@@ -506,7 +506,7 @@ easier to identify which region or account I&rsquo;m applying module resources i
 <pre><code>terraform {
   required_version = &quot;~&gt; 0.12.6&quot;
   required_providers {
-    aws = &quot;2.70.0&quot;
+  aws = &quot;~&gt; 2.70.0&quot;
   }
 }
 
@@ -623,7 +623,7 @@ private app subnet, public load balancer subnet, etc). Network segmentation make
 because you can&rsquo;t share security group IDs across VPCs, only subnets!</p>
 <h4 id="terraform-013-example">Terraform 0.13 Example</h4>
 <pre><code>terraform {
-  required_version = &quot;&gt;= 0.13&quot;
+required_version = &quot;~&gt; 0.13.2&quot;
 
   required_providers {
     aws = {
