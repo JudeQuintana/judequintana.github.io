@@ -621,7 +621,7 @@ module &quot;stage_use1_vpc&quot; {
 When it comes to scaling out networks via peer links it&rsquo;s best practice to segment your network tiers with their own subnets per AZ (ie
 private app subnet, public load balancer subnet, etc). Network segmentation makes it easier configure security groups across the VPC Peer links
 because you can&rsquo;t share security group IDs across VPCs, only subnets!</p>
-<h4 id="terraform-013-usage-example">Terraform 0.13 Usage Example</h4>
+<h4 id="terraform-013-example">Terraform 0.13 Example</h4>
 <pre><code>terraform {
   required_version = &quot;&gt;= 0.13&quot;
 
