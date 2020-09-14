@@ -177,7 +177,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
     
     
     <br/>
-    <i class="fas fa-clock"></i> 11 min read
+    <i class="fas fa-clock"></i> 12 min read
 </div>
 
 
@@ -204,7 +204,7 @@ This allows us to design modules with minimal input requirments while providing 
 aren&rsquo;t using the new 0.12 feature set.  Even the official <a href="https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/2.44.0">AWS VPC module</a>
 has minimal <code>for_each</code> usage and has a big interface with lots of internal logic that supports many different configurations but it&rsquo;s hard to follow.</p>
 <p>In general, I prefer my Terraform modules have specific behavior out of the box like the TL;DR says, I want a VPC module that builds a private and public subnet per AZ with the proper routing and labeling. I&rsquo;d like to control which AZs get built with an AZ to subnet configuration map.</p>
-<p>Note: In the code examples, <code>...</code> means the code in-between, it&rsquo;s not the Terraform expansion symbol.</p>
+<p>Note: In the code examples, <code>...</code> means the code in-between, it&rsquo;s not the Terraform expansion (ellipsis) symbol.</p>
 <h2 id="the-old-way">The Old Way</h2>
 <h4 id="count">count</h4>
 <p>Previously in Terraform 0.11 we could only build resource lists with <code>count</code>.  Notice that the third octet of the subnet CIDR is generated based on the index of resource objects in the list.</p>
@@ -519,7 +519,7 @@ provider &quot;aws&quot; {
   region = &quot;us-east-1&quot;
   alias  = &quot;use1&quot;
 }
-</code></pre><pre><code>
+
 variable &quot;region_az_short_names&quot; {
   description = &quot;Region and AZ names mapped to short naming conventions for labeling&quot;
   type = map(string)
@@ -537,7 +537,7 @@ variable &quot;region_az_short_names&quot; {
 }
 
 module &quot;stage_use1_vpc&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/dynamic_vpc?ref=v1.0.0&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/dynamic_vpc?ref=v1.0.2&quot;
 
   providers = {
     aws = aws.use1
@@ -621,7 +621,73 @@ module &quot;stage_use1_vpc&quot; {
 When it comes to scaling out networks via peer links it&rsquo;s best practice to segment your network tiers with their own subnets per AZ (ie
 private app subnet, public load balancer subnet, etc). Network segmentation makes it easier configure security groups across the VPC Peer links
 because you can&rsquo;t share security group IDs across VPCs, only subnets!</p>
-<h2 id="closing-thoughts">Closing Thoughts</h2>
+<h4 id="terraform-013-usage-example">Terraform 0.13 Usage Example</h4>
+<pre><code>terraform {
+  required_version = &quot;&gt;= 0.13&quot;
+
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt; 3.60.0&quot;
+    }
+  }
+}
+
+# base provider
+provider &quot;aws&quot; {
+  region = &quot;us-east-1&quot;
+}
+
+provider &quot;aws&quot; {
+  region = &quot;us-east-1&quot;
+  alias  = &quot;use1&quot;
+}
+
+
+variable &quot;region_az_short_names&quot; {
+  description = &quot;Region and AZ names mapped to short naming conventions for labeling&quot;
+  type = map(string)
+
+  default = {
+    us-east-1  = &quot;use1&quot;
+    us-east-1a = &quot;use1a&quot;
+    us-east-1b = &quot;use1b&quot;
+    us-east-1c = &quot;use1c&quot;
+    us-west-2  = &quot;usw2&quot;
+    us-west-2a = &quot;usw2a&quot;
+    us-west-2b = &quot;usw2b&quot;
+    us-west-2c = &quot;usw2c&quot;
+  }
+}
+
+variable &quot;vpc_cidrs &quot;{
+  description = &quot;list of vpc cidr blocks&quot;
+  type = list(string)
+  default = [
+    &quot;10.0.0.0/16&quot;,
+    &quot;10.1.0.0/16&quot;
+  ]
+}
+
+module &quot;staging_vpc&quot; {
+  source   = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/dynamic_vpc?ref=v1.0.2&quot;
+  for_each = toset(local.vpc_cidrs)
+
+  providers = {
+    aws = aws.use1
+  }
+
+  env_prefix            = &quot;stage&quot;
+  region_az_short_names = var.staging_az_short_names
+  cidr_block            = each.value
+  azs = {
+    a = 1
+    b = 2
+    c = 3
+  }
+}
+
+</code></pre><h2 id="closing-thoughts">Closing Thoughts</h2>
 <p>I hope this shows how far you can get with dynamic behavior within a single module.
 The new Terrarform 0.13 feature set forces me to reconsider my initial desgins. I&rsquo;m planning to
 refactor this VPC module into a sub component design to experiment with <code>for_each</code> on modules.
