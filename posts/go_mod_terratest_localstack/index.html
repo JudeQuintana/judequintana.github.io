@@ -193,7 +193,7 @@ modules locally. Pretty F&rsquo;n cool, right?</p>
 <p>I was able to get the latest (v0.11.5) LocalStack Docker container up and running relatively quickly.</p>
 <pre><code>$ pip install localstack
 $ localstack start
-</code></pre><p>Then I configured a Terraform provider with <a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints">custom service endpoints</a> in an <a href="https://github.com/gruntwork-io/terratest/tree/master/examples/terraform-aws-s3-example">example s3 bucket module</a> to point to the LocalStack endpoints running on localhost.</p>
+</code></pre><p>Then I configured a Terraform provider with <a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints">custom service endpoints</a> in an <a href="https://github.com/gruntwork-io/terratest/tree/master/examples/terraform-aws-s3-example">example s3 bucket module</a> (with some modifacations) to point to the LocalStack endpoints running on localhost.</p>
 <pre><code>terraform {
   required_version = &quot;&gt;= 0.12.29&quot;
   required_providers {
