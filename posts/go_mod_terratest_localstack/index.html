@@ -334,7 +334,7 @@ replace github.com/gruntwork-io/terratest v0.30.0 =&gt; github.com/ffernandezcas
 </code></pre><p>I tried running <code>go test</code> again but the same behavior is still occuring.
 Adding the latest version to the 3rd party repo isnt enough because the
 code I want is in a branch called <code>add-aws-custom-configuration-support</code>.</p>
-<p>According to answers in this <a href="https://stackoverflow.com/questions/53682247/how-to-point-go-module-dependency-in-go-mod-to-a-latest-commit-in-a-repo">stack overflow post</a>
+<p>According to the answers in this <a href="https://stackoverflow.com/questions/53682247/how-to-point-go-module-dependency-in-go-mod-to-a-latest-commit-in-a-repo">stack overflow post</a>
 I can use <code>go get</code> to get commit hash or a branch. When I run it on the
 branch I want I get an error:</p>
 <pre><code>$ go get github.com/ffernandezcast/terratest@add-aws-custom-configuration-support
