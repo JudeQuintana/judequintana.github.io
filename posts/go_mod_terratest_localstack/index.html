@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.69.2" />
+
+    
+    
+    
+
+<title>Go Modules Use Case: Terratest and LocalStack • jq1.io</title>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Go Modules Use Case: Terratest and LocalStack"/>
+<meta name="twitter:description" content="At work we&rsquo;re planning on having our IaC to grow up a bit. We&rsquo;re really wanting it to get a job and start contributing more around here. Something like a shiny new Terraform Pipleline would be nice. That means we need to get our Terraform testing sorted out.
+I came across this HashiCorp video called Testing Infrastructure as Code on Localhost where Samuel Kihahu talks about combining Terratest &#43; Terraform &#43; LocalStack to allow him to test Terraform modules locally."/>
+
+<meta property="og:title" content="Go Modules Use Case: Terratest and LocalStack" />
+<meta property="og:description" content="At work we&rsquo;re planning on having our IaC to grow up a bit. We&rsquo;re really wanting it to get a job and start contributing more around here. Something like a shiny new Terraform Pipleline would be nice. That means we need to get our Terraform testing sorted out.
+I came across this HashiCorp video called Testing Infrastructure as Code on Localhost where Samuel Kihahu talks about combining Terratest &#43; Terraform &#43; LocalStack to allow him to test Terraform modules locally." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jq1.io/posts/go_mod_terratest_localstack/" />
+<meta property="article:published_time" content="2020-09-23T22:35:36-06:00" />
+<meta property="article:modified_time" content="2020-09-23T22:35:36-06:00" /><meta property="og:site_name" content="Demolition Man" />
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://jq1.io/">jq1.io</a>
+      </span>
+      
+        
+        
+        
+        <div class="author-image">
+          <img src="https://jq1.io/img/thought.png" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+      
+      
+      <p class="site__description">
+         thoughts as code 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">jq1.io</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/JayQ_One" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	<a href="https://github.com/judequintana" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="posts/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2020 Jude Quintana
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a>
+</div>
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Go Modules Use Case: Terratest and LocalStack</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Sep 23, 2020
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 7 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="post">
+    <p>At work we&rsquo;re planning on having our IaC to grow up a bit. We&rsquo;re really wanting it to get a job and start contributing more around here. Something like a shiny new Terraform Pipleline would be nice.
+That means we need to get our Terraform testing sorted out.</p>
+<p>I came across this HashiCorp video called <a href="https://www.youtube.com/watch?v=Ru_K_CWy8F4">Testing Infrastructure as Code on Localhost</a>
+where Samuel Kihahu talks about combining <a href="https://github.com/gruntwork-io/terratest">Terratest</a> + Terraform + <a href="https://github.com/localstack/localstack">LocalStack</a> to allow him to test Terraform
+modules locally. Pretty F&rsquo;n cool, right?</p>
+<p>I was able to get the latest (v0.11.5) LocalStack Docker container up and running relatively quickly.</p>
+<pre><code>$ pip install localstack
+$ localstack start
+</code></pre><p>Then I configured a Terraform provider with <a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints">custom service endpoints</a> in an <a href="https://github.com/gruntwork-io/terratest/tree/master/examples/terraform-aws-s3-example">example s3 bucket module</a> to point to the LocalStack endpoints running on localhost.</p>
+<pre><code>terraform {
+  required_version = &quot;&gt;= 0.12.29&quot;
+  required_providers {
+    aws = &quot;2.70.0&quot;
+  }
+}
+
+provider &quot;aws&quot; {
+  region                      = &quot;us-east-1&quot;
+  s3_force_path_style         = true
+  skip_credentials_validation = true
+  skip_metadata_api_check     = true
+  skip_requesting_account_id  = true
+
+  endpoints {
+    apigateway     = &quot;http://localhost:4566&quot;
+    cloudformation = &quot;http://localhost:4566&quot;
+    cloudwatch     = &quot;http://localhost:4566&quot;
+    dynamodb       = &quot;http://localhost:4566&quot;
+    es             = &quot;http://localhost:4566&quot;
+    firehose       = &quot;http://localhost:4566&quot;
+    iam            = &quot;http://localhost:4566&quot;
+    kinesis        = &quot;http://localhost:4566&quot;
+    lambda         = &quot;http://localhost:4566&quot;
+    route53        = &quot;http://localhost:4566&quot;
+    redshift       = &quot;http://localhost:4566&quot;
+    s3             = &quot;http://localhost:4566&quot;
+    secretsmanager = &quot;http://localhost:4566&quot;
+    ses            = &quot;http://localhost:4566&quot;
+    sns            = &quot;http://localhost:4566&quot;
+    sqs            = &quot;http://localhost:4566&quot;
+    ssm            = &quot;http://localhost:4566&quot;
+    stepfunctions  = &quot;http://localhost:4566&quot;
+    sts            = &quot;http://localhost:4566&quot;
+    ec2            = &quot;http://localhost:4566&quot;
+  }
+}
+...
+</code></pre><p>Note: I&rsquo;m using Terraform 0.12 with the latest 2.x provider. I&rsquo;ve tried Terraform 0.13 with the latest 3.x provider and LocalStack started throwing errors.</p>
+<p>I was able to manually run <code>terraform apply</code> on the s3 bucket module and it successfully created a mocked s3 bucket resource in LocalStack! EZ PZ!</p>
+<p>Next I installed Golang 1.15.2 then I pulled up the <a href="https://terratest.gruntwork.io/docs/getting-started/quick-start/">Terratest Quick start</a> guide and followed
+the 5 short steps under <code>Setting up your project</code>.</p>
+<p>Using the associated example <a href="https://github.com/gruntwork-io/terratest/blob/master/test/terraform_aws_s3_example_test.go">s3 bucket test</a> and making a few modifications:</p>
+<pre><code>package test
+
+import (
+	&quot;fmt&quot;
+	&quot;strings&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/gruntwork-io/terratest/modules/aws&quot;
+	&quot;github.com/gruntwork-io/terratest/modules/random&quot;
+	&quot;github.com/gruntwork-io/terratest/modules/terraform&quot;
+	&quot;github.com/stretchr/testify/assert&quot;
+)
+
+// An example of how to test the Terraform module in examples/terraform-aws-s3-example using Terratest.
+func TestTerraformAwsS3Example(t *testing.T) {
+	t.Parallel()
+
+
+	// Give this S3 Bucket a unique ID for a name tag so we can distinguish it from any other Buckets provisioned
+	// in your AWS account
+	expectedName := fmt.Sprintf(&quot;terratest-aws-s3-example-%s&quot;, strings.ToLower(random.UniqueId()))
+
+	// Give this S3 Bucket an environment to operate as a part of for the purposes of resource tagging
+	expectedEnvironment := &quot;Automated Testing&quot;
+
+	// This usually picks a random AWS region to test in. This helps ensure your code works in all regions.
+	// I used us-east-1 only since the default region for LocalStack is us-east-1
+	awsRegion := aws.GetRandomStableRegion(t, []string{&quot;us-east-1&quot;}, nil)
+
+	terraformOptions := &amp;terraform.Options{
+		// The path to where our Terraform code is located
+		TerraformDir: &quot;../examples/s3_bucket&quot;,
+
+		// Variables to pass to our Terraform code using -var options
+		Vars: map[string]interface{}{
+			&quot;tag_bucket_name&quot;:        expectedName,
+			&quot;tag_bucket_environment&quot;: expectedEnvironment,
+			&quot;with_policy&quot;:            &quot;true&quot;,
+		},
+
+		// Environment variables to set when running Terraform
+		EnvVars: map[string]string{
+			&quot;AWS_DEFAULT_REGION&quot;: awsRegion,
+		},
+	}
+
+	// At the end of the test, run `terraform destroy` to clean up any resources that were created
+	defer terraform.Destroy(t, terraformOptions)
+
+	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
+	terraform.InitAndApply(t, terraformOptions)
+
+	// Run `terraform output` to get the value of an output variable
+	bucketID := terraform.Output(t, terraformOptions, &quot;bucket_id&quot;)
+
+	// Verify that our Bucket has versioning enabled
+	actualStatus := aws.GetS3BucketVersioning(t, awsRegion, bucketID)
+	expectedStatus := &quot;Enabled&quot;
+	assert.Equal(t, expectedStatus, actualStatus)
+
+	// Verify that our Bucket has a policy attached
+	aws.AssertS3BucketPolicyExists(t, awsRegion, bucketID)
+}
+</code></pre><p>When I run <code>go test</code>, go will install the dependencies for Terratest and will run the <code>terraform apply</code> command, verify the s3 bucket resource was created then <code>terraform destroy</code>.</p>
+<p>As expected The s3 bucket resources will be successfully created and destroyed in LocalStack but the test will fail because Terratest tries to verify
+the s3 bucket is created in AWS and not in LocalStack.</p>
+<p>The <code>aws</code> package used in Terratest isn&rsquo;t configurable to use custom endpoints because Terratest is normally used to verify actual AWS resources for tests. There would need to be Terratest
+code changes to support a custom endpoints configuration to point to LocalStack.</p>
+<p>Fortunately, the great devs on planet earth already have a <a href="https://github.com/gruntwork-io/terratest/pull/495">PR</a> in place to make this happen. It looks like this solution is in a working
+state but how do I confirm that?</p>
+<p>The problem I face now is, how do I point the Terratest package to use a branch, on a fork of Terratest at an earlier version, in a 3rd party repo?</p>
+<p>After brainstorming with a co-worker, he said my problem sounded like a good use case for the go module <a href="https://golang.org/ref/mod#go-mod-file-replace">replace directive</a> but he doesn&rsquo;t know
+exactly how that would work since he&rsquo;s never had to do it before. I wasn&rsquo;t sure either since I don&rsquo;t have any go module experience.</p>
+<p>I looked at the <a href="https://github.com/ffernandezcast/terratest/tags">forked repo Terratest tags</a> and the latest tag was <code>v0.28.5</code>. From the go docs the go module <code>replace</code> directive will take a version (or a relative path) but not a branch.</p>
+<p>Taking a look at my <code>go.mod</code> file:</p>
+<pre><code>module github.com/GITHUB_USERNAME/REPO_NAME
+
+go 1.15
+
+require (
+	github.com/gruntwork-io/terratest v0.30.0
+	github.com/stretchr/testify v1.6.1
+)
+</code></pre><p>I add the <code>replace</code> directive with the 3rd party repos version.</p>
+<pre><code>module github.com/GITHUB_USERNAME/REPO_NAME
+
+go 1.15
+
+require (
+	github.com/gruntwork-io/terratest v0.30.0
+	github.com/stretchr/testify v1.6.1
+)
+
+replace github.com/gruntwork-io/terratest v0.30.0 =&gt; github.com/ffernandezcast/terratest v0.28.5
+</code></pre><p>I tried running <code>go test</code> again but the same behavior is still occuring.
+Adding the latest version to the 3rd party repo isnt enough because the
+code I want is in a branch called <code>add-aws-custom-configuration-support</code>.</p>
+<p>According to answers in this <a href="https://stackoverflow.com/questions/53682247/how-to-point-go-module-dependency-in-go-mod-to-a-latest-commit-in-a-repo">stack overflow post</a>
+I can use <code>go get</code> to get commit hash or a branch. When I run it on the
+branch I want I get an error:</p>
+<pre><code>$ go get github.com/ffernandezcast/terratest@add-aws-custom-configuration-support
+go: github.com/ffernandezcast/terratest add-aws-custom-configuration-support =&gt; v0.28.6-0.20200915124510-25813206bebc
+go get: github.com/ffernandezcast/terratest@v0.28.6-0.20200915124510-25813206bebc: parsing go.mod:
+        module declares its path as: github.com/gruntwork-io/terratest
+                but was required as: github.com/ffernandezcast/terratest
+
+</code></pre><p>I&rsquo;m not sure what the last two lines mean but I can see that the error
+gave me a <a href="https://golang.org/cmd/go/#hdr-Pseudo_versions">psuedo version</a> for the branch and it looks like the same version format that the <code>replace</code> directive should take, so
+I plugged it in.</p>
+<pre><code>module github.com/GITHUB_USERNAME/REPO_NAME
+
+go 1.15
+
+require (
+	github.com/gruntwork-io/terratest v0.30.0
+	github.com/stretchr/testify v1.6.1
+)
+
+replace github.com/gruntwork-io/terratest v0.30.0 =&gt; github.com/ffernandezcast/terratest v0.28.6-0.20200915124510-25813206bebc
+</code></pre><p>Then updated my go test with the recommended variables from the <a href="https://github.com/gruntwork-io/terratest/pull/495">PR</a> in my go test so that
+we can configure the LocalStack endpoints in the <code>aws</code> package.</p>
+<pre><code>package test
+
+import (
+	&quot;fmt&quot;
+	&quot;strings&quot;
+	&quot;testing&quot;
+
+	&quot;github.com/gruntwork-io/terratest/modules/aws&quot;
+	&quot;github.com/gruntwork-io/terratest/modules/random&quot;
+	&quot;github.com/gruntwork-io/terratest/modules/terraform&quot;
+	&quot;github.com/stretchr/testify/assert&quot;
+)
+
+// An example of how to test the Terraform module in examples/terraform-aws-s3-example using Terratest.
+func TestTerraformAwsS3Example(t *testing.T) {
+	t.Parallel()
+
+	var LocalEndpoints = map[string]string{
+		&quot;apigateway&quot;:     &quot;http://localhost:4566&quot;,
+		&quot;cloudformation&quot;: &quot;http://localhost:4566&quot;,
+		&quot;cloudwatch&quot;:     &quot;http://localhost:4566&quot;,
+		&quot;dynamodb&quot;:       &quot;http://localhost:4566&quot;,
+		&quot;es&quot;:             &quot;http://localhost:4566&quot;,
+		&quot;firehose&quot;:       &quot;http://localhost:4566&quot;,
+		&quot;iam&quot;:            &quot;http://localhost:4566&quot;,
+		&quot;kinesis&quot;:        &quot;http://localhost:4566&quot;,
+		&quot;lambda&quot;:         &quot;http://localhost:4566&quot;,
+		&quot;route53&quot;:        &quot;http://localhost:4566&quot;,
+		&quot;redshift&quot;:       &quot;http://localhost:4566&quot;,
+		&quot;s3&quot;:             &quot;http://localhost:4566&quot;,
+		&quot;secretsmanager&quot;: &quot;http://localhost:4566&quot;,
+		&quot;ses&quot;:            &quot;http://localhost:4566&quot;,
+		&quot;sns&quot;:            &quot;http://localhost:4566&quot;,
+		&quot;sqs&quot;:            &quot;http://localhost:4566&quot;,
+		&quot;ssm&quot;:            &quot;http://localhost:4566&quot;,
+		&quot;stepfunctions&quot;:  &quot;http://localhost:4566&quot;,
+		&quot;sts&quot;:            &quot;http://localhost:4566&quot;,
+	}
+	aws.SetAwsEndpointsOverrides(LocalEndpoints)
+
+	// Give this S3 Bucket a unique ID for a name tag so we can distinguish it from any other Buckets provisioned
+	// in your AWS account
+	expectedName := fmt.Sprintf(&quot;terratest-aws-s3-example-%s&quot;, strings.ToLower(random.UniqueId()))
+
+	// Give this S3 Bucket an environment to operate as a part of for the purposes of resource tagging
+	expectedEnvironment := &quot;Automated Testing&quot;
+
+	// This usually picks a random AWS region to test in. This helps ensure your code works in all regions.
+	// I used us-east-1 only since the default region for LocalStack is us-east-1
+	awsRegion := aws.GetRandomStableRegion(t, []string{&quot;us-east-1&quot;}, nil)
+
+	terraformOptions := &amp;terraform.Options{
+		// The path to where our Terraform code is located
+		TerraformDir: &quot;../examples/s3_bucket&quot;,
+
+		// Variables to pass to our Terraform code using -var options
+		Vars: map[string]interface{}{
+			&quot;tag_bucket_name&quot;:        expectedName,
+			&quot;tag_bucket_environment&quot;: expectedEnvironment,
+			&quot;with_policy&quot;:            &quot;true&quot;,
+		},
+
+		// Environment variables to set when running Terraform
+		EnvVars: map[string]string{
+			&quot;AWS_DEFAULT_REGION&quot;: awsRegion,
+		},
+	}
+
+	// At the end of the test, run `terraform destroy` to clean up any resources that were created
+	defer terraform.Destroy(t, terraformOptions)
+
+	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
+	terraform.InitAndApply(t, terraformOptions)
+
+	// Run `terraform output` to get the value of an output variable
+	bucketID := terraform.Output(t, terraformOptions, &quot;bucket_id&quot;)
+
+	// Verify that our Bucket has versioning enabled
+	actualStatus := aws.GetS3BucketVersioning(t, awsRegion, bucketID)
+	expectedStatus := &quot;Enabled&quot;
+	assert.Equal(t, expectedStatus, actualStatus)
+
+	// Verify that our Bucket has a policy attached
+	aws.AssertS3BucketPolicyExists(t, awsRegion, bucketID)
+}
+</code></pre><p>Then I run <code>go test</code> again and VIOLA! Terratest is now verifying the s3
+bucket creation in LocalStack! Much props to the awesome devs who
+contributed to the <a href="https://github.com/gruntwork-io/terratest/pull/495">PR</a> to get this working. Hopefully, it
+will be merged into Terratest <code>master</code> branch soon!</p>
+<p>Now, it&rsquo;s time start building them local Terraform tests!</p>
+<p>~jq1</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/expanding_function_arguments/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Expanding Function Arguments in Terraform</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+  
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-155122887-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+
+
+    
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+        
+    
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

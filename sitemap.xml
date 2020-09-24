@@ -3,17 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://jq1.io/posts/expanding_function_arguments/</loc>
-    <lastmod>2020-08-23T16:31:18-06:00</lastmod>
+    <loc>https://jq1.io/posts/go_mod_terratest_localstack/</loc>
+    <lastmod>2020-09-23T22:35:36-06:00</lastmod>
   </url>
   
   <url>
     <loc>https://jq1.io/</loc>
-    <lastmod>2020-08-23T16:31:18-06:00</lastmod>
+    <lastmod>2020-09-23T22:35:36-06:00</lastmod>
   </url>
   
   <url>
     <loc>https://jq1.io/posts/</loc>
+    <lastmod>2020-09-23T22:35:36-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/posts/expanding_function_arguments/</loc>
     <lastmod>2020-08-23T16:31:18-06:00</lastmod>
   </url>
   
