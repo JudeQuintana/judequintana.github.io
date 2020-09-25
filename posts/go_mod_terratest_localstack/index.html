@@ -332,7 +332,7 @@ require (
 
 replace github.com/gruntwork-io/terratest v0.30.0 =&gt; github.com/ffernandezcast/terratest v0.28.5
 </code></pre><p>I tried running <code>go test</code> again but the same behavior is still occuring.
-Adding the <code>v0.28.5</code> Terratest version in the 3rd party repo isnt enough because the
+Adding the <code>v0.28.5</code> Terratest version for the 3rd party repo isnt enough because the
 code I want is in a branch called <code>add-aws-custom-configuration-support</code>.</p>
 <p>According to the answers in this <a href="https://stackoverflow.com/questions/53682247/how-to-point-go-module-dependency-in-go-mod-to-a-latest-commit-in-a-repo">stack overflow post</a>
 I can use <code>go get</code> to get commit hash or a branch. When I run it on the
@@ -443,7 +443,7 @@ func TestTerraformAwsS3Example(t *testing.T) {
 	// Verify that our Bucket has a policy attached
 	aws.AssertS3BucketPolicyExists(t, awsRegion, bucketID)
 }
-</code></pre><p>Then I run <code>go test</code> again and VIOLA! Terratest is now verifying the s3
+</code></pre><p>Then I run <code>go test</code> again and BAM! Terratest is now verifying the s3
 bucket creation in LocalStack! Much props to the awesome devs who
 contributed to the <a href="https://github.com/gruntwork-io/terratest/pull/495">PR</a> to get this working. Hopefully, it
 will be merged into Terratest <code>master</code> branch soon!</p>
