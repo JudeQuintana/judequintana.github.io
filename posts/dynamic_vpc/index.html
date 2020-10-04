@@ -86,7 +86,7 @@ Here is the related VPC network diagram for visual reference. Preface I was plan
       
       
       <p class="site__description">
-         thoughts as code 
+         ideas as code 
       </p>
     </div>
     <div class="collapsible-menu">
@@ -138,7 +138,7 @@ Here is the related VPC network diagram for visual reference. Preface I was plan
 	
 	
 	
-	<a href="posts/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
+	<a href="https://jq1.io/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
 	
 </section>
 
@@ -500,7 +500,9 @@ tf apply =&gt; (successful, no conflicts)
 <p>This configuration will create a VPC in the us-east-1 region with a NAT Gatway per AZ with
 routing for each private and public subnets. Every taggable resource
 will have proper naming including environment, region and AZ. Everything
-is in <code>main.tf</code> and <code>variables.tf</code> because I wanted less directory structure focus.</p>
+is in <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc/main.tf">main.tf</a> and
+<a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc/variables.tf">variables.tf</a>
+because I wanted less focus on the directory structure.</p>
 <p>Also, I like being explicit about passing in an aliased <code>provider</code> into the module. It makes it
 easier to identify which region or account I&rsquo;m applying module resources into.</p>
 <pre><code>terraform {
