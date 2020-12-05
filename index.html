@@ -23,7 +23,7 @@
 <meta property="og:description" content="Ideas as Code" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://jq1.io/" />
-<meta property="og:updated_time" content="2020-10-10T11:38:15-06:00" /><meta property="og:site_name" content="Demolition Man" />
+<meta property="og:updated_time" content="2020-12-01T20:48:34-07:00" /><meta property="og:site_name" content="Demolition Man" />
 
 
     
@@ -159,6 +159,28 @@ Built with <a href="https://gohugo.io">Hugo</a>
   <div class="post-list">
     
     
+      
+        
+      
+      <div class="post-list__item">
+        <span class="item__title--big">
+          <a href="/posts/tiered_subnet_calculator/" >Tiered Subnet Calculator in Terraform</a>
+        </span>
+        <span class="item__date">
+          Dec 1, 2020
+        </span>
+        <span >
+        
+        I&rsquo;ve been thinking about adding support for building tiered subnets of any size for the next iteration of the Dynamic VPC module. It occurred to me that keeping the auto subnet generation inside the module actually makes the subnetting less dynamic.
+Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnet calculation, so when tiers or azs are changed, added or removed, the calculation will shift for some or all tiers.
+        
+        </span>
+        
+          ... <a class="read-more-symbol" href="/posts/tiered_subnet_calculator/">➦</a>
+        
+        </div>
+        
+     
       
         
       
