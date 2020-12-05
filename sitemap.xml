@@ -3,22 +3,17 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jq1.io/posts/hash_server_9000/</loc>
+    <lastmod>2020-10-10T11:38:15-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jq1.io/</loc>
-    <lastmod>2020-12-01T20:48:34-07:00</lastmod>
+    <lastmod>2020-10-10T11:38:15-06:00</lastmod>
   </url>
   
   <url>
     <loc>https://jq1.io/posts/</loc>
-    <lastmod>2020-12-01T20:48:34-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jq1.io/posts/tiered_subnet_calculator/</loc>
-    <lastmod>2020-12-01T20:48:34-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jq1.io/posts/hash_server_9000/</loc>
     <lastmod>2020-10-10T11:38:15-06:00</lastmod>
   </url>
   

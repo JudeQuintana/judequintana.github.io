@@ -6,20 +6,10 @@
     <description>Recent content in Posts on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 01 Dec 2020 20:48:34 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2020 11:38:15 -0600</lastBuildDate>
     
 	<atom:link href="https://jq1.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Tiered Subnet Calculator in Terraform</title>
-      <link>https://jq1.io/posts/tiered_subnet_calculator/</link>
-      <pubDate>Tue, 01 Dec 2020 20:48:34 -0700</pubDate>
-      
-      <guid>https://jq1.io/posts/tiered_subnet_calculator/</guid>
-      <description>I&amp;rsquo;ve been thinking about adding support for building tiered subnets of any size for the next iteration of the Dynamic VPC module. It occurred to me that keeping the auto subnet generation inside the module actually makes the subnetting less dynamic.
-Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnet calculation, so when tiers or azs are changed, added or removed, the calculation will shift for some or all tiers.</description>
-    </item>
     
     <item>
       <title>Hash Server 9000 in Go</title>
