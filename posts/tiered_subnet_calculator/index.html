@@ -196,7 +196,8 @@ the process of allocating subnets and should not be fed directly as input
 to the VPC module. This is due to the fact that order matters only for the
 subnet calculation, so when tiers or azs are changed, added or removed,
 the calculation will shift for some or all tiers.</p>
-<p>Removing the subnet calculation will simplify the module itself by doing less work and will re-enforce
+<p>Removing the subnet calculation will simplify the module itself by doing less work, although, it probably
+should do some kind of subnet validation against a network cidr. This will also re-enforce
 the notion that engineers should know their subnetting when architecting networks.
 With all that in in mind, I made <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/tiered_subnet_calculator">Tiered Subnet Calculator</a> module to help with allocating subnets per AZ per network tier.</p>
 <p><code>tiers.auto.tfvars</code></p>
