@@ -253,8 +253,10 @@ variable &quot;az_newbits&quot; {
 <pre><code>locals {
   # generate top level networks for each tier based on tier newbit + vpc_cidr_block mask ie /4 + /16 = /20
   tier_networks = zipmap(var.tiers[*].name, cidrsubnets(var.vpc_cidr_block, var.tiers[*].newbit...))
+
   # generate a subnet based on each az newbit (in azs_new_bits map) per tier network ie /4 + /20 = /24
   tier_subnets = { for t, n in local.tier_networks : t =&gt; cidrsubnets(n, values(var.az_newbits)...) }
+
   # generate azs to subnet map per tier
   tier_az_subnets = { for t, s in local.tier_subnets : t =&gt; zipmap(keys(var.az_newbits), s) }
 
@@ -395,7 +397,7 @@ calculated_tiers = [
     &quot;d&quot; = &quot;10.0.35.0/24&quot;
   }
 }
-</code></pre><p>Now I can start tweaking the tiers object list and az_newbits map
+</code></pre><p>Now I can start tweaking the <code>tiers</code> object list and <code>az_newbits</code> map
 to generate different tiered networks configurations.</p>
 <p><code>tiers.auto.tfvars</code></p>
 <pre><code>vpc_cidr_block = &quot;10.0.0.0/16&quot;
