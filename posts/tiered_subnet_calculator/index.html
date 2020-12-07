@@ -22,12 +22,12 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tiered Subnet Calculator in Terraform"/>
-<meta name="twitter:description" content="I&rsquo;ve been thinking about adding support for building tiered subnets of any size for the next iteration of the Dynamic VPC module. It occurred to me that keeping the auto subnet generation inside the module actually makes the subnetting less dynamic.
-Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnet calculation, so when tiers or azs are changed, added or removed, the calculation will shift for some or all tiers."/>
+<meta name="twitter:description" content="I&rsquo;ve been thinking about adding support for building tiered subnets of any size for the next iteration of the Dynamic VPC Module. It occurred to me that keeping the auto subnet generation inside the module actually makes the subnetting less dynamic.
+Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnet calculation."/>
 
 <meta property="og:title" content="Tiered Subnet Calculator in Terraform" />
-<meta property="og:description" content="I&rsquo;ve been thinking about adding support for building tiered subnets of any size for the next iteration of the Dynamic VPC module. It occurred to me that keeping the auto subnet generation inside the module actually makes the subnetting less dynamic.
-Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnet calculation, so when tiers or azs are changed, added or removed, the calculation will shift for some or all tiers." />
+<meta property="og:description" content="I&rsquo;ve been thinking about adding support for building tiered subnets of any size for the next iteration of the Dynamic VPC Module. It occurred to me that keeping the auto subnet generation inside the module actually makes the subnetting less dynamic.
+Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnet calculation." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jq1.io/posts/tiered_subnet_calculator/" />
 <meta property="article:published_time" content="2020-12-01T20:48:34-07:00" />
@@ -188,14 +188,14 @@ Built with <a href="https://gohugo.io">Hugo</a>
   
   <div class="post">
     <p>I&rsquo;ve been thinking about adding support for building tiered subnets of any size
-for the next iteration of the <a href="https://jq1.io/posts/dynamic_vpc/">Dynamic VPC module</a>.
+for the next iteration of the <a href="https://jq1.io/posts/dynamic_vpc/">Dynamic VPC Module</a>.
 It occurred to me that keeping the auto subnet generation inside the module actually
 makes the subnetting less dynamic.</p>
 <p>Furthermore, auto subnet calculation should be in assistance to
 the process of allocating subnets and should not be fed directly as input
 to the VPC module. This is due to the fact that order matters only for the
-subnet calculation, so when tiers or azs are changed, added or removed,
-the calculation will shift for some or all tiers.</p>
+subnet calculation. So when tiers or azs are changed, added or removed,
+the calculation will shift for none, some or all tiers.</p>
 <p>Removing the subnet calculation will simplify the module itself by doing less work and it will re-enforce
 the notion that engineers should know their subnetting when architecting networks.
 With all that in in mind, I made <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/tiered_subnet_calculator">Tiered Subnet Calculator</a> module to help with allocating subnets per AZ per network tier.</p>
@@ -475,7 +475,7 @@ calculated_tiers = [
     &quot;network&quot; = &quot;10.0.16.0/20&quot;
   },
 ]
-</code></pre><p>Now I&rsquo;m able to take this output and add or remove AZs and subnets
+</code></pre><p>I&rsquo;m able to take this output, add or remove AZs and subnets
 that may have not been in the original calculation. I can chop up
 networks as I see fit.</p>
 <pre><code>tiers = [
