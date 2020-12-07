@@ -399,11 +399,7 @@ calculated_tiers = [
 }
 </code></pre><p>Filtering tiers easy too.</p>
 <pre><code>locals {
-  private_tiers = {
-    for t in local.tier_subnets_per_az :
-    t.name =&gt; t.azs
-    if t.acl == &quot;private&quot;
-  }
+  private_tiers = [for t in local.tier_subnets_per_az : t if t.acl == &quot;private&quot;]
 }
 </code></pre><p>Now I can start tweaking the <code>tiers</code> object set and <code>az_newbits</code> map
 to generate different tiered networks configurations.</p>
