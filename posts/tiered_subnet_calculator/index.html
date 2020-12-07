@@ -194,7 +194,7 @@ makes the subnetting less dynamic.</p>
 <p>Furthermore, auto subnet calculation should be in assistance to
 the process of allocating subnets and should not be fed directly as input
 to the VPC module. This is due to the fact that order matters only for the
-subnet calculation. So when tiers or azs are changed, added or removed,
+subnet calculation. So when tiers or AZs are changed, added or removed,
 the calculation will shift for none, some or all tiers.</p>
 <p>Removing the subnet calculation will simplify the module itself by doing less work and it will re-enforce
 the notion that engineers should know their subnetting when architecting networks.
