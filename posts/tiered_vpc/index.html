@@ -22,14 +22,14 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Synthesizing Tiered VPC in Terraform"/>
-<meta name="twitter:description" content="Today&rsquo;s Mathematics Combining ideas to create a better one.
-Dynamic VPC x Tiered Subnet Calculator = Tiered VPC
-Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation."/>
+<meta name="twitter:description" content="Today&rsquo;s Mathematics Dynamic VPC x Tiered Subnet Calculator = Tiered VPC
+Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation.
+Routing is automatic and the module outputs can be consumed for peering."/>
 
 <meta property="og:title" content="Synthesizing Tiered VPC in Terraform" />
-<meta property="og:description" content="Today&rsquo;s Mathematics Combining ideas to create a better one.
-Dynamic VPC x Tiered Subnet Calculator = Tiered VPC
-Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation." />
+<meta property="og:description" content="Today&rsquo;s Mathematics Dynamic VPC x Tiered Subnet Calculator = Tiered VPC
+Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation.
+Routing is automatic and the module outputs can be consumed for peering." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jq1.io/posts/tiered_vpc/" />
 <meta property="article:published_time" content="2021-01-12T20:03:45-07:00" />
@@ -192,7 +192,6 @@ Built with <a href="https://gohugo.io">Hugo</a>
   
   <div class="post">
     <h2 id="todays-mathematics">Today&rsquo;s Mathematics</h2>
-<p>Combining ideas to create a better one.</p>
 <p><a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc">Dynamic VPC</a> x <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/utils/tiered_subnet_calculator">Tiered Subnet Calculator</a> = <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a></p>
 <h2 id="observing-abstractions">Observing Abstractions</h2>
 <p>In hindsight, the <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a> module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation.</p>
