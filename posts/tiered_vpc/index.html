@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.69.2" />
+
+    
+    
+    
+
+<title>Synthesizing Tiered VPC in Terraform • jq1.io</title>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Synthesizing Tiered VPC in Terraform"/>
+<meta name="twitter:description" content="Today&rsquo;s Mathematics Dynamic VPC x Tiered Subnet Calculator = Tiered VPC
+Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation.
+Routing is automatic and the module outputs can be consumed for peering."/>
+
+<meta property="og:title" content="Synthesizing Tiered VPC in Terraform" />
+<meta property="og:description" content="Today&rsquo;s Mathematics Dynamic VPC x Tiered Subnet Calculator = Tiered VPC
+Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation.
+Routing is automatic and the module outputs can be consumed for peering." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jq1.io/posts/tiered_vpc/" />
+<meta property="article:published_time" content="2021-01-12T20:03:45-07:00" />
+<meta property="article:modified_time" content="2021-01-12T20:03:45-07:00" /><meta property="og:site_name" content="Demolition Man" />
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" sizes="32x32" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://jq1.io/">jq1.io</a>
+      </span>
+      
+        
+        
+        
+        <div class="author-image">
+          <img src="https://jq1.io/img/thought.png" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+      
+      
+      <p class="site__description">
+         Ideas as Code 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">jq1.io</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/JayQ_One" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	<a href="https://github.com/judequintana" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/jq1" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="mailto:jude@jq1.io" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	<a href="https://jq1.io/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2021 Jude Quintana
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a>
+</div>
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Synthesizing Tiered VPC in Terraform</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Jan 12, 2021
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 8 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="post">
+    <h2 id="todays-mathematics">Today&rsquo;s Mathematics</h2>
+<p><a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc">Dynamic VPC</a> x <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/utils/tiered_subnet_calculator">Tiered Subnet Calculator</a> = <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a></p>
+<h2 id="observing-abstractions">Observing Abstractions</h2>
+<p>In hindsight, the <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a> module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation.</p>
+<p>Routing is automatic and the module outputs can be consumed for peering. Structured naming for resource tagging is great because it facilitates readability and organization in the AWS console which is essential for managing cloud resources.</p>
+<p>However, the biggest draw backs are that subnets of various (valid) sizes can&rsquo;t be added or removed from an AZ. Flexibility in subnet creation is needed to take advantage of baseline VPC features.</p>
+<p>The <a href="https://jq1.io/posts/tiered_subnet_calculator">Tiered Subnet Calculator</a> idea had several takeways that were crucial
+to iterating on Dynamic VPC. Subnet generation makes subnetting less
+dynamic and knowing your subnetting is the key to architecting networks.
+The best thing to come out of the calculator was the structured tier output.</p>
+<pre><code>calculated_tiers = [
+  {
+    &quot;acl&quot; = &quot;public&quot;
+    &quot;azs&quot; = {
+      &quot;a&quot; = &quot;10.0.0.0/24&quot;
+      &quot;b&quot; = &quot;10.0.1.0/24&quot;
+      &quot;c&quot; = &quot;10.0.2.0/24&quot;
+      &quot;d&quot; = &quot;10.0.3.0/24&quot;
+    }
+    &quot;name&quot; = &quot;app&quot;
+    &quot;network&quot; = &quot;10.0.0.0/20&quot;
+  },
+  {
+    &quot;acl&quot; = &quot;private&quot;
+    &quot;azs&quot; = {
+      &quot;a&quot; = &quot;10.0.16.0/24&quot;
+      &quot;b&quot; = &quot;10.0.17.0/24&quot;
+      &quot;c&quot; = &quot;10.0.18.0/24&quot;
+      &quot;d&quot; = &quot;10.0.19.0/24&quot;
+    }
+    &quot;name&quot; = &quot;db&quot;
+    &quot;network&quot; = &quot;10.0.16.0/20&quot;
+  }
+]
+</code></pre><p>Each object looks close to being a tiered VPC structure. It&rsquo;s much easier to think about scaling out VPCs when they are tiered which allows us to narrow down the context for the VPC (ie app, db, general).
+Routing between VPCs should be easier now that <a href="https://aws.amazon.com/transit-gateway/">Transit Gateway</a> exists.</p>
+<h2 id="synthesis">Synthesis</h2>
+<p>I abstracted the calculator output into a tiered VPC object. Then integrated it into the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc/variables.tf">interface</a> for <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a>.
+This fusion created the <a href="https://jq1.io/posts/tiered_vpc">Tiered VPC</a> module.
+For my use case, private subnets always have an associated a NAT Gateway (per AZ) to route through because I have no need for a purley private subnet in AWS.
+Subnet generation has been removed because subnets should be subnetted correctly before module instansiation.</p>
+<p>The VPC tier object requires at least one public subnet for an AZ. The private subnets can be nulled out.
+All public and private subnets will have randomly generated name to differentiate each subnet.
+I chose not to do subnet CIDR validation against the network CIDR because the <code>aws_subnet</code> resource will error on invalid subnets within the network on creation.</p>
+<p><code>variables.tf</code></p>
+<pre><code># snippet
+variable &quot;tier&quot; {
+  type = object({
+    name    = string
+    network = string
+    azs = map(object({
+      public  = list(string)
+      private = list(string)
+    }))
+  })
+
+  # in TF 0.14 you can remove the length comparison
+  # and wrap the for loop in alltrue() to get the
+  # same behavior
+  validation {
+    condition = length([
+      for az in var.tier.azs : true
+      if length(az.public) &gt; 0
+    ]) == length(var.tier.azs)
+    error_message = &quot;There must be at least 1 public subnet per az.&quot;
+  }
+}
+</code></pre><p>Here&rsquo;s a minimum configuration example for a tiered VPC object with one public subnet.
+A public subnet will route internet traffic to the VPC&rsquo;s Internet Gateway. As I add or remove public subnets,
+they will be added to or removed from the shared public route table for all public subnets across AZs.</p>
+<pre><code>tier = {
+  &quot;azs&quot; = {
+    &quot;a&quot; = {
+      private = null
+      public = [&quot;10.47.0.0/28&quot;] # 10.47.0.0/24 chopped up into /28
+    }
+  }
+  &quot;name&quot;    = &quot;general&quot;
+  &quot;network&quot; = &quot;10.47.0.0/20&quot;
+}
+</code></pre><p>I can define the private subnet layer at any time. When defined, the NAT Gateways (with EIP) are automatically created per AZ which
+is why we need at least one public subnet per AZ to create them in.
+Private subnets will route internet traffic to their relative AZ NAT Gateway. As private
+subnets are added or removed, they will be added or removed from its relative AZ&rsquo;s private route table.</p>
+<pre><code>tier = {
+  &quot;azs&quot; = {
+    &quot;a&quot; = {
+      private = [&quot;10.47.11.0/24&quot;, &quot;10.47.12.0/24&quot;]
+      public  = [&quot;10.47.0.0/28&quot;] # 10.47.0.0/24 chopped up into /28
+    }
+  }
+  &quot;name&quot;    = &quot;general&quot;
+  &quot;network&quot; = &quot;10.47.0.0/20&quot;
+}
+</code></pre><p>Adding more subnets and another AZ:</p>
+<pre><code>provider &quot;aws&quot; {
+  region = &quot;us-west-2&quot;
+}
+
+variable &quot;env_prefix&quot; {
+  default = &quot;test&quot;
+}
+
+variable &quot;region_az_labels&quot; {
+  type = map(string)
+
+  default = {
+    us-west-2  = &quot;usw2&quot;
+    us-west-2a = &quot;usw2a&quot;
+    us-west-2b = &quot;usw2b&quot;
+    us-west-2c = &quot;usw2c&quot;
+  }
+}
+
+locals {
+  general_tier = {
+    &quot;azs&quot; = {
+      &quot;a&quot; = {
+        private = [&quot;10.47.11.0/24&quot;, &quot;10.47.12.0/24&quot;]
+        public  = [&quot;10.47.0.0/28&quot;, &quot;10.47.0.16/28&quot;] # 10.47.0.0/24 chopped up into /28
+      },
+      &quot;c&quot; = {
+        private = null
+        public  = [&quot;10.47.6.0/24&quot;, &quot;10.47.7.0/24&quot;]
+      },
+    }
+    &quot;name&quot;    = &quot;general&quot;
+    &quot;network&quot; = &quot;10.47.0.0/20&quot;
+  }
+}
+
+module &quot;general_vpc&quot; {
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc?ref=v1.1.0&quot;
+
+  tier             = local.general_tier
+  env_prefix       = var.env_prefix
+  region_az_labels = var.region_az_labels
+}
+
+</code></pre><p>The resource naming would be as follows:</p>
+<pre><code>&lt;env_prefix&gt;-&lt;region|az&gt;-&lt;tier_name&gt;-&lt;public|private&gt;-&lt;pet_name|misc_label&gt;
+</code></pre><p>VPC:</p>
+<ul>
+<li>TEST-usw2-general</li>
+</ul>
+<p>IGW:</p>
+<ul>
+<li>TEST-usw2-general</li>
+</ul>
+<p>Public Subnets:</p>
+<ul>
+<li>TEST-usw2a-general-public-squirrel</li>
+<li>TEST-usw2a-general-public-warthog</li>
+<li>TEST-usw2c-general-public-bat</li>
+<li>TEST-usw2c-general-public-jackal</li>
+</ul>
+<p>Public Route Table:</p>
+<ul>
+<li>TEST-usw2-general-public-all (contains route associated all public subnets across azs)</li>
+</ul>
+<p>Private Subnets:</p>
+<ul>
+<li>TEST-usw2a-general-private-bass</li>
+<li>TEST-usw2a-general-private-catfish</li>
+</ul>
+<p>Private Route Table:</p>
+<ul>
+<li>TEST-usw2a-general-private (contains all private subnets relative to the AZ)</li>
+</ul>
+<p>EIP:</p>
+<ul>
+<li>TEST-usw2a-general-private</li>
+</ul>
+<p>NATGW:</p>
+<ul>
+<li>TEST-usw2a-general-private</li>
+</ul>
+<h2 id="three-flavors-of-output">Three Flavors of Output</h2>
+<p>I wasn&rsquo;t sure of the best way to <code>output</code> the attributes required for
+peering so I cooked up a few marvelous flavors to make ya mouth water!</p>
+<p>Separate collections:</p>
+<pre><code>private_route_table_ids = {
+  a = &quot;rtb-0c517e8e8a0cfd1a7&quot;
+}
+private_subnet_ids = {
+  a = [
+    &quot;subnet-0aeef4439292f37d0&quot;,
+    &quot;subnet-0d722e62b5316094c&quot;,
+  ]
+}
+public_route_table_ids = {
+  a = &quot;rtb-07490f656c15c1ba4&quot;
+  c = &quot;rtb-07490f656c15c1ba4&quot;
+}
+public_subnet_ids = {
+  a = [
+    &quot;subnet-08560aef6093bed8b&quot;,
+    &quot;subnet-0f3b2e567e19f9ba0&quot;,
+  ]
+  c = [
+    &quot;subnet-091d97b6ffce14a88&quot;,
+    &quot;subnet-09e3c3f1f1363f37f&quot;,
+  ]
+}
+</code></pre><p>Bundled Tier Object:</p>
+<pre><code>tier_bundle = {
+  a = {
+    private = [
+      &quot;10.47.11.0/24&quot;,
+      &quot;10.47.12.0/24&quot;,
+    ]
+    private_ids = [
+      &quot;subnet-0aeef4439292f37d0&quot;,
+      &quot;subnet-0d722e62b5316094c&quot;,
+    ]
+    private_route_table_id = &quot;rtb-0c517e8e8a0cfd1a7&quot;
+    public = [
+      &quot;10.47.0.0/28&quot;,
+      &quot;10.47.0.16/28&quot;,
+    ]
+    public_ids = [
+      &quot;subnet-08560aef6093bed8b&quot;,
+      &quot;subnet-0f3b2e567e19f9ba0&quot;,
+    ]
+    public_route_table_id = &quot;rtb-07490f656c15c1ba4&quot;
+  }
+  c = {
+    private                = []
+    private_ids            = null
+    private_route_table_id = null
+    public = [
+      &quot;10.47.6.0/24&quot;,
+      &quot;10.47.7.0/24&quot;,
+    ]
+    public_ids = [
+      &quot;subnet-091d97b6ffce14a88&quot;,
+      &quot;subnet-09e3c3f1f1363f37f&quot;,
+    ]
+    public_route_table_id = &quot;rtb-07490f656c15c1ba4&quot;
+  }
+}
+</code></pre><p>Structured Tier Object:</p>
+<pre><code>stuctured_tier = {
+  a = {
+    private = [
+      {
+        id     = &quot;subnet-0aeef4439292f37d0&quot;
+        subnet = &quot;10.47.11.0/24&quot;
+      },
+      {
+        id     = &quot;subnet-0d722e62b5316094c&quot;
+        subnet = &quot;10.47.12.0/24&quot;
+      },
+    ]
+    private_route_table_id = &quot;rtb-0c517e8e8a0cfd1a7&quot;
+    public = [
+      {
+        id     = &quot;subnet-08560aef6093bed8b&quot;
+        subnet = &quot;10.47.0.0/28&quot;
+      },
+      {
+        id     = &quot;subnet-0f3b2e567e19f9ba0&quot;
+        subnet = &quot;10.47.0.16/28&quot;
+      },
+    ]
+    public_route_table_id = &quot;rtb-07490f656c15c1ba4&quot;
+  }
+  c = {
+    private                = []
+    private_route_table_id = null
+    public = [
+      {
+        id     = &quot;subnet-091d97b6ffce14a88&quot;
+        subnet = &quot;10.47.6.0/24&quot;
+      },
+      {
+        id     = &quot;subnet-09e3c3f1f1363f37f&quot;
+        subnet = &quot;10.47.7.0/24&quot;
+      },
+    ]
+    public_route_table_id = &quot;rtb-07490f656c15c1ba4&quot;
+  }
+}
+</code></pre><h2 id="module-iteration">Module Iteration</h2>
+<p>Terraform 0.13 enables use of <code>for_each</code> on modules. Let&rsquo;s see it in action!</p>
+<pre><code>terraform {
+  required_version = &quot;&gt;= 0.13&quot;
+
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt; 3.0&quot;
+    }
+  }
+}
+
+# default provider
+provider &quot;aws&quot; {
+  region = &quot;us-east-1&quot;
+}
+
+provider &quot;aws&quot; {
+  region = &quot;us-west-2&quot;
+  alias  = &quot;usw2&quot;
+}
+
+variable &quot;env_prefix&quot; {
+  default = &quot;test&quot;
+}
+
+variable &quot;region_az_labels&quot; {
+  type = map(string)
+
+  default = {
+    us-east-1  = &quot;use1&quot;
+    us-east-1a = &quot;use1a&quot;
+    us-east-1b = &quot;use1b&quot;
+    us-east-2c = &quot;use1c&quot;
+    us-west-2  = &quot;usw2&quot;
+    us-west-2a = &quot;usw2a&quot;
+    us-west-2b = &quot;usw2b&quot;
+    us-west-2c = &quot;usw2c&quot;
+  }
+}
+
+locals {
+  tiers = [
+    {
+      &quot;azs&quot; = {
+        &quot;a&quot; = {
+          private = [&quot;10.0.8.0/24&quot;, &quot;10.0.9.0/24&quot;]
+          public  = [&quot;10.0.0.0/24&quot;, &quot;10.0.1.0/24&quot;]
+        },
+        &quot;b&quot; = {
+          private = [&quot;10.0.11.0/24&quot;, &quot;10.0.12.0/24&quot;]
+          public  = [&quot;10.0.3.0/24&quot;, &quot;10.0.4.0/24&quot;]
+        },
+      }
+      &quot;name&quot;    = &quot;app&quot;
+      &quot;network&quot; = &quot;10.0.0.0/20&quot;
+    },
+    {
+      &quot;azs&quot; = {
+        &quot;a&quot; = {
+          private = [&quot;10.0.16.0/24&quot;, &quot;10.0.17.0/24&quot;]
+          public  = [&quot;10.0.28.0/28&quot;] # 10.0.28.0/24 chopped up into /28
+        },
+        &quot;b&quot; = {
+          private = [&quot;10.0.20.0/24&quot;, &quot;10.0.21.0/24&quot;]
+          public  = [&quot;10.0.28.16/28&quot;] # 10.0.28.0/24 chopped up into /28
+        },
+      }
+      &quot;name&quot;    = &quot;db&quot;
+      &quot;network&quot; = &quot;10.0.16.0/20&quot;
+    },
+    {
+      &quot;azs&quot; = {
+        &quot;a&quot; = {
+          private = [&quot;10.47.11.0/24&quot;, &quot;10.47.12.0/24&quot;]
+          public  = [&quot;10.47.0.0/28&quot;, &quot;10.47.0.16/28&quot;] # 10.47.0.0/24 chopped up into /28
+        },
+        &quot;c&quot; = {
+          private = null
+          public  = [&quot;10.47.6.0/24&quot;, &quot;10.47.7.0/24&quot;]
+        },
+      }
+      &quot;name&quot;    = &quot;general&quot;
+      &quot;network&quot; = &quot;10.47.0.0/20&quot;
+    }
+  ]
+}
+
+module &quot;usw2_vpcs&quot; {
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc?ref=v1.1.0&quot;
+  for_each = { for t in local.tiers : t.name =&gt; t }
+
+  providers = {
+    aws = aws.usw2
+  }
+
+  tier             = each.value
+  env_prefix       = var.env_prefix
+  region_az_labels = var.region_az_labels
+}
+
+</code></pre><h2 id="takeaways">Takeaways</h2>
+<p>Terraform is all about transforming collections. Filtering and building related data structures for resources to lookup against later works out well. Learn to express yourself and wield unlimited cosmic power.</p>
+<p>If you find yourself writing nested for loops then think about how simple for loops yield simple data structures. I write quite a bit of Terraform and I never use nested for loops and when I read code that has them it&rsquo;s hard to mentally decompose the nesting. Being concise goes a long way.</p>
+<p>What you feed into <code>for_each</code> directly influences module behavior in a fluid way. Module flexibility depends on how well data structures are organized to create resources or dynamic blocks, all of which result from concise collection transformations. Utilize objects to create abstractions and filter attributes into data structures that make sense for related resources.</p>
+<h2 id="caveats">Caveats</h2>
+<p>You wont be able to see the generated pet names for subnet naming on plan, only on apply. Using <code>ignore_changes</code> facilitates adding and removing subnets fluidly but a plan won&rsquo;t show drift if there are changes via the AWS console.</p>
+<p>Even though you can delete subnets, remember that the NAT Gateways get created in the first subnet in public subnet list for the AZ.</p>
+<p>This module will cost money! (ie NAT Gateways, EIP)</p>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>Getting to the concept of a Tiered VPC has been years in the making and I&rsquo;m glad it turned into something useful. It&rsquo;s one of my favorite creations so far! Looking forward to yoloing it in production.</p>
+<p>Thinking in Terrarom (HCL2) is a fun and challenging paradigm. The pace at which HashiCorp is innovating is hard to keep up with so it&rsquo;s important to keep experimenting.</p>
+<p><code>&quot;Iterating ideas innovate, combining ideas compound.&quot;</code> ~jq1</p>
+
+  </div>
+  <div>
+	
+   <h2>Feedback</h2>
+   <p>What did you think about this post? Let me know! <a href="mailto:jude@jq1.io">jude@jq1.io</a></p>
+	
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/tiered_subnet_calculator/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Tiered Subnet Calculator in Terraform</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+  
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-155122887-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+
+
+    
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+        
+    
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

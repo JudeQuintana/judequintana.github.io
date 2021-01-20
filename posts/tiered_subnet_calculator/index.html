@@ -23,11 +23,11 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tiered Subnet Calculator in Terraform"/>
 <meta name="twitter:description" content="I&rsquo;ve been thinking about adding support for building tiered subnets of any size for the next iteration of the Dynamic VPC Module. It occurred to me that auto subnet generation inside the module actually makes the subnetting less dynamic.
-Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnetting."/>
+Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnetting calculation."/>
 
 <meta property="og:title" content="Tiered Subnet Calculator in Terraform" />
 <meta property="og:description" content="I&rsquo;ve been thinking about adding support for building tiered subnets of any size for the next iteration of the Dynamic VPC Module. It occurred to me that auto subnet generation inside the module actually makes the subnetting less dynamic.
-Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnetting." />
+Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnetting calculation." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jq1.io/posts/tiered_subnet_calculator/" />
 <meta property="article:published_time" content="2020-12-01T20:48:34-07:00" />
@@ -59,8 +59,8 @@ Furthermore, auto subnet calculation should be in assistance to the process of a
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- Icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
-    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" sizes="32x32" href="/favicon.png">
     
     
 
@@ -139,6 +139,8 @@ Furthermore, auto subnet calculation should be in assistance to the process of a
 	
 	
 	
+	<a href="mailto:jude@jq1.io" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
 	
 	<a href="https://jq1.io/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
 	
@@ -148,7 +150,7 @@ Furthermore, auto subnet calculation should be in assistance to the process of a
     </div>
     
 <div class="copyright">
-  &copy; 2020 Jude Quintana
+  &copy; 2021 Jude Quintana
   
 </div>
 
@@ -194,7 +196,7 @@ makes the subnetting less dynamic.</p>
 <p>Furthermore, auto subnet calculation should be in assistance to
 the process of allocating subnets and should not be fed directly as input
 to the VPC module. This is due to the fact that order matters only for the
-subnetting. So when tiers or AZs are changed, added or removed,
+subnetting calculation. So when tiers or AZs are changed, added or removed,
 the calculation will shift for none, some or all tiers.</p>
 <p>Removing the subnet generation will simplify the module itself and it will reinforce
 the notion that engineers should know their subnetting when architecting networks.
@@ -571,6 +573,12 @@ Hosts:     4064
 <p>~jq1</p>
 
   </div>
+  <div>
+	
+   <h2>Feedback</h2>
+   <p>What did you think about this post? Let me know! <a href="mailto:jude@jq1.io">jude@jq1.io</a></p>
+	
+  </div>
   
 
 <div class="navigation navigation-single">
@@ -580,6 +588,11 @@ Hosts:     4064
       <span class="navigation-tittle">Hash Server 9000 in Go</span>
     </a>
     
+    
+    <a href="/posts/tiered_vpc/" class="navigation-next">
+      <span class="navigation-tittle">Synthesizing Tiered VPC in Terraform</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
     
 </div>
 

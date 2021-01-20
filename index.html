@@ -23,7 +23,7 @@
 <meta property="og:description" content="Ideas as Code" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://jq1.io/" />
-<meta property="og:updated_time" content="2020-12-01T20:48:34-07:00" /><meta property="og:site_name" content="Demolition Man" />
+<meta property="og:updated_time" content="2021-01-12T20:03:45-07:00" /><meta property="og:site_name" content="Demolition Man" />
 
 
     
@@ -51,8 +51,8 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- Icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
-    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" sizes="32x32" href="/favicon.png">
     <link rel="alternate" type="application/rss+xml" href="https://jq1.io/index.xml" title="jq1.io" />
 
     
@@ -132,6 +132,8 @@
 	
 	
 	
+	<a href="mailto:jude@jq1.io" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
 	
 	<a href="https://jq1.io/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
 	
@@ -141,7 +143,7 @@
     </div>
     
 <div class="copyright">
-  &copy; 2020 Jude Quintana
+  &copy; 2021 Jude Quintana
   
 </div>
 
@@ -164,6 +166,29 @@ Built with <a href="https://gohugo.io">Hugo</a>
       
       <div class="post-list__item">
         <span class="item__title--big">
+          <a href="/posts/tiered_vpc/" >Synthesizing Tiered VPC in Terraform</a>
+        </span>
+        <span class="item__date">
+          Jan 12, 2021
+        </span>
+        <span >
+        
+        Today&rsquo;s Mathematics Dynamic VPC x Tiered Subnet Calculator = Tiered VPC
+Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation.
+Routing is automatic and the module outputs can be consumed for peering.
+        
+        </span>
+        
+          ... <a class="read-more-symbol" href="/posts/tiered_vpc/">➦</a>
+        
+        </div>
+        
+     
+      
+        
+      
+      <div class="post-list__item">
+        <span class="item__title--big">
           <a href="/posts/tiered_subnet_calculator/" >Tiered Subnet Calculator in Terraform</a>
         </span>
         <span class="item__date">
@@ -172,7 +197,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
         <span >
         
         I&rsquo;ve been thinking about adding support for building tiered subnets of any size for the next iteration of the Dynamic VPC Module. It occurred to me that auto subnet generation inside the module actually makes the subnetting less dynamic.
-Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnetting.
+Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnetting calculation.
         
         </span>
         
