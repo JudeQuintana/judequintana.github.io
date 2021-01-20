@@ -229,7 +229,7 @@ The best thing to come out of the calculator was the structured tier output.</p>
 Routing between VPCs should be easier now that <a href="https://aws.amazon.com/transit-gateway/">Transit Gateway</a> exists.</p>
 <h2 id="synthesis">Synthesis</h2>
 <p>I abstracted the calculator output into a tiered VPC object. Then integrated it into the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc/variables.tf">interface</a> for <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a>.
-This fusion created the <a href="https://jq1.io/posts/tiered_vpc">Tiered VPC</a> module.
+This fusion created the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a> module.
 For my use case, private subnets always have an associated a NAT Gateway (per AZ) to route through because I have no need for a purley private subnet in AWS.
 Subnet generation has been removed because subnets should be subnetted correctly before module instansiation.</p>
 <p>The VPC tier object requires at least one public subnet for an AZ. The private subnets can be nulled out.
