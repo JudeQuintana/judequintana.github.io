@@ -195,8 +195,8 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p><a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc">Dynamic VPC</a> x <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/utils/tiered_subnet_calculator">Tiered Subnet Calculator</a> = <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a></p>
 <h2 id="observing-abstractions">Observing Abstractions</h2>
 <p>In hindsight, the <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a> module should instead be called Simple VPC. It provides a general VPC tier including a public subnet (/24), a private subnet (/24) and NAT Gateways per AZ. The interface is easy to use. There is minimal focus on subnetting due to the internal subnet generation.</p>
-<p>Routing is automatic and the module outputs can be consumed for peering. The structured naming for resource tagging is necessary for readability and organization in the AWS console.</p>
-<p>However, the biggest draw backs are that subnets of various (valid) sizes can&rsquo;t be added or removed from an AZ. Flexibility in subnet creation is needed to take advantage of baseline VPC features like network segmentation.</p>
+<p>Routing is automatic and the module outputs can be consumed for peering. The structured naming for resource tagging is a must have for readability in the AWS console.</p>
+<p>However, the biggest draw backs are that subnets of various valid sizes can&rsquo;t be added or removed from an AZ. Flexibility in subnet creation is needed to take advantage of baseline VPC features like network segmentation.</p>
 <p>The <a href="https://jq1.io/posts/tiered_subnet_calculator">Tiered Subnet Calculator</a> idea had several takeways that were crucial
 to iterating on Dynamic VPC. Subnet generation makes subnetting less
 dynamic and knowing your subnetting is the key to architecting networks.
@@ -225,8 +225,7 @@ The best thing to come out of the calculator was the structured tier output.</p>
     &quot;network&quot; = &quot;10.0.16.0/20&quot;
   }
 ]
-</code></pre><p>Each object is basically a tiered VPC structure. It&rsquo;s much easier to think about tiers when scaling out VPCs because we can narrow down the context (ie app, db, general). This can maximize the
-use of smaller network sizes.</p>
+</code></pre><p>Each object is basically a tiered VPC structure. It&rsquo;s much easier to think about tiers when scaling out VPCs because we can narrow down the context (ie app, db, general) and maximize the use of smaller network sizes.</p>
 <p>Routing between VPCs should be easier now that <a href="https://aws.amazon.com/transit-gateway/">Transit Gateway</a> exists.</p>
 <h2 id="synthesis">Synthesis</h2>
 <p>The calculator output was abstracted into a tiered VPC object, then integrated into the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc/variables.tf">interface</a> for <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a>.
@@ -234,7 +233,7 @@ This fusion created the <a href="https://github.com/JudeQuintana/terraform-modul
 <p>The tiered VPC object requires at least one public subnet. All Public subnets will route the Internet Gateway.</p>
 <p>Private subnets can be nulled out but when they are defined they will route out the NAT gateway relative to the AZ.
 Subnet generation has been removed because subnets should be subnetted correctly before module instansiation.</p>
-<p>All subnets will have randomly generated name for better labeling. I chose not to do subnet CIDR validation against the network CIDR because the <code>aws_subnet</code> resource will error on invalid subnets on creation.</p>
+<p>All subnets will have randomly generated name for better labeling. I chose not to do subnet CIDR validation against the network CIDR because the <code>aws_subnet</code> resource will error on invalid subnets during creation.</p>
 <p><code>variables.tf</code></p>
 <pre><code># snippet
 variable &quot;tier&quot; {
