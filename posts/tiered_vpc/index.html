@@ -23,12 +23,12 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Synthesizing Tiered VPC in Terraform"/>
 <meta name="twitter:description" content="Today&rsquo;s Mathematics Dynamic VPC x Tiered Subnet Calculator = Tiered VPC
-Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation.
+Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including a public subnet (/24), a private subnet (/24) and NAT Gateways per AZ. The interface is easy to use. There is minimal focus on subnetting due to the internal subnet generation.
 Routing is automatic and the module outputs can be consumed for peering."/>
 
 <meta property="og:title" content="Synthesizing Tiered VPC in Terraform" />
 <meta property="og:description" content="Today&rsquo;s Mathematics Dynamic VPC x Tiered Subnet Calculator = Tiered VPC
-Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation.
+Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including a public subnet (/24), a private subnet (/24) and NAT Gateways per AZ. The interface is easy to use. There is minimal focus on subnetting due to the internal subnet generation.
 Routing is automatic and the module outputs can be consumed for peering." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jq1.io/posts/tiered_vpc/" />
@@ -194,9 +194,9 @@ Built with <a href="https://gohugo.io">Hugo</a>
     <h2 id="todays-mathematics">Today&rsquo;s Mathematics</h2>
 <p><a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc">Dynamic VPC</a> x <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/utils/tiered_subnet_calculator">Tiered Subnet Calculator</a> = <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a></p>
 <h2 id="observing-abstractions">Observing Abstractions</h2>
-<p>In hindsight, the <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a> module should instead be called Simple VPC. It provides a general VPC tier including one public subnet (/24) and one private subnet (/24) with a NAT Gateway per AZ. The interface is easy to understand since there is minimal focus on subnetting due to internal subnet generation.</p>
-<p>Routing is automatic and the module outputs can be consumed for peering. Structured naming for resource tagging is great because it facilitates readability and organization in the AWS console which is essential for managing cloud resources.</p>
-<p>However, the biggest draw backs are that subnets of various (valid) sizes can&rsquo;t be added or removed from an AZ. Flexibility in subnet creation is needed to take advantage of baseline VPC features.</p>
+<p>In hindsight, the <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a> module should instead be called Simple VPC. It provides a general VPC tier including a public subnet (/24), a private subnet (/24) and NAT Gateways per AZ. The interface is easy to use. There is minimal focus on subnetting due to the internal subnet generation.</p>
+<p>Routing is automatic and the module outputs can be consumed for peering. The structured naming for resource tagging is necessary for readability and organization in the AWS console.</p>
+<p>However, the biggest draw backs are that subnets of various (valid) sizes can&rsquo;t be added or removed from an AZ. Flexibility in subnet creation is needed to take advantage of baseline VPC features like network segmentation.</p>
 <p>The <a href="https://jq1.io/posts/tiered_subnet_calculator">Tiered Subnet Calculator</a> idea had several takeways that were crucial
 to iterating on Dynamic VPC. Subnet generation makes subnetting less
 dynamic and knowing your subnetting is the key to architecting networks.
@@ -225,16 +225,16 @@ The best thing to come out of the calculator was the structured tier output.</p>
     &quot;network&quot; = &quot;10.0.16.0/20&quot;
   }
 ]
-</code></pre><p>Each object looks close to being a tiered VPC structure. It&rsquo;s much easier to think about scaling out VPCs when they are tiered which allows us to narrow down the context for the VPC (ie app, db, general).
-Routing between VPCs should be easier now that <a href="https://aws.amazon.com/transit-gateway/">Transit Gateway</a> exists.</p>
+</code></pre><p>Each object is basically a tiered VPC structure. It&rsquo;s much easier to think about tiers when scaling out VPCs because we can narrow down the context (ie app, db, general). This can maximize the
+use of smaller network sizes.</p>
+<p>Routing between VPCs should be easier now that <a href="https://aws.amazon.com/transit-gateway/">Transit Gateway</a> exists.</p>
 <h2 id="synthesis">Synthesis</h2>
-<p>I abstracted the calculator output into a tiered VPC object. Then integrated it into the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc/variables.tf">interface</a> for <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a>.
-This fusion created the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a> module.
-For my use case, private subnets always have an associated a NAT Gateway (per AZ) to route through because I have no need for a purley private subnet in AWS.
+<p>The calculator output was abstracted into a tiered VPC object, then integrated into the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc/variables.tf">interface</a> for <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a>.
+This fusion created the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a> module.</p>
+<p>The tiered VPC object requires at least one public subnet. All Public subnets will route the Internet Gateway.</p>
+<p>Private subnets can be nulled out but when they are defined they will route out the NAT gateway relative to the AZ.
 Subnet generation has been removed because subnets should be subnetted correctly before module instansiation.</p>
-<p>The VPC tier object requires at least one public subnet for an AZ. The private subnets can be nulled out.
-All public and private subnets will have randomly generated name to differentiate each subnet.
-I chose not to do subnet CIDR validation against the network CIDR because the <code>aws_subnet</code> resource will error on invalid subnets within the network on creation.</p>
+<p>All subnets will have randomly generated name for better labeling. I chose not to do subnet CIDR validation against the network CIDR because the <code>aws_subnet</code> resource will error on invalid subnets on creation.</p>
 <p><code>variables.tf</code></p>
 <pre><code># snippet
 variable &quot;tier&quot; {
@@ -258,9 +258,7 @@ variable &quot;tier&quot; {
     error_message = &quot;There must be at least 1 public subnet per az.&quot;
   }
 }
-</code></pre><p>Here&rsquo;s a minimum configuration example for a tiered VPC object with one public subnet.
-A public subnet will route internet traffic to the VPC&rsquo;s Internet Gateway. As I add or remove public subnets,
-they will be added to or removed from the shared public route table for all public subnets across AZs.</p>
+</code></pre><p>When public subnets are add or removed, the shared public route table for all AZs will update automatically.</p>
 <pre><code>tier = {
   &quot;azs&quot; = {
     &quot;a&quot; = {
@@ -271,10 +269,10 @@ they will be added to or removed from the shared public route table for all publ
   &quot;name&quot;    = &quot;general&quot;
   &quot;network&quot; = &quot;10.47.0.0/20&quot;
 }
-</code></pre><p>I can define the private subnet layer at any time. When defined, the NAT Gateways (with EIP) are automatically created per AZ which
-is why we need at least one public subnet per AZ to create them in.
-Private subnets will route internet traffic to their relative AZ NAT Gateway. As private
-subnets are added or removed, they will be added or removed from its relative AZ&rsquo;s private route table.</p>
+</code></pre><p>I can define the private subnet layer at any time. Again, NAT Gateways are created per AZ
+whch is why we need at least one public subnet per AZ to create them in. When private
+subnets are added or removed, the relative AZ&rsquo;s private route tables
+also updated automatically.</p>
 <pre><code>tier = {
   &quot;azs&quot; = {
     &quot;a&quot; = {
@@ -578,15 +576,15 @@ module &quot;usw2_vpcs&quot; {
 
 </code></pre><h2 id="takeaways">Takeaways</h2>
 <p>Terraform is all about transforming collections. Filtering and building related data structures for resources to lookup against later works out well. Learn to express yourself and wield unlimited cosmic power.</p>
-<p>If you find yourself writing nested for loops then think about how simple for loops yield simple data structures. I write quite a bit of Terraform and I never use nested for loops and when I read code that has them it&rsquo;s hard to mentally decompose the nesting. Being concise goes a long way.</p>
+<p>If you find yourself writing nested <code>for</code> loops then think about how simple <code>for</code> loops yield simple data structures. I write quite a bit of Terraform and I never use nested <code>for</code> loops. When I read code that has them it&rsquo;s hard to mentally decompose the nesting. Being concise goes a long way.</p>
 <p>What you feed into <code>for_each</code> directly influences module behavior in a fluid way. Module flexibility depends on how well data structures are organized to create resources or dynamic blocks, all of which result from concise collection transformations. Utilize objects to create abstractions and filter attributes into data structures that make sense for related resources.</p>
 <h2 id="caveats">Caveats</h2>
-<p>You wont be able to see the generated pet names for subnet naming on plan, only on apply. Using <code>ignore_changes</code> facilitates adding and removing subnets fluidly but a plan won&rsquo;t show drift if there are changes via the AWS console.</p>
+<p>You wont be able to see the generated pet names for subnet naming on plan, only on apply. Using <code>ignore_changes</code> facilitates adding and removing AZs and subnets properly but a plan won&rsquo;t show drift if there are changes via the AWS console.</p>
 <p>Even though you can delete subnets, remember that the NAT Gateways get created in the first subnet in public subnet list for the AZ.</p>
 <p>This module will cost money! (ie NAT Gateways, EIP)</p>
 <h2 id="final-thoughts">Final Thoughts</h2>
 <p>Thanks for reading my take on yet another VPC abstraction.
-Getting to my own version of <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a> has taken a long time. It was challenging and I&rsquo;m glad it turned into something useful. It&rsquo;s one of my favorite creations so far! Looking forward to yoloing it in production.</p>
+Getting to my own implementation of <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a> has taken a long time. It was challenging and I&rsquo;m glad it turned into something useful. It&rsquo;s one of my favorite creations so far! Looking forward to YOLO&rsquo;ing it in production.</p>
 <p><code>&quot;Iterating ideas innovate, combining ideas compound.&quot;</code> ~jq1</p>
 
   </div>
