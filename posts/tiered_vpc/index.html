@@ -227,9 +227,9 @@ The best thing to come out of the calculator was the structured tier output.</p>
 ]
 </code></pre><p>Each object is basically a tiered VPC structure. It&rsquo;s much easier to think about tiers when scaling out VPCs because we can narrow down the context (ie app, db, general) and maximize the use of smaller network sizes. Routing between VPCs should be easier now that <a href="https://aws.amazon.com/transit-gateway/">Transit Gateway</a> exists.</p>
 <h2 id="synthesis">Synthesis</h2>
-<p>The calculator output was abstracted into a tiered VPC object, then integrated into the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc/variables.tf">interface</a> for <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a>.
+<p>The calculator output was abstracted into a tiered VPC object then integrated into the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc/variables.tf">interface</a> for <a href="https://jq1.io/posts/dynamic_vpc">Dynamic VPC</a>.
 This fusion created the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a> module.</p>
-<p>The tiered VPC object requires at least one public subnet. All Public subnets will route the Internet Gateway. Private subnets can be nulled out but when they are defined they will route out the NAT gateway relative to the AZ.</p>
+<p>The tiered VPC object requires at least one public subnet. All Public subnets will route out the Internet Gateway. Private subnets can be nulled out but when they are defined they will route out the NAT gateway relative to the AZ.</p>
 <p>Subnet generation has been removed because subnets should be subnetted correctly before module instansiation.
 All subnets will have randomly generated name for better labeling. I chose not to do subnet CIDR validation against the network CIDR because the <code>aws_subnet</code> resource will error on invalid subnets during creation.</p>
 <p><code>variables.tf</code></p>
