@@ -198,7 +198,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p>Routing is automatic and the module outputs can be consumed for peering. The structured naming for resource tagging is a must have for readability in the AWS console.</p>
 <p>However, the biggest draw backs are that subnets of various valid sizes can&rsquo;t be added or removed from an AZ. Flexibility in subnet creation is needed to take advantage of baseline VPC features like network segmentation.</p>
 <p>The <a href="https://jq1.io/posts/tiered_subnet_calculator">Tiered Subnet Calculator</a> idea had several takeways that were crucial
-to iterating on Dynamic VPC. Subnet generation makes subnetting less dynamic and knowing your subnetting is the key to architecting networks.  The best thing to come out of the calculator was the structured tier output.</p>
+to iterating on Dynamic VPC. Subnet generation makes subnetting less dynamic and knowing your subnetting is the key to architecting networks.  The best thing to come out of the calculator was the structured output.</p>
 <pre><code>calculated_tiers = [
   {
     &quot;acl&quot; = &quot;public&quot;
@@ -227,7 +227,7 @@ to iterating on Dynamic VPC. Subnet generation makes subnetting less dynamic and
 <h2 id="synthesis">Synthesis</h2>
 <p>The calculator output was abstracted into a tiered VPC object then integrated into the interface for <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc">Dynamic VPC</a>.
 This fusion created the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a> module.</p>
-<p>The tiered VPC object requires at least one public subnet. All Public subnets will route out the Internet Gateway. Private subnets can be nulled out but when they are defined they will route out the NAT gateway relative to the AZ.</p>
+<p>The tiered object requires at least one public subnet. All Public subnets will route out the Internet Gateway. Private subnets can be nulled out but when they are defined they will route out the NAT gateway relative to the AZ.</p>
 <p>Subnet generation has been removed because subnets should be subnetted correctly before module instansiation.
 All subnets will have randomly generated name for better labeling. I chose not to do subnet CIDR validation against the network CIDR because the <code>aws_subnet</code> resource will error on invalid subnets during creation.</p>
 <p><code>variables.tf</code></p>
