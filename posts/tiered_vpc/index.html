@@ -227,7 +227,7 @@ to iterating on Dynamic VPC. Subnet generation makes subnetting less dynamic and
 <h2 id="synthesis">Synthesis</h2>
 <p>The calculator output was abstracted into a tiered VPC object then integrated into the interface for <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/dynamic_vpc">Dynamic VPC</a>.
 This fusion created the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a> module.</p>
-<p>The tiered object requires at least one public subnet. All Public subnets will route out the Internet Gateway. Private subnets can be nulled out but when they are defined they will route out the NAT gateway relative to the AZ.</p>
+<p>The tiered object requires at least one public subnet. All Public subnets will route out the Internet Gateway. Private subnets can be nulled out and when they are defined they will route out the NAT gateway relative to the AZ.</p>
 <p>Subnet generation has been removed because subnets should be subnetted correctly before module instansiation.
 All subnets will have randomly generated name for better labeling. I chose not to do subnet CIDR validation against the network CIDR because the <code>aws_subnet</code> resource will error on invalid subnets during creation.</p>
 <p><code>variables.tf</code></p>
@@ -253,7 +253,7 @@ variable &quot;tier&quot; {
     error_message = &quot;There must be at least 1 public subnet per az.&quot;
   }
 }
-</code></pre><p>When public subnets are add or removed, the shared public route table for all AZs will update automatically.</p>
+</code></pre><p>The shared public route table for all AZs will update automatically when public subnets are add or removed, .</p>
 <pre><code>tier = {
   &quot;azs&quot; = {
     &quot;a&quot; = {
@@ -265,9 +265,8 @@ variable &quot;tier&quot; {
   &quot;network&quot; = &quot;10.47.0.0/20&quot;
 }
 </code></pre><p>I can define the private subnet layer at any time. Again, NAT Gateways are created per AZ
-whch is why we need at least one public subnet per AZ to create them in. When private
-subnets are added or removed, the relative AZ&rsquo;s private route tables
-also update automatically.</p>
+whch is why we need at least one public subnet per AZ to create them in. The relative AZ&rsquo;s private route tables
+also update automatically when private subnets are added or removed.</p>
 <pre><code>tier = {
   &quot;azs&quot; = {
     &quot;a&quot; = {
