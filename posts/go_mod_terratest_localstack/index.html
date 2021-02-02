@@ -305,7 +305,7 @@ func TestTerraformAwsS3Example(t *testing.T) {
 	aws.AssertS3BucketPolicyExists(t, awsRegion, bucketID)
 }
 </code></pre><p>When I run <code>go test</code>, go will install the dependencies for Terratest and will run the <code>terraform apply</code> command, verify the s3 bucket resource was created then <code>terraform destroy</code>.</p>
-<p>As expected The s3 bucket resources will be successfully created and destroyed in LocalStack but the test will fail because Terratest tries to verify
+<p>As expected the s3 bucket resources will be successfully created and destroyed in LocalStack but the test will fail because Terratest tries to verify
 the s3 bucket is created in AWS and not in LocalStack.</p>
 <p>The <code>aws</code> package used in Terratest isn&rsquo;t configurable to use custom endpoints because Terratest is normally used to verify actual AWS resources for tests. There would need to be Terratest
 code changes to support a custom endpoints configuration to point to LocalStack.</p>
