@@ -255,27 +255,27 @@ variable &quot;tier&quot; {
 }
 </code></pre><p>The shared public route table for all AZs will update automatically when public subnets are add or removed.</p>
 <pre><code>tier = {
-  &quot;azs&quot; = {
-    &quot;a&quot; = {
+  azs = {
+    a = {
       private = null
       public = [&quot;10.47.0.0/28&quot;] # 10.47.0.0/24 chopped up into /28
     }
   }
-  &quot;name&quot;    = &quot;general&quot;
-  &quot;network&quot; = &quot;10.47.0.0/20&quot;
+  name    = &quot;general&quot;
+  network = &quot;10.47.0.0/20&quot;
 }
 </code></pre><p>I can define the private subnet layer at any time. Again, NAT Gateways are created per AZ
 whch is why we need at least one public subnet per AZ to create them in. The relative AZ&rsquo;s private route tables
 also update automatically when private subnets are added or removed.</p>
 <pre><code>tier = {
-  &quot;azs&quot; = {
-    &quot;a&quot; = {
+  azs = {
+    a = {
       private = [&quot;10.47.11.0/24&quot;, &quot;10.47.12.0/24&quot;]
       public  = [&quot;10.47.0.0/28&quot;] # 10.47.0.0/24 chopped up into /28
     }
   }
-  &quot;name&quot;    = &quot;general&quot;
-  &quot;network&quot; = &quot;10.47.0.0/20&quot;
+  name    = &quot;general&quot;
+  network = &quot;10.47.0.0/20&quot;
 }
 </code></pre><p>Adding more subnets and another AZ:</p>
 <pre><code>provider &quot;aws&quot; {
@@ -299,18 +299,18 @@ variable &quot;region_az_labels&quot; {
 
 locals {
   general_tier = {
-    &quot;azs&quot; = {
-      &quot;a&quot; = {
+    azs = {
+      a = {
         private = [&quot;10.47.11.0/24&quot;, &quot;10.47.12.0/24&quot;]
         public  = [&quot;10.47.0.0/28&quot;, &quot;10.47.0.16/28&quot;] # 10.47.0.0/24 chopped up into /28
       },
-      &quot;c&quot; = {
+      c = {
         private = null
         public  = [&quot;10.47.6.0/24&quot;, &quot;10.47.7.0/24&quot;]
       },
     }
-    &quot;name&quot;    = &quot;general&quot;
-    &quot;network&quot; = &quot;10.47.0.0/20&quot;
+    name    = &quot;general&quot;
+    network = &quot;10.47.0.0/20&quot;
   }
 }
 
@@ -363,7 +363,7 @@ module &quot;general_vpc&quot; {
 <h2 id="three-flavors-of-output">Three Flavors of Output</h2>
 <p>I wasn&rsquo;t sure of the best way to <code>output</code> the attributes required for
 peering so I cooked up a few marvelous flavors to make ya mouth water!
-Like oh s#*t!</p>
+Like oh shit!</p>
 <p>Separate collections:</p>
 <pre><code>private_route_table_ids = {
   a = &quot;rtb-0c517e8e8a0cfd1a7&quot;
@@ -512,46 +512,46 @@ variable &quot;region_az_labels&quot; {
 locals {
   tiers = [
     {
-      &quot;azs&quot; = {
-        &quot;a&quot; = {
+      azs = {
+        a = {
           private = [&quot;10.0.8.0/24&quot;, &quot;10.0.9.0/24&quot;]
           public  = [&quot;10.0.0.0/24&quot;, &quot;10.0.1.0/24&quot;]
         },
-        &quot;b&quot; = {
+        b = {
           private = [&quot;10.0.11.0/24&quot;, &quot;10.0.12.0/24&quot;]
           public  = [&quot;10.0.3.0/24&quot;, &quot;10.0.4.0/24&quot;]
         },
       }
-      &quot;name&quot;    = &quot;app&quot;
-      &quot;network&quot; = &quot;10.0.0.0/20&quot;
+      name    = &quot;app&quot;
+      network = &quot;10.0.0.0/20&quot;
     },
     {
-      &quot;azs&quot; = {
-        &quot;a&quot; = {
+      azs = {
+        a = {
           private = [&quot;10.0.16.0/24&quot;, &quot;10.0.17.0/24&quot;]
           public  = [&quot;10.0.28.0/28&quot;] # 10.0.28.0/24 chopped up into /28
         },
-        &quot;b&quot; = {
+        b = {
           private = [&quot;10.0.20.0/24&quot;, &quot;10.0.21.0/24&quot;]
           public  = [&quot;10.0.28.16/28&quot;] # 10.0.28.0/24 chopped up into /28
         },
       }
-      &quot;name&quot;    = &quot;db&quot;
-      &quot;network&quot; = &quot;10.0.16.0/20&quot;
+      name    = &quot;db&quot;
+      network = &quot;10.0.16.0/20&quot;
     },
     {
-      &quot;azs&quot; = {
-        &quot;a&quot; = {
+      azs = {
+        a = {
           private = [&quot;10.47.11.0/24&quot;, &quot;10.47.12.0/24&quot;]
           public  = [&quot;10.47.0.0/28&quot;, &quot;10.47.0.16/28&quot;] # 10.47.0.0/24 chopped up into /28
         },
-        &quot;c&quot; = {
+        c = {
           private = null
           public  = [&quot;10.47.6.0/24&quot;, &quot;10.47.7.0/24&quot;]
         },
       }
-      &quot;name&quot;    = &quot;general&quot;
-      &quot;network&quot; = &quot;10.47.0.0/20&quot;
+      name    = &quot;general&quot;
+      network = &quot;10.47.0.0/20&quot;
     }
   ]
 }
