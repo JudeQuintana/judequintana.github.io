@@ -412,7 +412,7 @@ public_subnet_ids = {
   }
   c = {
     private                = []
-    private_ids            = null
+    private_ids            = []
     private_route_table_id = null
     public = [
       &quot;10.47.6.0/24&quot;,
@@ -557,7 +557,7 @@ locals {
 }
 
 module &quot;usw2_vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc?ref=v1.1.0&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc?ref=v1.1.1&quot;
   for_each = { for t in local.tiers : t.name =&gt; t }
 
   providers = {
