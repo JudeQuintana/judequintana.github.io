@@ -571,7 +571,7 @@ module &quot;usw2_vpcs&quot; {
 
 </code></pre><h2 id="takeaways">Takeaways</h2>
 <p>Terraform is all about transforming collections. Filtering and building related data structures for resources to lookup against later works out well. Learn to express yourself with <code>for</code> and wield unlimited cosmic power.</p>
-<p>Nested <code>for</code> loops are necessary but being concise goes a long way.  If you find yourself writing them then think about how simple <code>for</code> loops yield simple data structures.</p>
+<p>Nested <code>for</code> loops are necessary for iterating over deep data structures. But if you find yourself writing them on shallow maps or objects then think about how simple <code>for</code> loops yield simple data structures. Being concise goes a long way.</p>
 <p>What you feed into <code>for_each</code> directly influences module behavior in a fluid way. Module flexibility depends on how well data structures are organized to create resources or dynamic blocks, all of which result from concise collection transformations. Utilize objects to create abstractions and filter attributes into data structures that make sense for related resources.</p>
 <h2 id="caveats">Caveats</h2>
 <p>You wont be able to see the generated pet names for subnet naming on plan, only on apply. Using <code>ignore_changes</code> facilitates adding and removing AZs and subnets properly but a plan won&rsquo;t show drift if there are changes via the AWS console.</p>
