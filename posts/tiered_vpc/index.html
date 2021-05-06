@@ -183,7 +183,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
     
     
     <br/>
-    <i class="fas fa-clock"></i> 8 min read
+    <i class="fas fa-clock"></i> 7 min read
 </div>
 
 
@@ -265,7 +265,7 @@ variable &quot;tier&quot; {
   network = &quot;10.47.0.0/20&quot;
 }
 </code></pre><p>I can define the private subnet layer at any time. Again, NAT Gateways are created per AZ
-whch is why we need at least one public subnet per AZ to create them in. The relative AZ&rsquo;s private route tables
+which is why we need at least one public subnet per AZ to create them in. The relative AZ&rsquo;s private route tables
 also update automatically when private subnets are added or removed.</p>
 <pre><code>tier = {
   azs = {
@@ -578,8 +578,7 @@ module &quot;usw2_vpcs&quot; {
 <p>Even though you can delete subnets, remember that the NAT Gateways get created in the first subnet in public subnet list for the AZ.</p>
 <p>This module will cost money! (ie NAT Gateways, EIP)</p>
 <h2 id="final-thoughts">Final Thoughts</h2>
-<p>Thanks for reading my take on yet another VPC abstraction.
-Getting to my own implementation of <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a> was challenging and I&rsquo;m glad it turned into something useful. It&rsquo;s one of my favorite creations so far! Looking forward to YOLO&rsquo;ing it in production.</p>
+<p>Thanks for reading my take on yet another VPC abstraction, the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc">Tiered VPC</a>. Looking forward to YOLO&rsquo;ing it in production!</p>
 <p>~jq1</p>
 
   </div>
