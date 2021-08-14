@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.69.2" />
+
+    
+    
+    
+
+<title>Terraform Networking Trifecta • jq1.io</title>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Terraform Networking Trifecta"/>
+<meta name="twitter:description" content="Intro Initially I&rsquo;d planned to blog more than just about Terraform but it hasn&rsquo;t turned out that way due to lack of time.
+But that&rsquo;s OK because I really do enjoy creating and writing about networking topics with Terraform in the cloud.
+Content generation is hard so hats off to the those who are consistently generating it!
+This project is building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code."/>
+
+<meta property="og:title" content="Terraform Networking Trifecta" />
+<meta property="og:description" content="Intro Initially I&rsquo;d planned to blog more than just about Terraform but it hasn&rsquo;t turned out that way due to lack of time.
+But that&rsquo;s OK because I really do enjoy creating and writing about networking topics with Terraform in the cloud.
+Content generation is hard so hats off to the those who are consistently generating it!
+This project is building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jq1.io/posts/tnt/" />
+<meta property="article:published_time" content="2021-07-22T20:11:22-06:00" />
+<meta property="article:modified_time" content="2021-07-22T20:11:22-06:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" sizes="32x32" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://jq1.io/">jq1.io</a>
+      </span>
+      
+        
+        
+        
+        <div class="author-image">
+          <img src="https://jq1.io/img/thought.png" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+      
+      
+      <p class="site__description">
+         Ideas as Code 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">jq1.io</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/JayQ_One" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	<a href="https://github.com/judequintana" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/jq1" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="mailto:jude@jq1.io" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	<a href="https://jq1.io/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2021 Jude Quintana
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a>
+</div>
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Terraform Networking Trifecta</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Jul 22, 2021
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 9 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="post">
+    <h1 id="intro">Intro</h1>
+<p>Initially I&rsquo;d planned to blog more than just about Terraform but it
+hasn&rsquo;t turned out that way due to lack of time.</p>
+<p>But that&rsquo;s OK because I really do enjoy creating and writing about
+networking topics with Terraform in the cloud.</p>
+<p>Content generation is hard so hats off to the those who are consistently
+generating it!</p>
+<p>This project is building on my previous Tiered VPC idea but by adding a
+couple more abstractions we can build flexible networking
+between multiple AWS VPCs with minimal code.</p>
+<h1 id="goal">Goal</h1>
+<p>Using the Terraform (v1.0.4+) and AWS Provider (v3.53.0+)
+route between 3 VPCs with different IPv4 CIDR ranges (RFC 1918)
+using a Transit Gateway.</p>
+<ul>
+<li>App VPC Tier: <code>10.0.0.0/20</code> (Class A Private Internet)</li>
+<li>CICD VPC Tier: <code>192.168.0.0/20</code> (Class B Private Internet)</li>
+<li>General VPC Tier: <code>172.16.0.0/20</code> (Class C Private Internet)</li>
+</ul>
+<p><img src="/img/tnt.png" alt="link"></p>
+<p>Modules:</p>
+<ul>
+<li><a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a></li>
+<li><a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/intra_vpc_security_group_rule_for_tiered_vpc_ng">Intra VPC Security Group Rule</a></li>
+<li><a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a></li>
+</ul>
+<p>Main:</p>
+<ul>
+<li><a href="https://github.com/JudeQuintana/terraform-main/tree/main/networking_trifecta_demo">Networking Trifecta Demo</a>
+<ul>
+<li>See <a href="/posts/tnt/#trifecta-demo-time">Trifecta Demo Time</a> for instructions.</li>
+</ul>
+</li>
+</ul>
+<h1 id="inspiration-begets-motivation">Inspiration Begets Motivation</h1>
+<p>Boring cloud diagrams are cool and all but I need inspiration to get
+motivated so peep the visuals to spice up the concept.</p>
+<p><a href="https://twitter.com/MAKIO135/status/1378469836305666055">https://twitter.com/MAKIO135/status/1378469836305666055</a>
+<a href="https://twitter.com/MAKIO135/status/1380634991818911746">https://twitter.com/MAKIO135/status/1380634991818911746</a>
+<a href="https://twitter.com/MAKIO135/status/1379931304863657984">https://twitter.com/MAKIO135/status/1379931304863657984</a>
+<a href="https://twitter.com/MAKIO135/status/1404543066724253699">https://twitter.com/MAKIO135/status/1404543066724253699</a>
+<a href="https://twitter.com/MAKIO135/status/1368340867803660289">https://twitter.com/MAKIO135/status/1368340867803660289</a></p>
+<p>Big shout out out Lionel Radisson!</p>
+<h1 id="tiered-vpc-ng">Tiered VPC-NG</h1>
+<p>The new <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a>
+module is based off the old <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc">Tiered VPC</a> prototype.</p>
+<p>NG is a finalized design based off the learnings of its predecessor.</p>
+<p>It was created separately in an effort not to lose the context and frame of mind in the original <a href="https://jq1.io/posts/tiered_vpc/">Synthesizing Tiered VPC in Terraform</a> article.</p>
+<p>Combining multiple ideas forces them to evolve into something new.  Most importanlty, calling my creations next gen is fun because it really doesn&rsquo;t matter!</p>
+<p><strong>Baseline Tiered VPC-NG features (same as prototype):</strong></p>
+<ul>
+<li>
+<p>Create VPC tiers</p>
+<ul>
+<li>It’s much easier to think about tiers when scaling out VPCs because we can narrow down the context (ie app, db, general) and maximize the use of smaller network size when needed.</li>
+</ul>
+</li>
+<li>
+<p>VPC resources are IPv4 only.</p>
+<ul>
+<li>No IPv6 configuration for now.</li>
+</ul>
+</li>
+<li>
+<p>Creates structured VPC resource naming and tagging.</p>
+<ul>
+<li><code>&lt;env_prefix&gt;-&lt;region|az&gt;-&lt;tier_name&gt;-&lt;public|private&gt;-&lt;pet_name|misc_label&gt;</code></li>
+</ul>
+</li>
+<li>
+<p>Requires a minimum of at least one public subnet per AZ.</p>
+</li>
+<li>
+<p>Can add and remove subnets and/or AZs at any time*</p>
+</li>
+<li>
+<p>Internal and external VPC routing is automatic.</p>
+</li>
+</ul>
+<p><strong>What&rsquo;s new in NG?</strong></p>
+<ul>
+<li>
+<p>An Intra VPC Security Group is created by default.</p>
+<ul>
+<li>This will be for adding security group rules that are inbound only
+for access across VPCs.</li>
+</ul>
+</li>
+<li>
+<p>No more nulling out private subnets ie <code>private = null</code>.</p>
+<ul>
+<li>Just populate the list to create them ie <code>private = []</code> just like
+the public subnets.</li>
+</ul>
+</li>
+<li>
+<p>NAT Gateways are no longer built by default when private subnets exist in an AZ.</p>
+<ul>
+<li>This allows for routable private subnets that have no outbound internet traffic unless <code>enable_natgw = true</code>, in which case the NAT Gateway will be built and private route tables updated.</li>
+<li>Now you can just &ldquo;flip the switch&rdquo; to give all private
+subnets in an AZ access to the internet.</li>
+<li>NAT Gateways are created with an EIP per AZ when enabled.
+<ul>
+<li>This is why we need at least one public subnet per AZ to create them in.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>tier = {
+  azs = {
+    a = {
+      # internally routable private subnets but with no routing for
+      # outbound internet traffic
+      private = [&quot;192.168.0.0/24&quot;, &quot;192.168.1.0/24&quot;]
+      public  = [&quot;192.168.3.0/28&quot;]
+    }
+    b = {
+      # internally routeable private subnet with routing for
+      # outbound internet traffic
+      enable_natgw = true
+      private = [&quot;192.168.5.0/24&quot;, &quot;192.168.6.0/24&quot;]
+      public  = [&quot;192.168.8.0/28&quot;]
+    }
+    c = {
+      # no private subnets exist so a NAT Gateway won't be created until
+      # the private subnet list is poplulated.
+      enable_natgw = true
+      private = []
+      public  = [&quot;192.168.13.0/28&quot;]
+    }
+  }
+  name    = &quot;general&quot;
+  network = &quot;192.168.0.0/20&quot;
+}
+</code></pre><p>I&rsquo;ve also settled on these decomposed structures for outputs that other modules will call.</p>
+<pre><code># snippet
+output &quot;id&quot; {
+  value = aws_vpc.this.id
+}
+
+output &quot;network&quot; {
+  value = var.tier.network
+}
+
+output &quot;az_to_private_subnet_ids&quot; {
+  value = local.private_subnet_ids_per_az
+}
+
+output &quot;az_to_private_route_table_id&quot; {
+  value = local.private_route_table_id_per_az
+}
+
+output &quot;az_to_public_subnet_ids&quot; {
+  value = local.public_subnet_ids_per_az
+}
+
+output &quot;az_to_public_route_table_id&quot; {
+  value = local.public_route_table_id_per_az
+}
+
+output &quot;default_security_group_id&quot; {
+  value = aws_vpc.this.default_security_group_id
+}
+
+output &quot;intra_vpc_security_group_id&quot; {
+  value = aws_security_group.intra_vpc.id
+}
+</code></pre><p>Here is an example of building out 3 VPCs each with
+a different /20 network (almost fully subnetted).</p>
+<pre><code># snippet
+locals {
+  vpc_tiers = [
+    {
+      azs = {
+        a = {
+          private = [&quot;10.0.0.0/24&quot;, &quot;10.0.1.0/24&quot;, &quot;10.0.2.0/24&quot;]
+          public  = [&quot;10.0.3.0/24&quot;, &quot;10.0.4.0/24&quot;]
+        }
+        b = {
+          enable_natgw = true
+          private = [&quot;10.0.5.0/24&quot;, &quot;10.0.6.0/24&quot;, &quot;10.0.7.0/24&quot;]
+          public  = [&quot;10.0.8.0/24&quot;, &quot;10.0.9.0/24&quot;]
+        }
+        c = {
+          private = [&quot;10.0.10.0/24&quot;, &quot;10.0.11.0/24&quot;, &quot;10.0.12.0/24&quot;]
+          public  = [&quot;10.0.13.0/24&quot;, &quot;10.0.14.0/24&quot;]
+        }
+      }
+      name    = &quot;app&quot;
+      network = &quot;10.0.0.0/20&quot;
+    },
+    {
+      azs = {
+        a = {
+          private = [&quot;172.16.0.0/24&quot;, &quot;172.16.1.0/24&quot;, &quot;172.16.2.0/24&quot;]
+          public  = [&quot;172.16.3.0/28&quot;, &quot;172.16.4.0/28&quot;]
+        }
+        b = {
+          enable_natgw = true
+          private = [&quot;172.16.5.0/24&quot;, &quot;172.16.6.0/24&quot;, &quot;172.16.7.0/24&quot;]
+          public  = [&quot;172.16.8.0/28&quot;, &quot;172.16.9.0/28&quot;]
+        }
+        c = {
+          private = [&quot;172.16.10.0/24&quot;, &quot;172.16.11.0/24&quot;, &quot;172.16.12.0/24&quot;]
+          public  = [&quot;172.16.13.0/28&quot;, &quot;172.16.14.0/28&quot;]
+        }
+      }
+      name    = &quot;cicd&quot;
+      network = &quot;172.16.0.0/20&quot;
+    },
+    {
+      azs = {
+        a = {
+          enable_natgw = true
+          private = [&quot;192.168.0.0/24&quot;, &quot;192.168.1.0/24&quot;, &quot;192.168.2.0/24&quot;]
+          public  = [&quot;192.168.13.0/28&quot;]
+        }
+        b = {
+          private = [&quot;192.168.5.0/24&quot;, &quot;192.168.6.0/24&quot;, &quot;192.168.7.0/24&quot;]
+          public  = [&quot;192.168.8.0/28&quot;]
+        }
+        c = {
+          private = [&quot;192.168.10.0/24&quot;, &quot;192.168.11.0/24&quot;, &quot;192.168.12.0/24&quot;]
+          public  = [&quot;192.168.13.0/28&quot;]
+        }
+      }
+      name    = &quot;general&quot;
+      network = &quot;192.168.0.0/20&quot;
+    }
+  ]
+}
+
+module &quot;vpcs&quot; {
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.2.0&quot;
+
+  for_each = { for t in local.vpc_tiers : t.name =&gt; t }
+
+  env_prefix       = var.env_prefix
+  region_az_labels = var.region_az_labels
+  tier             = each.value
+}
+</code></pre><h1 id="security-group-rules">Security Group Rules</h1>
+<p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/intra_vpc_security_group_rule_for_tiered_vpc_ng">Intra VPC Security Group Rule</a> module will create an inbound only rule for each VPC that will point to all other VPC networks except the VPC itself.</p>
+<p>This will allow ssh and ping protocols accross Tiered VPCs so
+communication will just work once we enable routing to each other with Transit
+Gateway.</p>
+<pre><code># snipppet
+locals {
+  intra_vpcs_security_group_rules = [
+    {
+      label     = &quot;ssh&quot;
+      from_port = 22
+      to_port   = 22
+      protocol  = &quot;tcp&quot;
+    },
+    {
+      label     = &quot;ping&quot;
+      from_port = 8
+      to_port   = 0
+      protocol  = &quot;icmp&quot;
+    }
+  ]
+}
+
+module &quot;intra_vpcs_security_group_rules&quot; {
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.2.0&quot;
+
+  for_each = { for r in local.intra_vpcs_security_group_rules : r.label =&gt; r }
+
+  env_prefix = var.env_prefix
+  rule       = each.value
+  vpcs       = module.vpcs
+}
+</code></pre><p>It&rsquo;s important that the Secruity Group rules are created in a seperate
+module from the routing.</p>
+<h1 id="transit-gateway-tgw">Transit Gateway (TGW)</h1>
+<p>This <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a> module will attach all AZs in each Tiered VPC to the TGW, think router on a stick!</p>
+<p>All attachments will be associated and routes propagated to one TGW Route Table.</p>
+<p>Each Tiered VPC will have all their route tables updated in each VPC with a route to all other VPC networks via
+the TGW.</p>
+<pre><code># snippet
+module &quot;tgw_centralized_router&quot; {
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.2.0&quot;
+
+  env_prefix       = var.env_prefix
+  region_az_labels = var.region_az_labels
+  vpcs             = module.vpcs
+}
+</code></pre><p>I didn&rsquo;t add any TGW peering, cross-account/cross-region sharing, or specific TGW routes (ie <code>aws_ec2_transit_gateway_route</code>) at this time.</p>
+<p>I&rsquo;m still learning how to put TGW sharing together for the next iteration.</p>
+<h1 id="caveats">Caveats</h1>
+<p>The modules build resources that will cost some money but should be minimal for the demo. (ie NATGW, EIP, TGW)</p>
+<p>You wont be able to see the generated pet names for subnet naming on plan, only on apply.</p>
+<ul>
+<li>Using <code>ignore_changes</code> facilitates adding and removing AZs and subnets properly but a plan won&rsquo;t show drift if there are changes via the AWS console.</li>
+</ul>
+<p>Even though you can delete subnets in a VPC, remember that the NAT Gateways get created in the first subnet in public subnet list for the AZ.</p>
+<p>When modifying an AZ or VPCs in an existing configuration with A TGW Centralized rouer:</p>
+<ul>
+<li>Adding
+<ul>
+<li>The VPCs must be applied first.</li>
+<li>Then apply Intra Security Groups Rules and TGW Centralzed Router.</li>
+</ul>
+</li>
+<li>Removing
+<ul>
+<li>The first public subnet in the AZ being removed must be manually
+removed (modified) from the TGW VPC attachments first.</li>
+<li>Otherwise, Terraform wants to remove the attachment from the TGW after the subnet is deleted but the
+subnet cant be deleted until it&rsquo;s attachment is removed from the TGW.</li>
+</ul>
+</li>
+</ul>
+<h1 id="trifecta-demo-time">Trifecta Demo Time</h1>
+<p><strong>This will be a demo of the following:</strong></p>
+<ul>
+<li>Configure <code>us-west-2a</code> AZ in <code>app</code> VPC - <code>10.0.0.0/20</code>
+<ul>
+<li>launch <code>app-public</code> instance in public subnet</li>
+</ul>
+</li>
+<li>Configure <code>us-west-2b</code> AZ with NATGW in <code>cicd</code> VPC - <code>192.168.0.0/20</code>
+<ul>
+<li>launch <code>cicd-private</code> instance in private subnet</li>
+</ul>
+</li>
+<li>Configure <code>us-west-2c</code> AZ in <code>general</code> VPC - <code>172.16.0.0/20</code>
+<ul>
+<li>launch <code>general-public</code> instance in public subnet</li>
+</ul>
+</li>
+<li>Configure security groups for access across VPCs</li>
+<li>Configure routing between all public and private subnets accross VPCs
+via TGW.</li>
+</ul>
+<p><strong>Pre-requisites:</strong></p>
+<ul>
+<li>git</li>
+<li>curl</li>
+<li>Terraform 1.0.4</li>
+<li>Configured AWS credentials
+<ul>
+<li>An AWS EC2 Key Pair should already exist in the <code>us-west-2</code> region and the private key should have
+user read only permissions.
+<ul>
+<li>private key saved as <code>~/.ssh/my-ec2-key.pem</code> on local machine.</li>
+<li>must be user read only permssions <code>chmod 400 ~/.ssh/my-ec2-key.pem</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Assemble the Trifecta</strong> by cloning the <a href="https://github.com/JudeQuintana/terraform-main/tree/main/networking_trifecta_demo">Networking Trifecta Demo</a> repo.</p>
+<pre><code>$ git@github.com:JudeQuintana/terraform-main.git
+$ cd networking_trifecta_demo
+</code></pre><p>Update the <code>key_name</code> in <a href="https://github.com/JudeQuintana/terraform-main/blob/main/networking_trifecta_demo/variables.tf#L17">variables.tf</a> with the EC2 key pair name you&rsquo;re using for the <code>us-west-2</code> region (the key pair in pre-requisites).</p>
+<pre><code># snippet
+variable &quot;base_ec2_instance_attributes&quot; {
+  ...
+  default = {
+    key_name      = &quot;my-ec2-key&quot;            # EC2 key pair name to use when launching an instance
+    ami           = &quot;ami-0518bb0e75d3619ca&quot; # AWS Linux 2 us-west-2
+    instance_type = &quot;t2.micro&quot;
+  }
+}
+</code></pre><p>The VPCs must be applied first:</p>
+<pre><code>$ terraform init
+$ terraform apply -target module.vpcs
+</code></pre><p>Now, apply secrity groups to allow ssh and ping across VPCs, launch EC2 instances in
+each enabled AZ in all VPCs, and route between VPCs via TGW:</p>
+<pre><code>$ terraform apply -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.tgw_centralized_router
+</code></pre><p>After the TGW apply is complete, it will take 1-2 minutes for the TGW
+routing to fully propagate.</p>
+<p><strong>Verify Connectivity Between VPCs</strong></p>
+<pre><code>$ cd ../scripts/
+$ chmod u+x get_instance_info.sh
+$ ./get_instance_info.sh
+</code></pre><p>example output:</p>
+<pre><code># aws_instance.instances[&quot;cicd-private&quot;]
+    private_ip                           = &quot;172.16.5.11&quot;
+
+# aws_instance.instances[&quot;general-private&quot;]
+    private_ip                           = &quot;192.168.10.8&quot;
+
+# aws_instance.instances[&quot;app-public&quot;]
+    private_ip                           = &quot;10.0.3.200&quot;
+    public_ip                            = &quot;54.187.241.115&quot;
+
+# module.vpcs[&quot;app&quot;].aws_vpc.this
+    default_security_group_id        = &quot;sg-id-1234&quot;
+
+# My Public IP
+XX.XXX.XXX.XX
+</code></pre><p>Using the output above, add an inbound ssh rule from &ldquo;My Public IP&rdquo; to the default security group id of the App VPC.
+This can be done in the AWS console or with the aws cli command below.</p>
+<pre><code>$ aws ec2 authorize-security-group-ingress --group-id sg-id-1234 --protocol tcp --port 22 --cidr My.Public.IP.Here/32
+</code></pre><p>Next, ssh to the <code>app-public</code> instance public IP (ie <code>54.187.241.115</code>) using the EC2 key pair private key.</p>
+<p>Then, ssh to the <code>private_ip</code> of the <code>general-private</code> EC2 instance, then <code>cicd-private</code>, then back to <code>app-public</code>.</p>
+<pre><code>$ ssh -i ~/.ssh/my-ec2-key.pem ec2-user@54.187.241.115
+
+[ec2-user@app-public ~]$ ping google.com # works! via igw
+[ec2-user@app-public ~]$ ping 192.168.10.8 # works! via tgw
+[ec2-user@app-public ~]$ ssh 192.168.10.8
+
+[ec2-user@general-private ~]$ ping google.com # doesn't work! no natgw
+[ec2-user@general-private ~]$ ping 172.16.5.11 # works! via tgw
+[ec2-user@general-private ~]$ ssh 172.16.5.11
+
+[ec2-user@cicd-private ~]$ ping google.com # works! via natgw
+[ec2-user@cicd-private ~]$ ping 10.0.3.200 # works via tgw
+[ec2-user@cicd-private ~]$ ssh 10.0.3.200
+
+[ec2-user@app-public ~]$
+</code></pre><p>🔻 Trifecta Complete!!!</p>
+<p><strong>Clean Up</strong></p>
+<pre><code>$ terraform destroy -target module.vpcs -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.tgw_centralized_router
+</code></pre><h1 id="final-thoughts">Final Thoughts</h1>
+<p>This article was way more work than I thought so thanks for taking the time
+to read about my random cloud networking ideas, stay up!</p>
+<p>~jq1</p>
+
+  </div>
+  <div>
+	
+   <h2>Feedback</h2>
+   <p>What did you think about this post? <a href="mailto:jude@jq1.io">jude@jq1.io</a></p>
+	
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/tiered_vpc/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Synthesizing Tiered VPC in Terraform</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+  
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-155122887-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+
+
+    
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+        
+    
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>
