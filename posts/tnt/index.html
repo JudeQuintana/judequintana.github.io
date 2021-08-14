@@ -228,7 +228,7 @@ using a Transit Gateway.</p>
 </li>
 </ul>
 <h1 id="inspiration-begets-motivation">Inspiration Begets Motivation</h1>
-<p>Boring cloud diagrams are cool and all but I need inspiration to get
+<p>Simple yet boring cloud diagrams are cool and all but I need inspiration to get
 motivated so peep the visuals to spice up the concept.</p>
 <p><a href="https://twitter.com/MAKIO135/status/1378469836305666055">https://twitter.com/MAKIO135/status/1378469836305666055</a>
 <a href="https://twitter.com/MAKIO135/status/1380634991818911746">https://twitter.com/MAKIO135/status/1380634991818911746</a>
@@ -329,9 +329,9 @@ subnets in an AZ access to the internet.</li>
   name    = &quot;general&quot;
   network = &quot;192.168.0.0/20&quot;
 }
-</code></pre><p>I&rsquo;ve also settled on these decomposed structures for <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc_ng/outputs.tf">outputs.tf</a> that other modules will call.</p>
+</code></pre><p>I&rsquo;ve also settled on these decomposed structures for <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc_ng/outputs.tf">outputs.tf</a> that other modules will call/consume.</p>
 <p>Here is an example of building out 3 VPCs each with
-a different /20 network (almost fully subnetted).</p>
+a different /20 network, almost fully subnetted.</p>
 <pre><code># snippet
 locals {
   vpc_tiers = [
@@ -474,6 +474,7 @@ module &quot;tgw_centralized_router&quot; {
 removed (modified) from the TGW VPC attachments first.</li>
 <li>Otherwise, Terraform wants to remove the attachment from the TGW after the subnet is deleted but the
 subnet cant be deleted until it&rsquo;s attachment is removed from the TGW.</li>
+<li>Full teardown (destroy) works fine.</li>
 </ul>
 </li>
 </ul>
@@ -502,7 +503,8 @@ subnet cant be deleted until it&rsquo;s attachment is removed from the TGW.</li>
 </li>
 <li>Configure routing between all public and private subnets accross VPCs
 via TGW.</li>
-<li>Verifying connectivity with EC2 instances.</li>
+<li>Verify connectivity with EC2 instances.</li>
+<li>Minimal assembly required.</li>
 </ul>
 <p><strong>Pre-requisites:</strong></p>
 <ul>
@@ -586,7 +588,7 @@ XX.XXX.XXX.XX
 <p><strong>Clean Up</strong></p>
 <pre><code>$ terraform destroy -target module.vpcs -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.tgw_centralized_router
 </code></pre><h1 id="final-thoughts">Final Thoughts</h1>
-<p>This article was way more work than I thought so thanks for taking the time
+<p>This article endeding up being way more work than I thought was needed so thanks for taking the time
 to read about my random cloud networking ideas, stay up!</p>
 <p>~jq1</p>
 
