@@ -241,7 +241,8 @@ motivated so peep the visuals to spice up the concept.</p>
 module is based off the old <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc">Tiered VPC</a> prototype.</p>
 <p>NG is a finalized design based off the learnings of its predecessor.</p>
 <p>It was created separately in an effort not to lose the context and frame of mind in the original <a href="https://jq1.io/posts/tiered_vpc/">Synthesizing Tiered VPC in Terraform</a> article.</p>
-<p>Combining multiple ideas forces them to evolve into something new.  Most importanlty, calling my creations next gen is fun because it really doesn&rsquo;t matter!</p>
+<p>Combining multiple ideas forces them to evolve into something new.</p>
+<p>Most importanlty, calling my creations next gen is fun because it really doesn&rsquo;t matter!</p>
 <p><strong>Baseline Tiered VPC-NG features (same as prototype):</strong></p>
 <ul>
 <li>
@@ -464,8 +465,8 @@ module &quot;intra_vpcs_security_group_rules&quot; {
   for_each = { for r in local.intra_vpcs_security_group_rules : r.label =&gt; r }
 
   env_prefix = var.env_prefix
-  rule       = each.value
   vpcs       = module.vpcs
+  rule       = each.value
 }
 </code></pre><p>It&rsquo;s important that the Secruity Group rules are created in a seperate
 module from the routing.</p>
