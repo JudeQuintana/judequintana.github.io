@@ -209,8 +209,8 @@ route between 3 VPCs with different IPv4 CIDR ranges (RFC 1918)
 using a Transit Gateway.</p>
 <ul>
 <li>App VPC Tier: <code>10.0.0.0/20</code> (Class A Private Internet)</li>
-<li>CICD VPC Tier: <code>192.168.0.0/20</code> (Class B Private Internet)</li>
-<li>General VPC Tier: <code>172.16.0.0/20</code> (Class C Private Internet)</li>
+<li>CICD VPC Tier: <code>172.16.0.0/20</code> (Class B Private Internet)</li>
+<li>General VPC Tier: <code>192.168.0.0/20</code> (Class C Private Internet)</li>
 </ul>
 <p><img src="/img/tnt.png" alt="link"></p>
 <p>Modules:</p>
@@ -516,12 +516,12 @@ subnet cant be deleted until it&rsquo;s attachment is removed from the TGW.</li>
 <li>launch <code>app-public</code> instance in public subnet</li>
 </ul>
 </li>
-<li>Configure <code>us-west-2b</code> AZ with NATGW in <code>cicd</code> VPC - <code>192.168.0.0/20</code>
+<li>Configure <code>us-west-2b</code> AZ with NATGW in <code>cicd</code> VPC - <code>172.16.0.0/20</code>
 <ul>
 <li>launch <code>cicd-private</code> instance in private subnet</li>
 </ul>
 </li>
-<li>Configure <code>us-west-2c</code> AZ in <code>general</code> VPC - <code>172.16.0.0/20</code>
+<li>Configure <code>us-west-2c</code> AZ in <code>general</code> VPC - <code>192.168.0.0/20</code>
 <ul>
 <li>launch <code>general-public</code> instance in public subnet</li>
 </ul>
