@@ -503,7 +503,7 @@ subnet cant be deleted until it&rsquo;s attachment is removed from the TGW.</li>
 </li>
 <li>Configure routing between all public and private subnets accross VPCs
 via TGW.</li>
-<li>Verify connectivity with EC2 instances.</li>
+<li>Verify connectivity with <code>t2.micro</code> EC2 instances.</li>
 <li>Minimal assembly required.</li>
 </ul>
 <p><strong>Pre-requisites:</strong></p>
@@ -539,7 +539,7 @@ variable &quot;base_ec2_instance_attributes&quot; {
 </code></pre><p>The VPCs must be applied first:</p>
 <pre><code>$ terraform init
 $ terraform apply -target module.vpcs
-</code></pre><p>Now, apply secrity groups to allow ssh and ping across VPCs, launch EC2 instances in
+</code></pre><p>Now, apply secrity groups to allow ssh and ping across VPCs, launch instances in
 each enabled AZ in all VPCs, and route between VPCs via TGW:</p>
 <pre><code>$ terraform apply -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.tgw_centralized_router
 </code></pre><p>After the TGW apply is complete, it will take 1-2 minutes for the TGW
@@ -565,10 +565,10 @@ $ ./get_instance_info.sh
 # My Public IP
 XX.XXX.XXX.XX
 </code></pre><p>Using the output above, add an inbound ssh rule from &ldquo;My Public IP&rdquo; to the default security group id of the App VPC.</p>
-<p>This can be done in the AWS console or with the aws cli command below.</p>
+<p>This can be done manually in the AWS console or with the aws cli command below.</p>
 <pre><code>$ aws ec2 authorize-security-group-ingress --group-id sg-id-1234 --protocol tcp --port 22 --cidr My.Public.IP.Here/32
 </code></pre><p>Next, ssh to the <code>app-public</code> instance public IP (ie <code>54.187.241.115</code>) using the EC2 key pair private key.</p>
-<p>Then, ssh to the <code>private_ip</code> of the <code>general-private</code> EC2 instance, then <code>cicd-private</code>, then back to <code>app-public</code>.</p>
+<p>Then, ssh to the <code>private_ip</code> of the <code>general-private</code> instance, then <code>cicd-private</code>, then back to <code>app-public</code>.</p>
 <pre><code>$ ssh -i ~/.ssh/my-ec2-key.pem ec2-user@54.187.241.115
 
 [ec2-user@app-public ~]$ ping google.com # works! via igw
