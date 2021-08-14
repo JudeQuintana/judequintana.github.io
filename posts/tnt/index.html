@@ -562,8 +562,8 @@ $ ./get_instance_info.sh
 
 # My Public IP
 XX.XXX.XXX.XX
-</code></pre><p>Using the output above, add an inbound ssh rule from &ldquo;My Public IP&rdquo; to the default security group id of the App VPC.
-This can be done in the AWS console or with the aws cli command below.</p>
+</code></pre><p>Using the output above, add an inbound ssh rule from &ldquo;My Public IP&rdquo; to the default security group id of the App VPC.</p>
+<p>This can be done in the AWS console or with the aws cli command below.</p>
 <pre><code>$ aws ec2 authorize-security-group-ingress --group-id sg-id-1234 --protocol tcp --port 22 --cidr My.Public.IP.Here/32
 </code></pre><p>Next, ssh to the <code>app-public</code> instance public IP (ie <code>54.187.241.115</code>) using the EC2 key pair private key.</p>
 <p>Then, ssh to the <code>private_ip</code> of the <code>general-private</code> EC2 instance, then <code>cicd-private</code>, then back to <code>app-public</code>.</p>
