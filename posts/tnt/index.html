@@ -303,6 +303,7 @@ subnets in an AZ access to the internet.</li>
 </ul>
 </li>
 </ul>
+<p>Example tier:</p>
 <pre><code>tier = {
   azs = {
     a = {
@@ -312,7 +313,7 @@ subnets in an AZ access to the internet.</li>
       public  = [&quot;192.168.3.0/28&quot;]
     }
     b = {
-      # internally routeable private subnet with routing for
+      # internally routable private subnet with routing for
       # outbound internet traffic
       enable_natgw = true
       private = [&quot;192.168.5.0/24&quot;, &quot;192.168.6.0/24&quot;]
@@ -492,7 +493,7 @@ subnet can&rsquo;t be deleted until it&rsquo;s attachment is removed from the TG
 </li>
 <li>Configure <code>us-west-2c</code> AZ in <code>general</code> VPC - <code>192.168.0.0/20</code>
 <ul>
-<li>Launch <code>general-public</code> instance in public subnet.</li>
+<li>Launch <code>general-private</code> instance in private subnet.</li>
 </ul>
 </li>
 <li>Configure security groups for access across VPCs.
@@ -547,7 +548,7 @@ routing to fully propagate.</p>
 <pre><code>$ cd ../scripts/
 $ chmod u+x get_instance_info.sh
 $ ./get_instance_info.sh
-</code></pre><p>example output:</p>
+</code></pre><p>Example output:</p>
 <pre><code># aws_instance.instances[&quot;cicd-private&quot;]
     private_ip                           = &quot;172.16.5.11&quot;
 
