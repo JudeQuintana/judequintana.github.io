@@ -204,7 +204,7 @@ generating it!</p>
 couple more abstractions we can build flexible networking
 between multiple AWS VPCs with minimal code.</p>
 <h1 id="goal">Goal</h1>
-<p>Using the Terraform (v1.0.4+) and AWS Provider (v3.53.0+)
+<p>Using Terraform (v1.0.4+) and AWS Provider (v3.53.0+)
 route between 3 VPCs with different IPv4 CIDR ranges (RFC 1918)
 using a Transit Gateway.</p>
 <ul>
@@ -497,7 +497,7 @@ subnet can&rsquo;t be deleted until it&rsquo;s attachment is removed from the TG
 </li>
 <li>Configure security groups for access across VPCs.
 <ul>
-<li>Allow ssh and ping</li>
+<li>Allow ssh and ping.</li>
 </ul>
 </li>
 <li>Configure routing between all public and private subnets accross VPCs
@@ -509,7 +509,7 @@ via TGW.</li>
 <ul>
 <li>git</li>
 <li>curl</li>
-<li>Terraform 1.0.4</li>
+<li>Terraform 1.0.4+</li>
 <li>Configured AWS credentials
 <ul>
 <li>An AWS EC2 Key Pair should already exist in the <code>us-west-2</code> region and the private key should have
