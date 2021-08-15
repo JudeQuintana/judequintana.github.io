@@ -457,9 +457,8 @@ module &quot;tgw_centralized_router&quot; {
 <p>The modules build resources that will cost some money but should be minimal for the demo. (ie NATGW, EIP, TGW)</p>
 <p>You wont be able to see the generated pet names for subnet naming on plan, only on apply.</p>
 <ul>
-<li>Using <code>ignore_changes</code> facilitates adding and removing AZs and subnets properly but a plan won&rsquo;t show drift if there are changes via the AWS console.</li>
+<li>Even though you can delete subnets in a VPC, remember that the NAT Gateways get created in the first subnet in public subnet list for the AZ.</li>
 </ul>
-<p>Even though you can delete subnets in a VPC, remember that the NAT Gateways get created in the first subnet in public subnet list for the AZ.</p>
 <p>When modifying an AZ or VPCs in an existing configuration with A TGW Centralized rouer:</p>
 <ul>
 <li>Adding
