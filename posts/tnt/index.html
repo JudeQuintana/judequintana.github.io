@@ -457,7 +457,7 @@ module &quot;tgw_centralized_router&quot; {
 <p>The modules build resources that will cost some money but should be minimal for the demo. (ie NATGW, EIP, TGW)</p>
 <p>You wont be able to see the generated pet names for subnet naming on plan, only on apply.</p>
 <ul>
-<li>Even though you can delete subnets in a VPC, remember that the NAT Gateways get created in the first subnet in public subnet list for the AZ.</li>
+<li>Even though you can delete subnets in a VPC, remember that the NAT Gateways get created in the first public subnet in the list for the AZ.</li>
 </ul>
 <p>When modifying an AZ or VPCs in an existing configuration with A TGW Centralized rouer:</p>
 <ul>
@@ -472,7 +472,7 @@ module &quot;tgw_centralized_router&quot; {
 <li>The first public subnet in the AZ being removed must be manually
 removed (modified) from the TGW VPC attachments first.</li>
 <li>Otherwise, Terraform wants to remove the attachment from the TGW after the subnet is deleted but the
-subnet cant be deleted until it&rsquo;s attachment is removed from the TGW.</li>
+subnet can&rsquo;t be deleted until it&rsquo;s attachment is removed from the TGW.</li>
 <li>Full teardown (destroy) works fine.</li>
 </ul>
 </li>
@@ -539,7 +539,7 @@ variable &quot;base_ec2_instance_attributes&quot; {
 <pre><code>$ terraform init
 $ terraform apply -target module.vpcs
 </code></pre><p>Now, apply secrity groups to allow ssh and ping across VPCs, launch instances in
-each enabled AZ in all VPCs, and route between VPCs via TGW:</p>
+each enabled AZ for all VPCs, and route between VPCs via TGW:</p>
 <pre><code>$ terraform apply -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.tgw_centralized_router
 </code></pre><p>After the TGW apply is complete, it will take 1-2 minutes for the TGW
 routing to fully propagate.</p>
