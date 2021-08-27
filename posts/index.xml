@@ -19,7 +19,7 @@
       <guid>https://jq1.io/posts/tnt/</guid>
       <description>Intro Initially I&amp;rsquo;d planned to blog more than just about Terraform but it hasn&amp;rsquo;t turned out that way due to lack of time.
 But that&amp;rsquo;s OK because I really do enjoy creating and writing about networking topics with Terraform in the cloud.
-Content generation is hard so hats off to the those who are consistently generating it!
+Content generation is hard so hats off to those who are consistently generating it!
 This project is building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code.</description>
     </item>
     
