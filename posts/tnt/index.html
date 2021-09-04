@@ -473,7 +473,7 @@ module &quot;tgw_centralized_router&quot; {
 <li>The first public subnet in the AZ being removed must be manually
 removed (modified) from the TGW VPC attachments first.</li>
 <li>Otherwise, Terraform wants to remove the attachment from the TGW after the subnet is deleted but the
-subnet can&rsquo;t be deleted until it&rsquo;s attachment is removed from the TGW.</li>
+subnet can&rsquo;t be deleted until it&rsquo;s attachment is removed from the TGW (strange dependency issue I haven&rsquo;t figured out).</li>
 <li>Full teardown (destroy) works fine.</li>
 </ul>
 </li>
@@ -526,7 +526,7 @@ user read only permissions.
 <p><strong>Assemble the Trifecta</strong> by cloning the <a href="https://github.com/JudeQuintana/terraform-main/">Networking Trifecta Demo</a> repo.</p>
 <pre><code>$ git clone git@github.com:JudeQuintana/terraform-main.git
 $ cd networking_trifecta_demo
-</code></pre><p>Update the <code>key_name</code> in <a href="https://github.com/JudeQuintana/terraform-main/blob/main/networking_trifecta_demo/variables.tf#L17">variables.tf</a> with the EC2 key pair name you&rsquo;re using for the <code>us-west-2</code> region (the key pair in pre-requisites).</p>
+</code></pre><p>Update the <code>key_name</code> in <a href="https://github.com/JudeQuintana/terraform-main/blob/main/networking_trifecta_demo/variables.tf#L17">variables.tf</a> with the EC2 key pair name you&rsquo;re using for the <code>us-west-2</code> region (see pre-requisites above).</p>
 <pre><code># snippet
 variable &quot;base_ec2_instance_attributes&quot; {
   ...
