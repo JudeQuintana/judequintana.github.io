@@ -24,14 +24,16 @@
 <meta name="twitter:title" content="Terraform Networking Trifecta"/>
 <meta name="twitter:description" content="Intro Initially I&rsquo;d planned to blog more than just about Terraform but it hasn&rsquo;t turned out that way due to lack of time.
 But that&rsquo;s OK because I really do enjoy creating and writing about networking topics with Terraform in the cloud.
-Content generation is hard so hats off to those who are consistently generating it!
-This project is building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code."/>
+Content generation is hard so hats off to those who are consistently generating it.
+This project is for all the Terraform headz building networking in the cloud!
+It&rsquo;s building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code."/>
 
 <meta property="og:title" content="Terraform Networking Trifecta" />
 <meta property="og:description" content="Intro Initially I&rsquo;d planned to blog more than just about Terraform but it hasn&rsquo;t turned out that way due to lack of time.
 But that&rsquo;s OK because I really do enjoy creating and writing about networking topics with Terraform in the cloud.
-Content generation is hard so hats off to those who are consistently generating it!
-This project is building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code." />
+Content generation is hard so hats off to those who are consistently generating it.
+This project is for all the Terraform headz building networking in the cloud!
+It&rsquo;s building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jq1.io/posts/tnt/" />
 <meta property="article:published_time" content="2021-07-22T20:11:22-06:00" />
@@ -199,8 +201,9 @@ hasn&rsquo;t turned out that way due to lack of time.</p>
 <p>But that&rsquo;s OK because I really do enjoy creating and writing about
 networking topics with Terraform in the cloud.</p>
 <p>Content generation is hard so hats off to those who are consistently
-generating it!</p>
-<p>This project is building on my previous Tiered VPC idea but by adding a
+generating it.</p>
+<p>This project is for all the Terraform headz building networking in the cloud!</p>
+<p>It&rsquo;s building on my previous Tiered VPC idea but by adding a
 couple more abstractions we can build flexible networking
 between multiple AWS VPCs with minimal code.</p>
 <h1 id="goal">Goal</h1>
@@ -239,7 +242,7 @@ motivated so peep the visuals to spice up the concept.</p>
 <h1 id="tiered-vpc-ng">Tiered VPC-NG</h1>
 <p>The new <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a>
 module is based off the old <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc">Tiered VPC</a> prototype.</p>
-<p>NG is a finalized design based off the learnings of its predecessor.</p>
+<p>NG (next generation) is a finalized design based off the learnings of its predecessor.</p>
 <p>It was created separately in an effort not to lose the context and frame of mind in the original <a href="https://jq1.io/posts/tiered_vpc/">Synthesizing Tiered VPC in Terraform</a> article.</p>
 <p>Combining multiple ideas forces them to evolve into something new.</p>
 <p>Most importanlty, calling my creations next gen is fun because it really doesn&rsquo;t matter!</p>
@@ -248,7 +251,8 @@ module is based off the old <a href="https://github.com/JudeQuintana/terraform-m
 <li>
 <p>Create VPC tiers</p>
 <ul>
-<li>It’s much easier to think about tiers when scaling out VPCs because we can narrow down the context (ie app, db, general) and maximize the use of smaller network size when needed.</li>
+<li>It’s much easier to think about tiers ephemerally when scaling out VPCs because we can narrow down the context (ie app, db, general) and maximize the use of smaller network size when needed.</li>
+<li>You can still have 3 tiered networking (ie LBs, DBs, App) internally to the VPC depending on the type of tier you&rsquo;re building.</li>
 </ul>
 </li>
 <li>
@@ -260,6 +264,7 @@ module is based off the old <a href="https://github.com/JudeQuintana/terraform-m
 <li>
 <p>Creates structured VPC resource naming and tagging.</p>
 <ul>
+<li>Ephemeral Naming</li>
 <li><code>&lt;env_prefix&gt;-&lt;region|az&gt;-&lt;tier_name&gt;-&lt;public|private&gt;-&lt;pet_name|misc_label&gt;</code></li>
 </ul>
 </li>
@@ -471,9 +476,10 @@ module &quot;tgw_centralized_router&quot; {
 <li>Removing
 <ul>
 <li>The first public subnet in the AZ being removed must be manually
-removed (modified) from the TGW VPC attachments first.</li>
+removed (modified) from the TGW VPC attachments first before
+applying to the VPC, SG Rules, and TGW.</li>
 <li>Otherwise, Terraform wants to remove the attachment from the TGW after the subnet is deleted but the
-subnet can&rsquo;t be deleted until it&rsquo;s attachment is removed from the TGW (strange dependency issue I haven&rsquo;t figured out).</li>
+subnet can&rsquo;t be deleted until it&rsquo;s attachment is removed from the TGW (strange circular dependency that I haven&rsquo;t figured out).</li>
 <li>Full teardown (destroy) works fine.</li>
 </ul>
 </li>
@@ -580,7 +586,7 @@ XX.XXX.XXX.XX
 [ec2-user@general-private ~]$ ssh 172.16.5.11
 
 [ec2-user@cicd-private ~]$ ping google.com # works! via natgw
-[ec2-user@cicd-private ~]$ ping 10.0.3.200 # works via tgw
+[ec2-user@cicd-private ~]$ ping 10.0.3.200 # works! via tgw
 [ec2-user@cicd-private ~]$ ssh 10.0.3.200
 
 [ec2-user@app-public ~]$
