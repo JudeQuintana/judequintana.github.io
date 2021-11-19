@@ -207,7 +207,7 @@ generating it.</p>
 couple more abstractions we can build flexible networking
 between multiple AWS VPCs with minimal code.</p>
 <h1 id="goal">Goal</h1>
-<p>Using Terraform (v1.0.4+) and AWS Provider (v3.53.0+)
+<p>Using Terraform (v1.0.4+) and AWS Provider (v3.53.0+) to
 route between 3 VPCs with different IPv4 CIDR ranges (RFC 1918)
 using a Transit Gateway.</p>
 <ul>
@@ -252,7 +252,7 @@ module is based off the old <a href="https://github.com/JudeQuintana/terraform-m
 <p>Create VPC tiers</p>
 <ul>
 <li>It’s much easier to think about tiers ephemerally when scaling out VPCs because we can narrow down the context (ie app, db, general) and maximize the use of smaller network size when needed.</li>
-<li>You can still have 3 tiered networking (ie lbs, dbs for an app) internally to the VPC. It&rsquo;s more of a ephemeral configuration.</li>
+<li>You can still have 3 tiered networking (ie lbs, dbs for an app) internally to the VPC.</li>
 </ul>
 </li>
 <li>
