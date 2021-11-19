@@ -6,7 +6,7 @@
     <description>Recent content in Posts on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 06 Nov 2021 11:18:33 -0600</lastBuildDate>
+    <lastBuildDate>Fri, 19 Nov 2021 08:32:57 -0700</lastBuildDate>
     
 	<atom:link href="https://jq1.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Terraform Opinion #23: Use list of objects over map of maps</title>
       <link>https://jq1.io/posts/opinion_23/</link>
-      <pubDate>Sat, 06 Nov 2021 11:18:33 -0600</pubDate>
+      <pubDate>Fri, 19 Nov 2021 08:32:57 -0700</pubDate>
       
       <guid>https://jq1.io/posts/opinion_23/</guid>
       <description>Lately, I&amp;rsquo;ve seen quite a bit of Terraform snippets that use a static map of maps to directly configure resources.
