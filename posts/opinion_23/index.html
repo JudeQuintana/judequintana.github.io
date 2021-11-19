@@ -318,7 +318,7 @@ locals {
   set_of_names                      = toset(local.list_of_objects[*].name)
 }
 </code></pre><p>To take a closer look at the differences go <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/opinions/opinion_23">here</a>.</p>
-<p>For me, these tranforms are very clear and consistent.</p>
+<p>For me, these transforms are very clear and consistent.</p>
 <p>We can quickly deduce the resulting collection type without much effort.</p>
 <p>Using a list of objects allows for expressive flexibilty when building various collection types from a single source.</p>
 <p>I get lots of mileage out of this pattern for general resource creation when designing composable modules.</p>
