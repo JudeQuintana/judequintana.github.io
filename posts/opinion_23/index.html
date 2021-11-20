@@ -320,7 +320,17 @@ locals {
 </code></pre><p>To take a closer look at the differences go <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/opinions/opinion_23">here</a>.</p>
 <p>For me, these transforms are very clear and consistent.</p>
 <p>We can quickly deduce the resulting collection type without much effort.</p>
-<p>Using a list of objects allows for expressive flexibilty when building various collection types from a single source.</p>
+<p>Getting to a map of maps is just as easy.</p>
+<pre><code>locals {
+  map_of_maps = {
+    for o in local.list_of_objects : o.name =&gt; {
+      attribute1 = o.attribute1
+      attribute2 = o.attribute2
+      attribute3 = o.attribute3
+    }
+  }
+}
+</code></pre><p>Using a list of objects allows for expressive flexibilty when building various collection types from a single source.</p>
 <p>I get lots of mileage out of this pattern for general resource creation when designing composable modules.</p>
 <p>Now, I can think deeply about simple abstractions and think less about complex transforms.</p>
 <p>~jq1</p>
