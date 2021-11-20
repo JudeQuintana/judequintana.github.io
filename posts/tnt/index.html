@@ -242,17 +242,16 @@ motivated so peep the visuals to spice up the concept.</p>
 <h1 id="tiered-vpc-ng">Tiered VPC-NG</h1>
 <p>The new <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a>
 module is based off the old <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc">Tiered VPC</a> prototype.</p>
-<p>NG (next generation) is a finalized design based off the learnings of its predecessor.</p>
+<p>NG is supposed to be a finalized design based off the learnings of it&rsquo;s predecessor but it&rsquo;s just cool to call my projects next gen!</p>
+<p>It&rsquo;s fun to combine multiple ideas and watch them to evolve into something new.</p>
 <p>It was created separately in an effort not to lose the context and frame of mind in the original <a href="https://jq1.io/posts/tiered_vpc/">Synthesizing Tiered VPC in Terraform</a> article.</p>
-<p>Combining multiple ideas forces them to evolve into something new.</p>
-<p>Most importanlty, calling my creations next gen is fun because it really doesn&rsquo;t matter!</p>
 <p><strong>Baseline Tiered VPC-NG features (same as prototype):</strong></p>
 <ul>
 <li>
 <p>Create VPC tiers</p>
 <ul>
 <li>It’s much easier to think about tiers ephemerally when scaling out VPCs because we can narrow down the context (ie app, db, general) and maximize the use of smaller network size when needed.</li>
-<li>You can still have 3 tiered networking (ie lbs, dbs for an app) internally to the VPC.</li>
+<li>You can still have 3 tiered networking (ie lbs, asg, dbs for an app) internally to the VPC.</li>
 </ul>
 </li>
 <li>
@@ -402,7 +401,7 @@ locals {
 }
 
 module &quot;vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.2.0&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.2.1&quot;
 
   for_each = { for t in local.vpc_tiers : t.name =&gt; t }
 
@@ -434,7 +433,7 @@ locals {
 }
 
 module &quot;intra_vpcs_security_group_rules&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.2.0&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.2.1&quot;
 
   for_each = { for r in local.intra_vpcs_security_group_rules : r.label =&gt; r }
 
@@ -451,7 +450,7 @@ module from the routing.</p>
 the TGW.</p>
 <pre><code># snippet
 module &quot;tgw_centralized_router&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.2.0&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.2.1&quot;
 
   env_prefix       = var.env_prefix
   region_az_labels = var.region_az_labels
