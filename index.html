@@ -175,7 +175,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
         
         Lately, I&rsquo;ve seen quite a bit of Terraform snippets that use a static map of maps to directly configure resources.
 For example:
-locals { map_of_maps = { name1 = { attribute1 = &quot;name1-value1&quot; attribute2 = &quot;name1-value2&quot; attribute3 = &quot;name1-value3&quot; } name2 = { attribute1 = &quot;name2-value1&quot; attribute2 = &quot;name2-value2&quot; attribute3 = &quot;name2-value3&quot; } name3 = { attribute1 = &quot;name3-value1&quot; attribute2 = &quot;name3-value2&quot; attribute3 = &quot;name3-value3&quot; } } } The local.map_of_maps is then used to create a map of resource objects.
+locals { map_of_maps = { name1 = { attribute1 = &quot;name1-value1&quot; attribute2 = &quot;name1-value2&quot; attribute3 = &quot;name1-value3&quot; } name2 = { attribute1 = &quot;name2-value1&quot; attribute2 = &quot;name2-value2&quot; attribute3 = &quot;name2-value3&quot; } name3 = { attribute1 = &quot;name3-value1&quot; attribute2 = &quot;name3-value2&quot; attribute3 = &quot;name3-value3&quot; } } } local.map_of_maps is then used to create a map of resource objects.
         
         </span>
         
