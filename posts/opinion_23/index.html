@@ -283,7 +283,7 @@ resources.</p>
 }
 </code></pre><p>Notice each transform is very different from the other.</p>
 <p>It actually takes some time to infer the results without further comments.</p>
-<p>Rigid transforms on a map of maps like <code>local.map_of_attribute1_value_to_name</code> and <code>local.map_of_attribute1_value_to_object</code> are likely to increase in complexity making maintenance painful over time.</p>
+<p>Rigid imperative transforms on a map of maps like <code>local.map_of_attribute1_value_to_name</code> and <code>local.map_of_attribute1_value_to_object</code> are likely to increase in complexity making maintenance painful over time.</p>
 <p>I highly recommend using a static list of objects over a static map of maps when creating resources or modules.</p>
 <p>An object is a nice flat structure to build an abstraction.</p>
 <p>A list of objects provides flexible transforms into various collection types.</p>
@@ -330,10 +330,15 @@ locals {
     }
   }
 }
-</code></pre><p>Using a list of objects allows for expressive flexibilty when building various collection types from a single source.</p>
+</code></pre><p>Using a list of objects declaratively allows for expressive flexibilty when building various collection types from a single source.</p>
 <p>I get lots of mileage out of this pattern for general resource creation when designing composable modules.</p>
 <p>Now, I can think deeply about simple abstractions and think less about complex transforms.</p>
 <p>~jq1</p>
+<p>links:</p>
+<ul>
+<li><a href="https://stackoverflow.com/a/1784702">What is the difference between declarative and imperative paradigm in programming?</a></li>
+<li><a href="https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac#declarative-vs-imperative-approach">Declarative vs. imperative approaches to IaC</a></li>
+</ul>
 
   </div>
   <div>
