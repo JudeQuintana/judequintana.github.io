@@ -286,7 +286,8 @@ resources.</p>
 <p>Rigid imperative transforms on a map of maps like <code>local.map_of_attribute1_value_to_name</code> and <code>local.map_of_attribute1_value_to_object</code> are likely to increase in complexity making maintenance painful over time.</p>
 <p>I highly recommend starting with a list of objects over a map of maps.</p>
 <p>An object is a nice flat structure to build an abstraction.</p>
-<p>A list of objects provides declarative transforms to organize data into various collection types to build more resources and modules</p>
+<p>A list of objects provides declarative transforms to organize data into
+the structure we want for building other resources and modules.</p>
 <p>Consider these transforms resulting in the same collection types from the map of maps example.</p>
 <pre><code>locals {
   list_of_objects = [
