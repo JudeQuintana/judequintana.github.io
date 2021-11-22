@@ -19,7 +19,7 @@
       <guid>https://jq1.io/posts/opinion_23/</guid>
       <description>Lately, I&amp;rsquo;ve seen quite a bit of Terraform snippets that use a static map of maps to directly configure resources.
 For example:
-locals { map_of_maps = { name1 = { attribute1 = &amp;quot;name1-value1&amp;quot; attribute2 = &amp;quot;name1-value2&amp;quot; attribute3 = &amp;quot;name1-value3&amp;quot; } name2 = { attribute1 = &amp;quot;name2-value1&amp;quot; attribute2 = &amp;quot;name2-value2&amp;quot; attribute3 = &amp;quot;name2-value3&amp;quot; } name3 = { attribute1 = &amp;quot;name3-value1&amp;quot; attribute2 = &amp;quot;name3-value2&amp;quot; attribute3 = &amp;quot;name3-value3&amp;quot; } } } local.map_of_maps is then used to create a map of resource objects.</description>
+locals { map_of_maps = { name1 = { attribute1 = &amp;quot;name1-value1&amp;quot; attribute2 = &amp;quot;name1-value2&amp;quot; attribute3 = &amp;quot;name1-value3&amp;quot; } name2 = { attribute1 = &amp;quot;name2-value1&amp;quot; attribute2 = &amp;quot;name2-value2&amp;quot; attribute3 = &amp;quot;name2-value3&amp;quot; } name3 = { attribute1 = &amp;quot;name3-value1&amp;quot; attribute2 = &amp;quot;name3-value2&amp;quot; attribute3 = &amp;quot;name3-value3&amp;quot; } } } resource &amp;quot;some_resource&amp;quot; &amp;quot;this&amp;quot; { for_each = local.</description>
     </item>
     
     <item>
