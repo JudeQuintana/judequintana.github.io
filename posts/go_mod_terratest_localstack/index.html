@@ -447,7 +447,7 @@ func TestTerraformAwsS3Example(t *testing.T) {
 	// Verify that our Bucket has a policy attached
 	aws.AssertS3BucketPolicyExists(t, awsRegion, bucketID)
 }
-</code></pre><p>Then I run <code>go test</code> again and BAM! Terratest is now verifying the s3
+</code></pre><p>Then I ran <code>go test</code> again and BAM! Terratest is now verifying the s3
 bucket creation in LocalStack! Much props to the awesome devs who
 contributed to the <a href="https://github.com/gruntwork-io/terratest/pull/495">PR</a> to get this working. Hopefully, it
 will be merged into Terratest <code>master</code> branch soon!</p>
