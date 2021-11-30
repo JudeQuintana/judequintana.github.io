@@ -225,7 +225,7 @@ enable grouping by key.
 And it&rsquo;s weird that the error refers to <code>...</code> as an ellipsis because
 the docs call it an expansion symbol.</p>
 <p>Now <code>...</code> enters the ring! And we&rsquo;re able to group each word in the list
-by the same key in the new map!</p>
+by the same key, the first letter in each word, in the new map!</p>
 <pre><code>$ terraform console
 &gt; { for s in [&quot;here&quot;, &quot;there&quot;, &quot;this&quot;, &quot;that&quot;] : substr(s, 0, 1) =&gt; s... }
 {
