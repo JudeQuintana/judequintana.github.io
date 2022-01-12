@@ -447,7 +447,7 @@ module from the routing.</p>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a> module will attach all AZs in each Tiered VPC to the TGW.</p>
 <p>Think router on a stick!</p>
 <p>All attachments will be associated and routes propagated to one TGW Route Table.</p>
-<p>Each Tiered VPC will have all their route tables updated in each VPC with a route to all other VPC networks via
+<p>Each Tiered VPC will have all their route tables updated with a route to all other VPC networks via
 the TGW.</p>
 <pre><code># snippet
 module &quot;tgw_centralized_router&quot; {
