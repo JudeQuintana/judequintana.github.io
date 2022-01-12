@@ -156,7 +156,7 @@ It&rsquo;s building on my previous Tiered VPC idea but by adding a couple more a
     </div>
     
 <div class="copyright">
-  &copy; 2021 Jude Quintana
+  &copy; 2022 Jude Quintana
   
 </div>
 
@@ -251,7 +251,7 @@ module is based off the old <a href="https://github.com/JudeQuintana/terraform-m
 <p>Create VPC tiers</p>
 <ul>
 <li>It’s much easier to think about tiers ephemerally when scaling out VPCs because we can narrow down the context (ie app, db, general) and maximize the use of smaller network size when needed.</li>
-<li>You can still have 3 tiered networking (ie lbs, asg, dbs for an app) internally to the VPC.</li>
+<li>You can still have n-tiered networking (ie lbs, asg, dbs for an app) internally to the VPC.</li>
 </ul>
 </li>
 <li>
@@ -444,7 +444,8 @@ module &quot;intra_vpcs_security_group_rules&quot; {
 </code></pre><p>It&rsquo;s important that the Secruity Group rules are created in a seperate
 module from the routing.</p>
 <h1 id="transit-gateway-tgw">Transit Gateway (TGW)</h1>
-<p>This <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a> module will attach all AZs in each Tiered VPC to the TGW, think router on a stick!</p>
+<p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a> module will attach all AZs in each Tiered VPC to the TGW.</p>
+<p>Think router on a stick!</p>
 <p>All attachments will be associated and routes propagated to one TGW Route Table.</p>
 <p>Each Tiered VPC will have all their route tables updated in each VPC with a route to all other VPC networks via
 the TGW.</p>
