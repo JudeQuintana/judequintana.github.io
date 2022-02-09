@@ -222,7 +222,7 @@ resource &quot;some_resource&quot; &quot;this&quot; {
   attribute3 = each.value.attribute3
   }
 </code></pre><p>This is seemingly straightfoward.</p>
-<p>But, say I want to transform the data in the map of maps into seperate collection types like another map, list, object, etc.</p>
+<p>But, say I want to transform the map of maps into seperate collection types like another map, list, object, etc.</p>
 <pre><code>locals {
   #  map_of_attribute1_value_to_name = {
   #    &quot;name1-value1&quot; = &quot;name1&quot;
