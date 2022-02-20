@@ -8,7 +8,22 @@
   </url>
   
   <url>
+    <loc>https://jq1.io/tags/opinions/</loc>
+    <lastmod>2021-11-19T08:32:57-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jq1.io/posts/</loc>
+    <lastmod>2021-11-19T08:32:57-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/tags/</loc>
+    <lastmod>2021-11-19T08:32:57-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/tags/terraform/</loc>
     <lastmod>2021-11-19T08:32:57-07:00</lastmod>
   </url>
   
@@ -18,7 +33,27 @@
   </url>
   
   <url>
+    <loc>https://jq1.io/tags/aws/</loc>
+    <lastmod>2021-07-22T20:11:22-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/tags/networking/</loc>
+    <lastmod>2021-07-22T20:11:22-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jq1.io/posts/tnt/</loc>
+    <lastmod>2021-07-22T20:11:22-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/tags/tgw/</loc>
+    <lastmod>2021-07-22T20:11:22-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/tags/vpc/</loc>
     <lastmod>2021-07-22T20:11:22-06:00</lastmod>
   </url>
   
@@ -33,12 +68,27 @@
   </url>
   
   <url>
+    <loc>https://jq1.io/tags/development/</loc>
+    <lastmod>2020-10-10T11:38:15-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/tags/golang/</loc>
+    <lastmod>2020-10-10T11:38:15-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jq1.io/posts/hash_server_9000/</loc>
     <lastmod>2020-10-10T11:38:15-06:00</lastmod>
   </url>
   
   <url>
     <loc>https://jq1.io/posts/go_mod_terratest_localstack/</loc>
+    <lastmod>2020-09-23T22:35:36-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jq1.io/tags/testing/</loc>
     <lastmod>2020-09-23T22:35:36-06:00</lastmod>
   </url>
   
@@ -63,10 +113,6 @@
   
   <url>
     <loc>https://jq1.io/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://jq1.io/tags/</loc>
   </url>
   
 </urlset>
