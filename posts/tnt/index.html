@@ -441,7 +441,7 @@ module &quot;intra_vpc_security_group_rules&quot; {
   vpcs       = module.vpcs
   rule       = each.value
 }
-</code></pre><p>It&rsquo;s important that the Secruity Group rules are created in a seperate
+</code></pre><p>It&rsquo;s important that the Security Group rules are created in a seperate
 module from the routing.</p>
 <h1 id="transit-gateway-tgw">Transit Gateway (TGW)</h1>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a> module will attach all AZs in each Tiered VPC to the TGW.</p>
@@ -470,7 +470,7 @@ module &quot;tgw_centralized_router&quot; {
 <li>Adding
 <ul>
 <li>The VPCs must be applied first.</li>
-<li>Then apply Intra Security Groups Rules and TGW Centralzed Router.</li>
+<li>Then apply Intra Security Groups Rules and TGW Centralized Router.</li>
 </ul>
 </li>
 <li>Removing
@@ -545,10 +545,14 @@ variable &quot;base_ec2_instance_attributes&quot; {
 </code></pre><p>The VPCs must be applied first:</p>
 <pre><code>$ terraform init
 $ terraform apply -target module.vpcs
-</code></pre><p>Now, apply secrity groups to allow ssh and ping across VPCs, launch instances in
-each enabled AZ for all VPCs, and route between VPCs via TGW:</p>
+</code></pre><p>Now we&rsquo;ll:</p>
+<ul>
+<li>Build security groups rules to allow ssh and ping across VPCs.</li>
+<li>Launch instances in each enabled AZ for all VPCs.</li>
+<li>Route between VPCs via TGW.</li>
+</ul>
 <pre><code>$ terraform apply -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.tgw_centralized_router
-</code></pre><p>After the TGW apply is complete, it will take 1-2 minutes for the TGW
+</code></pre><p>Once the apply is complete, it will take 1-2 minutes for the TGW
 routing to fully propagate.</p>
 <p><strong>Verify Connectivity Between VPCs</strong></p>
 <pre><code>$ cd ../scripts/
