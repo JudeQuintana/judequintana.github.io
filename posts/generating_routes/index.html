@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.69.2" />
+
+    
+    
+    
+
+<title>Building a generate routes function using Terraform test • jq1.io</title>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Building a generate routes function using Terraform test"/>
+<meta name="twitter:description" content="Welcome to the next episode of thinking out loud to route in the cloud with style.
+Earlier this season we abstracted a TGW Centralized Router.
+Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
+Looking forward, it would be nice to route between many TGW Centralized Routers but cross region with some kind of TGW Super Router abstraction.
+I think it should roughly look like:"/>
+
+<meta property="og:title" content="Building a generate routes function using Terraform test" />
+<meta property="og:description" content="Welcome to the next episode of thinking out loud to route in the cloud with style.
+Earlier this season we abstracted a TGW Centralized Router.
+Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
+Looking forward, it would be nice to route between many TGW Centralized Routers but cross region with some kind of TGW Super Router abstraction.
+I think it should roughly look like:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jq1.io/posts/generating_routes/" />
+<meta property="article:published_time" content="2022-03-05T16:59:00-07:00" />
+<meta property="article:modified_time" content="2022-03-05T16:59:00-07:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" sizes="32x32" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://jq1.io/">jq1.io</a>
+      </span>
+      
+        
+        
+        
+        <div class="author-image">
+          <img src="https://jq1.io/img/thought.png" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+      
+      
+      <p class="site__description">
+         Ideas as Code 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">jq1.io</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/JayQ_One" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	<a href="https://github.com/judequintana" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/jq1" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="mailto:jude@jq1.io" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	<a href="https://jq1.io/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2022 Jude Quintana
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a>
+</div>
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Building a generate routes function using Terraform test</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Mar 5, 2022
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 3 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="post">
+    <p>Welcome to the next episode of thinking out loud to route in the cloud with style.</p>
+<p>Earlier this season we abstracted a <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/">TGW Centralized Router</a>.</p>
+<p>Part of it&rsquo;s responsibility is to manage routes between <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/main.tf#L83-L113">Tiered VPCs within a single region</a>.</p>
+<p>Looking forward, it would be nice to route between many TGW Centralized
+Routers but cross region with some kind of TGW Super Router abstraction.</p>
+<p>I think it should roughly look like:</p>
+<pre><code># enable cross region routing between the TGW Centralized Routers
+module &quot;tgw_super_router&quot; {
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_super_router_for_tgw_centralized_routers&quot;
+
+  providers = {
+    aws.local  = aws.use1 # build super router in aws.local provider
+    aws.remote = aws.usw2
+  }
+
+  env_prefix                     = var.env_prefix
+  region_az_labels               = var.region_az_labels
+  local_tgw_centralized_routers  = [module.tgw_centralized_router_use1] # same region/provider as super router
+  remote_tgw_centralized_routers = [module.tgw_centralized_router_usw2] # separate var for dealing with different region/provider
+  tgw_routes                     = [tgw_route_objects_go_here] # additional blackhole and override routes?
+}
+</code></pre><p>TGW Super Router behavior assumptions:</p>
+<ul>
+<li>No cross account sharing just yet.</li>
+<li>Manage cross region routes between many Centralized Routers.
+<ul>
+<li>Ability to inject blackhole and override routes.</li>
+<li>Includes TGW Peering between Centralized Routers (???)</li>
+</ul>
+</li>
+<li>Manage cross region routes between many Tiered VPCs.
+<ul>
+<li>Similar to how Centralized Routers currently add routes to each Tiered VPC.</li>
+</ul>
+</li>
+<li>&hellip;</li>
+</ul>
+<p>We can already start to see that the process of adding routes to each VPC can be used in more than one place.</p>
+<p>It seems like good time to move the route generation into it&rsquo;s own <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">Generate Routes to Other VPCs</a> module to keep it DRY for reuse.</p>
+<p>This will give us chance to utilize the experimental <code>terraform test</code> framework to build a <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs/tests/defaults">test suite for our new function</a>.</p>
+<p>For instructions on running this Terraform test suite go <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">here</a>.</p>
+<p>We can add more gating with CIDR validation at the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/utils/generate_routes_to_other_vpcs/variables.tf">variable.tf</a> level and ensuring only a map of <code>tierd_vpc_ng</code> objects is passed.</p>
+<p>We&rsquo;ll use <code>call</code> for the output to treat this module object as a function (with no resources) like an execute function call.</p>
+<pre><code>resource &quot;test_assertions&quot; &quot;generate_routes_to_other_vpcs&quot; {
+  component = &quot;generate_routes_to_other_vpcs&quot;
+
+  equal &quot;map_of_unique_routes_to_other_vpcs&quot; {
+    description = &quot;generated routes&quot;
+    got         = module.main.call
+    want        = local.private_and_public_routes_to_other_vpcs
+  }
+}
+</code></pre><p>The output is <code>{ &quot;rtb-id|route&quot; =&gt; &quot;route&quot;, ... }</code>.</p>
+<p>Route resource consumers need to split on the key with the pipe character &ldquo;|&rdquo; to get the route table id.</p>
+<p>It&rsquo;s a shortcut with a consequence that consumers need to how to handle the data (ie split on the key).</p>
+<p>Now we can replace <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/main.tf#L83-L113">adding routes to each VPC in the Centralized Router</a> in the future with:</p>
+<pre><code># snippet
+module &quot;generate_routes_to_other_vpcs&quot; {
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=1.3.0&quot;
+
+  vpcs = var.vpcs
+}
+
+resource &quot;aws_route&quot; &quot;this&quot; {
+  for_each = module.generate_routes_to_other_vpcs.call
+
+  destination_cidr_block = each.value
+  route_table_id         = split(&quot;|&quot;, each.key)[0]
+  transit_gateway_id     = aws_ec2_transit_gateway.this.id
+}
+</code></pre><p>We could build a list of objects and split internally to the module which would remove the need for the route consumer know what to do with it (other than iterate).</p>
+<p>It would be another layer of iteration and probably worth experimenting further.</p>
+<p>The generated routes map is useful shortcut to creating because the route resource only needs two types of data for my case.</p>
+<p>There are several ways to present data structures needed by route consumers so having tests makes it easy to refactor.</p>
+<p>Now that this <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">Generate Routes to Other VPCs</a> module is complete, I can start thinking about what should be implemented next for the TGW Super Router!</p>
+<p>Stay inspired and keep building.</p>
+<p>Until the next episode&hellip;</p>
+<p>~jq1</p>
+<hr>
+<p>Super helpful links:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=1LInIWM_2UQ">Terraform Module Testing</a> by Ned In The Cloud.</li>
+<li><a href="https://www.scalefactory.com/blog/2021/03/30/integration-testing-with-terraform-0.15/">Integration Testing with Terraform 0.15 and thanks to marko bevc</a> by Marko Bevc.
+<ul>
+<li>Special thanks to Marko for helping me get my test suite running for this article!</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+	
+   <h2>Feedback</h2>
+   <p>What did you think about this post? <a href="mailto:jude@jq1.io">jude@jq1.io</a></p>
+	
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/opinion_23/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Terraform Opinion #23: Use list of objects over map of maps</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+  
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-155122887-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+
+
+    
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+        
+    
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>
