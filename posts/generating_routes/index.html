@@ -22,18 +22,18 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Building a generate routes function using Terraform test"/>
-<meta name="twitter:description" content="Welcome to the next episode of thinking out loud to route in the cloud with style.
+<meta name="twitter:description" content="TLDR;
+ Introducing the Generate Routes to Other VPCs function (module) including a Terraform test suite. For future use in TGW Centralized Router and TGW Super Router abstractions.  Welcome to the next episode of thinking out loud to route in the cloud with style.
 Earlier this season we abstracted a TGW Centralized Router.
 Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
-It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
-locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, ... ], ."/>
+It will create routes to other VPC networks in private and public route tables for each VPC (except itself)."/>
 
 <meta property="og:title" content="Building a generate routes function using Terraform test" />
-<meta property="og:description" content="Welcome to the next episode of thinking out loud to route in the cloud with style.
+<meta property="og:description" content="TLDR;
+ Introducing the Generate Routes to Other VPCs function (module) including a Terraform test suite. For future use in TGW Centralized Router and TGW Super Router abstractions.  Welcome to the next episode of thinking out loud to route in the cloud with style.
 Earlier this season we abstracted a TGW Centralized Router.
 Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
-It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
-locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, ... ], ." />
+It will create routes to other VPC networks in private and public route tables for each VPC (except itself)." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jq1.io/posts/generating_routes/" />
 <meta property="article:published_time" content="2022-03-05T16:59:00-07:00" />
@@ -195,7 +195,12 @@ Built with <a href="https://gohugo.io">Hugo</a>
   
   
   <div class="post">
-    <p>Welcome to the next episode of thinking out loud to route in the cloud with style.</p>
+    <p>TLDR;</p>
+<ul>
+<li>Introducing the <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">Generate Routes to Other VPCs</a> function (module) including a Terraform test suite.</li>
+<li>For future use in TGW Centralized Router and TGW Super Router abstractions.</li>
+</ul>
+<p>Welcome to the next episode of thinking out loud to route in the cloud with style.</p>
 <p><a href="https://jq1.io/posts/tnt/">Earlier this season</a> we abstracted a <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/">TGW Centralized Router</a>.</p>
 <p>Part of it&rsquo;s responsibility is to <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/main.tf#L83-L113">manage routes</a> between <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPCs</a> within a single region.</p>
 <p>It will create routes to other VPC networks in private and public route tables for each VPC (except itself).</p>

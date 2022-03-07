@@ -17,11 +17,11 @@
       <pubDate>Sat, 05 Mar 2022 16:59:00 -0700</pubDate>
       
       <guid>https://jq1.io/posts/generating_routes/</guid>
-      <description>Welcome to the next episode of thinking out loud to route in the cloud with style.
+      <description>TLDR;
+ Introducing the Generate Routes to Other VPCs function (module) including a Terraform test suite. For future use in TGW Centralized Router and TGW Super Router abstractions.  Welcome to the next episode of thinking out loud to route in the cloud with style.
 Earlier this season we abstracted a TGW Centralized Router.
 Part of it&amp;rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
-It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
-locals { # { vpc-1-network =&amp;gt; [ &amp;quot;vpc-1-private-rtb-id-1&amp;quot;, &amp;quot;vpc-1-public-rtb-id-1&amp;quot;, ... ], .</description>
+It will create routes to other VPC networks in private and public route tables for each VPC (except itself).</description>
     </item>
     
     <item>
