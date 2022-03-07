@@ -294,9 +294,9 @@ resource &quot;aws_route&quot; &quot;this&quot; {
   route_table_id         = split(&quot;|&quot;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
 }
-</code></pre><p>We could build a list of objects and split internally to the module which would remove the need for the route consumer know what to do with it (other than iterate).</p>
+</code></pre><p>We could build a list of objects and do the split internally to the module which would remove the need for the route consumer know what to do with it (other than iterate).</p>
 <p>It would be another layer of iteration and probably worth experimenting further.</p>
-<p>The generated routes map is useful shortcut to creating because the route resource only needs two types of data for my case.</p>
+<p>The generated routes map is a useful shortcut to creating because the route resource only needs two types of data for my case.</p>
 <p>There are several ways to present data structures needed by route consumers so having tests makes it easy to refactor.</p>
 <p>Now that this <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">Generate Routes to Other VPCs</a> module is complete, I can start thinking about what should be implemented next for the TGW Super Router!</p>
 <p>Stay inspired and keep building.</p>
