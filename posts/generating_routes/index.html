@@ -266,7 +266,7 @@ module &quot;tgw_super_router&quot; {
 <p>We can already start to see that the process of adding routes to each VPC can be used in more than one place.</p>
 <p>It seems like good time to move the route generation into it&rsquo;s own <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">Generate Routes to Other VPCs</a> module to keep it DRY for reuse.</p>
 <p>This will give us chance to utilize the experimental <code>terraform test</code> framework to build a <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/utils/generate_routes_to_other_vpcs/tests/defaults/test_defaults.tf">test suite for our new function</a>.</p>
-<p>For instructions on running this Terraform test suite go <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">here</a>.</p>
+<p>For instructions on running this generate routes Terraform test suite go <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">here</a>.</p>
 <p>We can add more gating with CIDR validation at the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/utils/generate_routes_to_other_vpcs/variables.tf">variable.tf</a> level and ensuring only a map of <code>tierd_vpc_ng</code> objects is passed.</p>
 <p>We&rsquo;ll use <code>call</code> for the output to treat this module object as a function (with no resources) like an execute function call.</p>
 <pre><code>resource &quot;test_assertions&quot; &quot;generate_routes_to_other_vpcs&quot; {
