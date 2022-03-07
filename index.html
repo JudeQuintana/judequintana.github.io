@@ -176,8 +176,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
         Welcome to the next episode of thinking out loud to route in the cloud with style.
 Earlier this season we abstracted a TGW Centralized Router.
 Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
-Looking forward, it would be nice to route between many TGW Centralized Routers but cross region with some kind of TGW Super Router abstraction.
-I think it should roughly look like:
+# Create routes to other VPC networks in private and public route tables for each VPC locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, ... ], ...} vpc_network_to_private_and_public_route_table_ids = { for vpc_name, this in var.
         
         </span>
         
