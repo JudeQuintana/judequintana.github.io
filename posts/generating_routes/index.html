@@ -280,7 +280,7 @@ module &quot;tgw_super_router&quot; {
 }
 </code></pre><p>The output is <code>{ &quot;rtb-id|route&quot; =&gt; &quot;route&quot;, ... }</code>.</p>
 <p>Route resource consumers need to split on the key with the pipe character &ldquo;|&rdquo; to get the route table id.</p>
-<p>It&rsquo;s a shortcut with a consequence that consumers need to how to handle the data in the map (ie split on the key).</p>
+<p>It&rsquo;s a shortcut with a consequence that consumers need to how to handle the data in the map (ie split on the key) because the route resource only needs two types of data for my use case.</p>
 <p>Now we can replace <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/main.tf#L83-L113">adding routes to each VPC in the Centralized Router</a> in the future with:</p>
 <pre><code># snippet
 module &quot;generate_routes_to_other_vpcs&quot; {
@@ -298,7 +298,6 @@ resource &quot;aws_route&quot; &quot;this&quot; {
 }
 </code></pre><p>We could build different data structures inside the module to better organize the output to potentially remove the need for the route consumer know how to operate on the map other than iterate.</p>
 <p>It would be another layer of iteration and probably worth experimenting further.</p>
-<p>The generated routes map is a useful shortcut to creating because the route resource only needs two types of data for my use case.</p>
 <p>There are several ways to present data structures needed by route consumers so having tests makes it easier to refactor.</p>
 <p>Now that this <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">Generate Routes to Other VPCs</a> module is complete, I can start thinking about what should be implemented next for the TGW Super Router!</p>
 <p>Stay inspired and keep building.</p>
