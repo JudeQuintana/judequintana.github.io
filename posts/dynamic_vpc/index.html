@@ -181,7 +181,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
     
     
     <br/>
-    <i class="fas fa-clock"></i> 11 min read
+    <i class="fas fa-clock"></i> 12 min read
 </div>
 
 
@@ -372,7 +372,25 @@ value = { for k, v in local.some_map : k =&gt; v if v == &quot;value1&quot; }
   key3 = &quot;value1&quot;
 }
 
-</code></pre><p><code>for</code> can be used just about anywhere.  I&rsquo;ve seen it be used to generate a new map from a runtime generated
+</code></pre><p><code>for</code> can be used just about anywhere.</p>
+<hr>
+<p>Update:</p>
+<p>In the rest of this <code>for</code> section I stated that passing resources directly
+into <code>for_each</code> was not allowed. Well, I was wrong and you can do this.</p>
+<p>I assumed it wasn&rsquo;t possible because I was hitting an error to related
+to this:</p>
+<p><code>The keys of the map must be known values, or you will get an error message that for_each has dependencies that cannot be determined before apply,</code></p>
+<p>So there was some initial misunderstanding.</p>
+<p>However, now that I know it&rsquo;s possible I don&rsquo;t think it necessarily
+means that you should.</p>
+<p>I use the pre-built map pattern which still holds strong (see the next <code>Dynamically Generated Resources</code> section).</p>
+<p>But it&rsquo;s important to know the edge cases and when to use them.</p>
+<p>I also wanted to reflect on another statment of not recommending using <code>for</code> on
+a resource to pass into <code>for_each</code> but I was wrong again.</p>
+<p>Looking back, I would strongly recommend doing this becuse it helps transforming into
+the different data structures.</p>
+<hr>
+<p>I&rsquo;ve seen it be used to generate a new map from a runtime generated
 resource map as input into <code>for_each</code> which can get around this limitation:</p>
 <pre><code>resource &quot;aws_route_table_association&quot; &quot;private&quot; {
   for_each = aws_subnet.private #&lt;=== NOT ALLOWED

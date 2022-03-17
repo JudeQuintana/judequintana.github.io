@@ -234,7 +234,7 @@ Routers but cross region with some kind of TGW Super Router abstraction.</p>
 <p>I think it should roughly look like:</p>
 <pre><code># enable cross region routing between the TGW Centralized Routers
 module &quot;tgw_super_router&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_super_router_for_tgw_centralized_routers&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tgw_super_router_for_tgw_centralized_router&quot;
 
   providers = {
     aws.local  = aws.use1 # build super router in aws.local provider
