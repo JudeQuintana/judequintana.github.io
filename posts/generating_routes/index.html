@@ -229,8 +229,8 @@ resource &quot;aws_route&quot; &quot;this&quot; {
   route_table_id         = split(&quot;|&quot;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
 }
-</code></pre><p>It&rsquo;s possible to calculate only private or only public subnets by
-passing in an empty list for subnets that won&rsquo;t be processed.</p>
+</code></pre><p>It&rsquo;s possible to calculate only private or only public routes by
+passing in an empty list for subnets that you don&rsquo;t want processed.</p>
 <p>Looking forward, it would be nice to route between many TGW Centralized
 Routers but cross region with some kind of TGW Super Router abstraction.</p>
 <p>I think it should roughly look like:</p>
