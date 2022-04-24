@@ -207,7 +207,7 @@ generating it.</p>
 couple more abstractions we can build flexible networking
 between multiple AWS VPCs with minimal code.</p>
 <h1 id="goal">Goal</h1>
-<p>Using Terraform (v1.0.4+) and AWS Provider (v3.53.0+) to
+<p>Using Terraform (v1.0+) and AWS Provider (v3.53+) to
 route between 3 VPCs with different IPv4 CIDR ranges (RFC 1918)
 using a Transit Gateway.</p>
 <ul>
@@ -401,7 +401,7 @@ locals {
 }
 
 module &quot;vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.2.2&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.3.1&quot;
 
   for_each = { for t in local.vpc_tiers : t.name =&gt; t }
 
@@ -433,7 +433,7 @@ locals {
 }
 
 module &quot;intra_vpc_security_group_rules&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.2.2&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.3.1&quot;
 
   for_each = { for r in local.intra_vpcs_security_group_rules : r.label =&gt; r }
 
@@ -451,7 +451,7 @@ module from the routing.</p>
 the TGW.</p>
 <pre><code># snippet
 module &quot;tgw_centralized_router&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.2.2&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.3.1&quot;
 
   env_prefix       = var.env_prefix
   region_az_labels = var.region_az_labels
@@ -516,8 +516,8 @@ via TGW.</li>
 <ul>
 <li>git</li>
 <li>curl</li>
-<li>Terraform 1.0.4+</li>
-<li>Configured AWS credentials
+<li>Terraform 1.0.0+</li>
+<li>Pre-configured AWS credentials
 <ul>
 <li>An AWS EC2 Key Pair should already exist in the <code>us-west-2</code> region and the private key should have
 user read only permissions.
@@ -576,10 +576,10 @@ $ ./get_instance_info.sh
 XX.XXX.XXX.XX
 </code></pre><p>Using the output above, add an inbound ssh rule from &ldquo;My Public IP&rdquo; to the default security group id of the App VPC.</p>
 <p>This can be done manually in the AWS console or with the aws cli command below.</p>
-<pre><code>$ aws ec2 authorize-security-group-ingress --group-id sg-id-1234 --protocol tcp --port 22 --cidr My.Public.IP.Here/32
+<pre><code>$ aws ec2 authorize-security-group-ingress --region us-west-2 --group-id sg-id-1234 --protocol tcp --port 22 --cidr My.Public.IP.Here/32
 </code></pre><p>Next, ssh to the <code>app-public</code> instance public IP (ie <code>54.187.241.115</code>) using the EC2 key pair private key.</p>
 <p>Then, ssh to the <code>private_ip</code> of the <code>general-private</code> instance, then <code>cicd-private</code>, then back to <code>app-public</code>.</p>
-<pre><code>$ ssh -i ~/.ssh/my-ec2-key.pem ec2-user@54.187.241.115
+<pre><code>$ ssh -i ~/.ssh/my-ec2-key.pem -A ec2-user@54.187.241.115
 
 [ec2-user@app-public ~]$ ping google.com # works! via igw
 [ec2-user@app-public ~]$ ping 192.168.10.8 # works! via tgw
