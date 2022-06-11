@@ -441,7 +441,7 @@ module &quot;intra_vpc_security_group_rules&quot; {
   vpcs       = module.vpcs
   rule       = each.value
 }
-</code></pre><p>It&rsquo;s important that the Security Group rules are created in a seperate
+</code></pre><p>It&rsquo;s important that the Security Group rules are created in a separate
 module from the routing.</p>
 <h1 id="transit-gateway-tgw">Transit Gateway (TGW)</h1>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a> module will attach all AZs in each Tiered VPC to the TGW.</p>
