@@ -286,7 +286,7 @@ module &quot;tgw_super_router&quot; {
 <p>Now we can replace <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/main.tf#L83-L113">adding routes to each VPC in the Centralized Router</a> in the future with:</p>
 <pre><code># snippet
 module &quot;generate_routes_to_other_vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=1.3.0&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=v1.3.0&quot;
 
   vpcs = var.vpcs
 }
