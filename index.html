@@ -177,7 +177,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 Earlier this season we abstracted a TGW Centralized Router.
 Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
 It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
-locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, .
+# snippet variable &quot;vpcs&quot; { type = map(object({ network = string az_to_private_route_table_id = map(string) az_to_public_route_table_id = map(string) })) } locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, .
         
         </span>
         
