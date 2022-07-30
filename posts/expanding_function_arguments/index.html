@@ -195,7 +195,7 @@ Because this code will give invalid function argument errors:</p>
   new_bits = [4,4,8,4]
   subnets = cidrsubnets(&quot;10.1.0.0/16&quot;, local.new_bits) # &lt;= can i unpack?
 }
-</code></pre><p>It turns out you can do this with the expansion symbol <code>...</code> (three periods). Not to be confused with the Unicode ellipsis character. In the Terraform docs it&rsquo;s used for <a href="https://www.terraform.io/docs/configuration/expressions.html#expanding-function-arguments">Expanding Function Arguements</a>:</p>
+</code></pre><p>It turns out you can do this with the expansion symbol <code>...</code> (three periods). Not to be confused with the Unicode ellipsis character. In the Terraform docs it&rsquo;s used for <a href="https://www.terraform.io/docs/configuration/expressions.html#expanding-function-arguments">Expanding Function Arguments</a>:</p>
 <pre><code>locals {
   new_bits = [4,4,8,4]
   subnets = cidrsubnets(&quot;10.1.0.0/16&quot;, local.new_bits...)

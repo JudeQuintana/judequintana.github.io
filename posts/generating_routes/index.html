@@ -22,18 +22,18 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Building a generate routes function using Terraform test"/>
-<meta name="twitter:description" content="Welcome to the next episode of thinking out loud to route in the cloud with style!
+<meta name="twitter:description" content="Welcome to the next episode of thinking out loud to route in the cloud, you know my steez!
 Earlier this season we abstracted a TGW Centralized Router.
 Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
 It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
-locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, ... ], ."/>
+locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, ."/>
 
 <meta property="og:title" content="Building a generate routes function using Terraform test" />
-<meta property="og:description" content="Welcome to the next episode of thinking out loud to route in the cloud with style!
+<meta property="og:description" content="Welcome to the next episode of thinking out loud to route in the cloud, you know my steez!
 Earlier this season we abstracted a TGW Centralized Router.
 Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
 It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
-locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, ... ], ." />
+locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jq1.io/posts/generating_routes/" />
 <meta property="article:published_time" content="2022-03-05T16:59:00-07:00" />
@@ -187,7 +187,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
     
     
     <br/>
-    <i class="fas fa-clock"></i> 4 min read
+    <i class="fas fa-clock"></i> 5 min read
 </div>
 
 
@@ -195,7 +195,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
   
   
   <div class="post">
-    <p>Welcome to the next episode of thinking out loud to route in the cloud with <a href="https://www.youtube.com/watch?v=r0DwBybR0L8#t=24"><em>style</em></a>!</p>
+    <p>Welcome to the next episode of thinking out loud to route in the cloud, you know my steez!</p>
 <p><a href="https://jq1.io/posts/tnt/">Earlier this season</a> we abstracted a <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/">TGW Centralized Router</a>.</p>
 <p>Part of it&rsquo;s responsibility is to <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/main.tf#L83-L113">manage routes</a> between <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPCs</a> within a single region.</p>
 <p>It will create routes to other VPC networks in private and public route tables for each VPC (except itself).</p>
@@ -285,6 +285,14 @@ module &quot;tgw_super_router&quot; {
 <p>It&rsquo;s a shortcut with a consequence that consumers need to how to handle the data in the map (ie split on the key) because the route resource only needs two types of data for my use case.</p>
 <p>Now we can replace <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/main.tf#L83-L113">adding routes to each VPC in the Centralized Router</a> in the future with:</p>
 <pre><code># snippet
+variable &quot;vpcs&quot; {
+  type = map(object({
+    network                      = string
+    az_to_private_route_table_id = map(string)
+    az_to_public_route_table_id  = map(string)
+  }))
+}
+
 module &quot;generate_routes_to_other_vpcs&quot; {
   source = &quot;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=v1.3.0&quot;
 
@@ -316,7 +324,51 @@ resource &quot;aws_route&quot; &quot;this&quot; {
 </ul>
 </li>
 </ul>
+<hr>
+<p>Update:</p>
+<p>As it turns out, a list of route objects makes it easier to handle (ie additional transforms) when passing to other route resource types (ie vpc, tgw) instead of using a map of routes.</p>
+<p>The caller should build their own map with unique keys before passing it to an aws_route.</p>
+<p>So I refactored the <code>call</code> output to reflect that.</p>
+<pre><code># snippet
+module &quot;generate_routes_to_other_vpcs&quot; {
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=v1.3.2&quot;
 
+  vpcs = var.vpcs
+}
+
+locals {
+  vpc_routes_to_other_vpcs = {
+    for this in module.generate_routes_to_other_vpcs.call :
+    format(&quot;|&quot;, this.route_table_id, this.destination_cidr_block) =&gt; this
+  }
+}
+
+resource &quot;aws_route&quot; &quot;this&quot; {
+  for_each = local.vpc_routes_to_other_vpcs
+
+  destination_cidr_block = each.value.destination_cidr_block
+  route_table_id         = each.value.route_table_id
+  transit_gateway_id     = aws_ec2_transit_gateway.this.id
+}
+</code></pre><p>You can still get the legacy map of routes with the <code>call_legacy</code>
+output.</p>
+<p>But I don&rsquo;t think generating a map of routes with unique keys for the caller is
+not a shortcut worth taking becuase of it&rsquo;s inflexibility when needing different transforms.</p>
+<pre><code># snippet
+module &quot;generate_routes_to_other_vpcs&quot; {
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=v1.3.2&quot;
+
+  vpcs = var.vpcs
+}
+
+resource &quot;aws_route&quot; &quot;this&quot; {
+  for_each = module.generate_routes_to_other_vpcs.call_legacy
+
+  destination_cidr_block = each.value
+  route_table_id         = split(&quot;|&quot;, each.key)[0]
+  transit_gateway_id     = aws_ec2_transit_gateway.this.id
+}
+</code></pre>
   </div>
   <div>
 	
