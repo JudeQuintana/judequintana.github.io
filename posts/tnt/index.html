@@ -324,8 +324,7 @@ subnets in an AZ access to the internet.</li>
       public  = [&quot;192.168.8.0/28&quot;]
     }
     c = {
-      # no private subnets exist so a NAT Gateway won't be created until
-      # the private subnet list is populated.
+      # no private subnets exist but a NAT Gateway will be created
       enable_natgw = true
       private = []
       public  = [&quot;192.168.13.0/28&quot;]
