@@ -207,7 +207,7 @@ generating it.</p>
 couple more abstractions we can build flexible networking
 between multiple AWS VPCs with minimal code.</p>
 <h1 id="goal">Goal</h1>
-<p>Using Terraform (v1.0+) and AWS Provider (v3.53+) to
+<p>Using Terraform (v1.2+) and AWS Provider (v4.20+) to
 route between 3 VPCs with different IPv4 CIDR ranges (RFC 1918)
 using a Transit Gateway.</p>
 <ul>
@@ -401,7 +401,7 @@ locals {
 }
 
 module &quot;vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.3.1&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.4.0&quot;
 
   for_each = { for t in local.vpc_tiers : t.name =&gt; t }
 
@@ -433,7 +433,7 @@ locals {
 }
 
 module &quot;intra_vpc_security_group_rules&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.3.1&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.4.0&quot;
 
   for_each = { for r in local.intra_vpcs_security_group_rules : r.label =&gt; r }
 
@@ -451,10 +451,11 @@ module from the routing.</p>
 the TGW.</p>
 <pre><code># snippet
 module &quot;tgw_centralized_router&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.3.1&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.4.0&quot;
 
   env_prefix       = var.env_prefix
   region_az_labels = var.region_az_labels
+  amazon_side_asn  = 64512
   vpcs             = module.vpcs
 }
 </code></pre><p>I didn&rsquo;t add any TGW peering, cross-account/cross-region sharing, or specific TGW routes (ie <code>aws_ec2_transit_gateway_route</code>) at this time.</p>
@@ -516,7 +517,7 @@ via TGW.</li>
 <ul>
 <li>git</li>
 <li>curl</li>
-<li>Terraform 1.0.0+</li>
+<li>Terraform 1.2.0+</li>
 <li>Pre-configured AWS credentials
 <ul>
 <li>An AWS EC2 Key Pair should already exist in the <code>us-west-2</code> region and the private key should have
@@ -596,7 +597,7 @@ XX.XXX.XXX.XX
 [ec2-user@app-public ~]$
 </code></pre><p>🔻 Trifecta Complete!!!</p>
 <p><strong>Clean Up</strong></p>
-<pre><code>$ terraform destroy -target module.vpcs -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.tgw_centralized_router
+<pre><code>$ terraform destroy
 </code></pre><h1 id="final-thoughts">Final Thoughts</h1>
 <p>This article endeding up being way more work than I thought was needed so thanks for taking the time
 to read about my random cloud networking ideas, stay up!</p>
