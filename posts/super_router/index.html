@@ -231,7 +231,11 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p>However, the routing seems to get complicated quickly by adding more aliased providers to the Super Router module.</p>
 <p>After glancing at some of the docs for the new AWS Cloud WAN service, it seems possible to create a Cloud WAN Terraform module to tie multiple Super Router modules together to get a decent
 global routing architecture between multiple regions without having to do more route generation.</p>
-<p>But that&rsquo;s just an initial assumption so we&rsquo;ll see how it goes&hellip;</p>
+<p>But that&rsquo;s just an initial assumption.</p>
+<p>Now that I think about, it&rsquo;s possible that the peering and routing
+pattern is good enough to just add another provider for another region
+and copy pasta the pattern.</p>
+<p>I&rsquo;ll need to validate that theory so guess we&rsquo;ll see how it goes&hellip;</p>
 <p>Links:</p>
 <ul>
 <li><a href="https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-aws-cloud-wan-preview/">Cloud WAN Preview</a></li>
