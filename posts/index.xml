@@ -6,10 +6,21 @@
     <description>Recent content in Posts on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 05 Mar 2022 16:59:00 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 13 Aug 2022 16:07:10 -0600</lastBuildDate>
     
 	<atom:link href="https://jq1.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Super Powered, Super Sharp, Super Router!</title>
+      <link>https://jq1.io/posts/super_router/</link>
+      <pubDate>Sat, 13 Aug 2022 16:07:10 -0600</pubDate>
+      
+      <guid>https://jq1.io/posts/super_router/</guid>
+      <description>What&amp;rsquo;s up world?!
+Welcome back for moar spicy cloud networking Terraform takes because we servin&amp;rsquo; them HOT over here so let&amp;rsquo;s dig in!
+TNT Recap The Terraform Networking Trifecta project demonstrated the ability to &amp;ldquo;scale&amp;rdquo; VPCs in Terraform code by adding VPC objects to a list, then routing between them by passing a map of Tiered VPC-NG modules to the Centralized Router module which will attach the VPCs to a Transit Gateway with the proper peering and routing.</description>
+    </item>
     
     <item>
       <title>Building a generate routes function using Terraform test</title>
