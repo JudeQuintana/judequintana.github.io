@@ -199,7 +199,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <h2 id="tnt-recap">TNT Recap</h2>
 <p>The <a href="https://jq1.io/posts/tnt/">Terraform Networking Trifecta</a> project demonstrated the ability to &ldquo;scale&rdquo; VPCs in Terraform code by adding VPC objects to a list, then routing between them by passing a map of <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a> modules to the <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng#module_generate_routes_to_other_vpcs">Centralized Router</a> module which will attach the VPCs to a Transit Gateway with the proper peering and routing.</p>
 <p>Example VPC architecture:
-<img src="https://jq1.io/img/aws-vpc-diagram.png" alt="vpc-ng"></p>
+<img src="https://jq1.io/img/vpc/aws-vpc-diagram.png" alt="vpc-ng"></p>
 <p>Example TNT architecture (zoom out):
 <img src="https://jq1.io/img/tnt.png" alt="tnt"></p>
 <h2 id="super-router">Super Router</h2>
