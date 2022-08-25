@@ -26,14 +26,14 @@
 Welcome back for moar spicy cloud networking Terraform takes because we servin&rsquo; them HOT over here so let&rsquo;s dig in!
 This is a follow up to the generating routes blog post.
 TNT Recap The Terraform Networking Trifecta project demonstrated the ability to &ldquo;scale&rdquo; AWS VPCs in Terraform code by adding VPC objects to a list.
-Example VPC-NG architecture: Then routing between them by passing a map of Tiered VPC-NG modules to the Centralized Router module which will attach the VPCs to a Transit Gateway with the proper peering and routing."/>
+Example VPC-NG architecture (but with ephemeral subnets): Then routing between them by passing a map of Tiered VPC-NG modules to the Centralized Router module which will attach the VPCs to a Transit Gateway with the proper peering and routing."/>
 
 <meta property="og:title" content="Super Powered, Super Sharp, Super Router!" />
 <meta property="og:description" content="What&rsquo;s up world?!
 Welcome back for moar spicy cloud networking Terraform takes because we servin&rsquo; them HOT over here so let&rsquo;s dig in!
 This is a follow up to the generating routes blog post.
 TNT Recap The Terraform Networking Trifecta project demonstrated the ability to &ldquo;scale&rdquo; AWS VPCs in Terraform code by adding VPC objects to a list.
-Example VPC-NG architecture: Then routing between them by passing a map of Tiered VPC-NG modules to the Centralized Router module which will attach the VPCs to a Transit Gateway with the proper peering and routing." />
+Example VPC-NG architecture (but with ephemeral subnets): Then routing between them by passing a map of Tiered VPC-NG modules to the Centralized Router module which will attach the VPCs to a Transit Gateway with the proper peering and routing." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jq1.io/posts/super_router/" />
 <meta property="article:published_time" content="2022-08-13T16:07:10-06:00" />
@@ -200,7 +200,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p>This is a follow up to the <a href="https://jq1.io/posts/generating_routes/">generating routes</a> blog post.</p>
 <h2 id="tnt-recap">TNT Recap</h2>
 <p>The <a href="https://jq1.io/posts/tnt/">Terraform Networking Trifecta</a> project demonstrated the ability to &ldquo;scale&rdquo; AWS VPCs in Terraform code by adding VPC objects to a list.</p>
-<p>Example VPC-NG architecture:
+<p>Example VPC-NG architecture (but with ephemeral subnets):
 <img src="https://jq1.io/img/vpc/aws-vpc-diagram.png" alt="vpc-ng"></p>
 <p>Then routing between them by passing a map of <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a> modules to the <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng#module_generate_routes_to_other_vpcs">Centralized Router</a> module which will attach the VPCs to a Transit Gateway with the proper peering and routing.</p>
 <p>Example TNT architecture (zoom out):
