@@ -231,17 +231,15 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p>It&rsquo;s an interesting consequence.</p>
 <p>Maybe the peer regions can be used for failover regions for DR or workers only?</p>
 <p>Seems like Super Router would need to be 3 separate TGW routers instead of 1 to eliminate that peer cross region journey to other peers.</p>
+<p>It would make for better TGW redundancy and would be a nice next iteration for Super Router.</p>
+<p>Definitely a bigger lift to refactor but I think it can be done.</p>
 <h2 id="future">Future</h2>
 <p>It&rsquo;s cool that we can have network communication working cross-region but ideally we want to enable muliple cross region communication for each environment.</p>
 <p>However, the routing seems it would get complicated quickly by adding more aliased providers to the Super Router module.</p>
-<p>But now that I think about it, is it possible that the peering and routing
-pattern is good enough to just add another provider for another region
-and copy pasta the pattern?</p>
-<p>I&rsquo;ll need to validate that thought so I guess we&rsquo;ll see how it goes.</p>
 <p>After glancing at some of the docs for the new AWS Cloud WAN service, it seems possible to create a Cloud WAN Terraform module to tie multiple Super Router modules together (or just TGW Centralized Routers?) to get a decent global routing architecture between multiple regions without having to do more route generation.</p>
 <p>But that&rsquo;s just an initial assumption.</p>
-<p>There are some obvious features that can be added like more CIDR, ASN,
-etc validations across Centralized Routers.</p>
+<p>There are some obvious features that can be added like more CIDR and ASN
+validations (etc) across Centralized Routers.</p>
 <p>Either way I&rsquo;m hoping you take the time to try out the <a href="https://github.com/JudeQuintana/terraform-main/tree/main/super_router_demo">Super Router Demo</a> because
 I&rsquo;d love to hear people&rsquo;s feedback.</p>
 <p>Links:</p>
