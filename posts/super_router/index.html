@@ -224,7 +224,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 }
 </code></pre><p>The <a href="https://github.com/JudeQuintana/terraform-main/tree/main/super_router_demo">Super Router Demo</a> will build the following architecture:
 <img src="https://jq1.io/img/super-router.png" alt="super-router"></p>
-<p>It can be validated with <a href="https://us-west-2.console.aws.amazon.com/networkmanager/home#/networks">AWS Route Analyzer</a> and it&rsquo;s free to use, tiiiight!</p>
+<p>It can be validated with <a href="https://docs.aws.amazon.com/vpc/latest/tgwnm/route-analyzer.html">AWS Route Analyzer</a> and it&rsquo;s free to use, tiiiight!</p>
 <h2 id="caveats">Caveats</h2>
 <p>The caveat to the module design is that the peer TGWs will have to go through the super router&rsquo;s local provider region to get to other peer TGWs.</p>
 <p>For instance, in the Super Router demo, TGWs in us-east-1 will have to route through the Super Router TGW in us-west-2 to get to other TGWs in us-east-1.</p>
