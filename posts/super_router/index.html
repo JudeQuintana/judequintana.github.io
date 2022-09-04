@@ -228,18 +228,17 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <h2 id="caveats">Caveats</h2>
 <p>The caveat to the module design is that the peer TGWs will have to go through the super router&rsquo;s local provider region to get to other peer TGWs.</p>
 <p>For instance, in the Super Router demo, TGWs in us-east-1 will have to route through the Super Router TGW in us-west-2 to get to other TGWs in us-east-1.</p>
-<p>It&rsquo;s an interesting consequence.</p>
+<p>This wasn&rsquo;t intended but it&rsquo;s how design played out leading to this interesting consequence.</p>
 <p>Maybe the peer regions can be used for failover regions for DR or workers only?</p>
 <p>Seems like Super Router would need to be 3 separate TGW routers instead of 1 to eliminate that peer cross region journey to other peers.</p>
 <p>It would make for better TGW redundancy and would be a nice next iteration.</p>
 <p>Definitely a bigger lift to refactor but I think it can be done.</p>
 <h2 id="future">Future</h2>
 <p>It&rsquo;s cool that we can have network communication working cross-region but ideally we want to enable muliple cross region communication for each environment.</p>
-<p>However, the routing seems it would get complicated quickly by adding more aliased providers to the Super Router module.</p>
-<p>After glancing at some of the docs for the new AWS Cloud WAN service, it seems possible to create a Cloud WAN Terraform module to tie multiple Super Router modules together (or just TGW Centralized Routers?) to get a decent global routing architecture between multiple regions without having to do more route generation.</p>
+<p>However, the routing could get complicated quickly by adding more aliased providers to the Super Router module.</p>
+<p>After glancing at some of the docs for the new AWS Cloud WAN service, it seems possible to create a Cloud WAN Terraform module to tie multiple Super Router modules together (or just TGW Centralized Routers?) to get a decent global routing architecture between multiple regions without having to do more route generation ourselves.</p>
 <p>But that&rsquo;s just an initial assumption.</p>
-<p>There are some obvious features that can be added like more CIDR and ASN
-validations (etc) across Centralized Routers.</p>
+<p>There are some obvious features that can be added like more CIDR and ASN validations across Centralized Routers (etc).</p>
 <p>Either way I&rsquo;m hoping you take the time to try out the <a href="https://github.com/JudeQuintana/terraform-main/tree/main/super_router_demo">Super Router Demo</a> because
 I&rsquo;d love to hear people&rsquo;s feedback.</p>
 <p>Links:</p>
@@ -249,7 +248,7 @@ I&rsquo;d love to hear people&rsquo;s feedback.</p>
 <li><a href="https://catalog.workshops.aws/cloudwan/en-US/">Cloud WAN Workshop</a></li>
 <li><a href="https://github.com/aws-samples/aws-cloudwan-workshop-code/">Cloud WAN Workshop Code</a></li>
 </ul>
-<p>On to the next! #StayUp</p>
+<p>On to the next! #StayUp #KeepBuilding #AoD</p>
 <p>~jq1</p>
 
   </div>
