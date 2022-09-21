@@ -207,7 +207,7 @@ generating it.</p>
 couple more abstractions we can build flexible networking
 between multiple AWS VPCs with minimal code.</p>
 <h1 id="goal">Goal</h1>
-<p>Using Terraform (v1.2+) and AWS Provider (v4.20+) to
+<p>Using Terraform (v1.3+) and AWS Provider (v4.20+) to
 route between 3 VPCs with different IPv4 CIDR ranges (RFC 1918)
 using a Transit Gateway.</p>
 <ul>
@@ -403,7 +403,7 @@ locals {
 }
 
 module &quot;vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.4.2&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.4.4&quot;
 
   for_each = { for t in local.vpc_tiers : t.name =&gt; t }
 
@@ -411,7 +411,7 @@ module &quot;vpcs&quot; {
   region_az_labels = var.region_az_labels
   tier             = each.value
 }
-</code></pre><h1 id="security-group-rules">Security Group Rules</h1>
+</code></pre><h1 id="intra-vpc-security-group-rules">Intra VPC Security Group Rules</h1>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/intra_vpc_security_group_rule_for_tiered_vpc_ng">Intra VPC Security Group Rule</a> module will create an inbound only rule for each VPC that will point to all other VPC networks except the VPC itself.</p>
 <p>This will allow ssh and ping protocols accross Tiered VPCs so
 communication will just work once we enable routing to each other with Transit
@@ -435,7 +435,7 @@ locals {
 }
 
 module &quot;intra_vpc_security_group_rules&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.4.2&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.4.4&quot;
 
   for_each = { for r in local.intra_vpcs_security_group_rules : r.label =&gt; r }
 
@@ -445,7 +445,7 @@ module &quot;intra_vpc_security_group_rules&quot; {
 }
 </code></pre><p>It&rsquo;s important that the Security Group rules are created in a separate
 module from the routing.</p>
-<h1 id="transit-gateway-tgw">Transit Gateway (TGW)</h1>
+<h1 id="transit-gateway-centralized-router">Transit Gateway Centralized Router</h1>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a> module will attach all AZs in each Tiered VPC to the TGW.</p>
 <p>Think router on a stick!</p>
 <p>All attachments will be associated and routes propagated to one TGW Route Table.</p>
@@ -453,7 +453,7 @@ module from the routing.</p>
 the TGW.</p>
 <pre><code># snippet
 module &quot;tgw_centralized_router&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.4.2&quot;
+  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.4.4&quot;
 
   env_prefix       = var.env_prefix
   region_az_labels = var.region_az_labels
