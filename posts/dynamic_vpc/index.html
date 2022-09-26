@@ -206,7 +206,7 @@ about Terraform than about how Terraform works. Because of that, I may make inco
 This allows us to design modules with minimal input requirments while providing flexible DAG behavior based on the object structures being passed in.</p>
 <p>There is no shortage of highly configurable VPC modules online but most of them
 aren&rsquo;t using the new 0.12 feature set.  Even the official <a href="https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/2.44.0">AWS VPC module</a>
-has minimal <code>for_each</code> usage (probably by design to support various use cases) and has a big interface with lots of internal logic that supports many different configurations but it&rsquo;s hard to follow.</p>
+has minimal <code>for_each</code> usage (probably by design to support various use cases and pre-Terraform 0.12 we only had count) and has a big interface with lots of internal logic that supports many different configurations but it&rsquo;s hard to follow.</p>
 <p>In general, I prefer my Terraform modules have specific behavior out of the box like the TL;DR says, I want a VPC module that builds a private and public subnet per AZ with the proper routing and labeling. I&rsquo;d like to control which AZs get built with an AZ to subnet configuration map.</p>
 <p>Note: In the code examples, <code>...</code> means the code in-between, it&rsquo;s not the Terraform expansion (ellipsis) symbol.</p>
 <h2 id="the-old-way">The Old Way</h2>
