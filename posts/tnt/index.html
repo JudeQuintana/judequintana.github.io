@@ -467,6 +467,9 @@ module &quot;tgw_centralized_router&quot; {
 <p>You wont be able to see the generated pet names for subnet naming on plan, only on apply.</p>
 <ul>
 <li>Even though you can delete subnets in a VPC, remember that the NAT Gateways get created in the first public subnet in the list for the AZ.</li>
+<li>The Centralized Router uses the public first public subnet in each AZ
+for each the VPC attachment because a public subnet will always exist
+in a Tiered VPC.</li>
 </ul>
 <p>When modifying an AZ or VPCs in an existing configuration with A TGW Centralized rouer:</p>
 <ul>
