@@ -17,7 +17,7 @@
       <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
       
       <guid>https://jq1.io/posts/init_super_refactor/</guid>
-      <description>Aaaand we&amp;rsquo;re back with another round super refactorization!
+      <description>Aaaand we&amp;rsquo;re back with another heavy hitting round of super refactorization!
 I think the first iteration of Super Router went well.
 It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module.
 But there was one really annoying flaw.
