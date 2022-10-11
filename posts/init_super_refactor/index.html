@@ -200,7 +200,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p>It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module.</p>
 <p>But there was one really annoying flaw.</p>
 <p>The caveat in the design is that the peer TGWs will have to go through the Super Router&rsquo;s local provider region to get to other peer TGWs.</p>
-<p>Meaning that TGWs in us-east-1 will have to route through the Super Router TGW in us-west-2 to get to other TGWs in us-east-1.</p>
+<p>Meaning that TGWs in <code>us-east-1</code> will have to route through the Super Router TGW in <code>us-west-2</code> to get to other TGWs in <code>us-east-1</code>.</p>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/pull/12">super refactor</a> eliminates this caveat.</p>
 <p>Shout out to Lade Sobowale for pointing out another TGW is needed to get rid of the unnecessary cross region journey.</p>
 <p>Super Router is now composed of two TGWs instead of one TGW (one for each region) making it&rsquo;s functionality actually SUPER.</p>
@@ -239,7 +239,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
   peer_centralized_routers  = [module.tgw_centralized_router_use1, module.tgw_centralized_router_use1_another] # peer list must all be same region as each other in aws.peer provider.
 }
 </code></pre><p><img src="https://jq1.io/img/super-refactor-after.png" alt="super-router-after"></p>
-<p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tgw_super_router_for_tgw_centralized_router">Super Router module</a> just leveled up!</p>
+<p>Looks like the <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tgw_super_router_for_tgw_centralized_router">Super Router module</a> just leveled up!</p>
 <p>Plus, the <a href="https://github.com/JudeQuintana/terraform-main/tree/main/super_router_demo">Super Router Demo</a> has been hella upgraded and updated so check it out!</p>
 <p>~jq1 #AoD</p>
 <p>&ldquo;Styles unbreakable, shatterproof!&rdquo; - O.D.B.</p>
