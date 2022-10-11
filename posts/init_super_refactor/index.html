@@ -201,7 +201,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p>But there was one really annoying flaw.</p>
 <p>The caveat in the design is that the peer TGWs will have to go through the Super Router&rsquo;s local provider region to get to other peer TGWs.</p>
 <p>Meaning that TGWs in us-east-1 will have to route through the Super Router TGW in us-west-2 to get to other TGWs in us-east-1.</p>
-<p>The <a href="https://github.com/JudeQuintana/terraform-modules/pull/12">super refactor</a> elminates this caveat.</p>
+<p>The <a href="https://github.com/JudeQuintana/terraform-modules/pull/12">super refactor</a> eliminates this caveat.</p>
 <p>Shout out to Lade Sobowale for pointing out another TGW is needed to get rid of the unnecessary cross region journey.</p>
 <p>Super Router is now composed of two TGWs instead of one TGW (one for each region) making it&rsquo;s functionality actually SUPER.</p>
 <p>TGWs will route to other intra-region TGWs without leaving the region.</p>
