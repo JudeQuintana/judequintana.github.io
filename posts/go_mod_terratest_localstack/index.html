@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.69.2" />
+<meta name="generator" content="Hugo 0.104.3" />
 
     
     
@@ -29,9 +29,10 @@ I came across this HashiCorp video called Testing Infrastructure as Code on Loca
 <meta property="og:description" content="At work we&rsquo;re planning on having our IaC to grow up a bit. We&rsquo;re really wanting it to get a job and start contributing more around here. Something like a shiny new Terraform Pipeline would be nice. That means we need to get our Terraform testing sorted out.
 I came across this HashiCorp video called Testing Infrastructure as Code on Localhost where Samuel Kihahu talks about combining Terratest &#43; Terraform &#43; LocalStack to allow him to test Terraform modules locally." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jq1.io/posts/go_mod_terratest_localstack/" />
+<meta property="og:url" content="https://jq1.io/posts/go_mod_terratest_localstack/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-09-23T22:35:36-06:00" />
 <meta property="article:modified_time" content="2020-09-23T22:35:36-06:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
 
 
     
@@ -195,44 +196,44 @@ That means we need to get our Terraform testing sorted out.</p>
 where Samuel Kihahu talks about combining <a href="https://github.com/gruntwork-io/terratest">Terratest</a> + Terraform + <a href="https://github.com/localstack/localstack">LocalStack</a> to allow him to test Terraform
 modules locally. Pretty F&rsquo;n cool, right?</p>
 <p>I was able to get the latest (v0.11.5) LocalStack Docker container up and running relatively quickly.</p>
-<pre><code>$ pip install localstack
+<pre tabindex="0"><code>$ pip install localstack
 $ localstack start
 </code></pre><p>Then I configured a Terraform provider with <a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints">custom service endpoints</a> in an <a href="https://github.com/gruntwork-io/terratest/tree/master/examples/terraform-aws-s3-example">example s3 bucket module</a> (with some modifications) to point to the LocalStack endpoints running on localhost.</p>
-<pre><code>terraform {
-  required_version = &quot;&gt;= 0.12.29&quot;
+<pre tabindex="0"><code>terraform {
+  required_version = &#34;&gt;= 0.12.29&#34;
   required_providers {
-    aws = &quot;2.70.0&quot;
+    aws = &#34;2.70.0&#34;
   }
 }
 
-provider &quot;aws&quot; {
-  region                      = &quot;us-east-1&quot;
+provider &#34;aws&#34; {
+  region                      = &#34;us-east-1&#34;
   s3_force_path_style         = true
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
 
   endpoints {
-    apigateway     = &quot;http://localhost:4566&quot;
-    cloudformation = &quot;http://localhost:4566&quot;
-    cloudwatch     = &quot;http://localhost:4566&quot;
-    dynamodb       = &quot;http://localhost:4566&quot;
-    es             = &quot;http://localhost:4566&quot;
-    firehose       = &quot;http://localhost:4566&quot;
-    iam            = &quot;http://localhost:4566&quot;
-    kinesis        = &quot;http://localhost:4566&quot;
-    lambda         = &quot;http://localhost:4566&quot;
-    route53        = &quot;http://localhost:4566&quot;
-    redshift       = &quot;http://localhost:4566&quot;
-    s3             = &quot;http://localhost:4566&quot;
-    secretsmanager = &quot;http://localhost:4566&quot;
-    ses            = &quot;http://localhost:4566&quot;
-    sns            = &quot;http://localhost:4566&quot;
-    sqs            = &quot;http://localhost:4566&quot;
-    ssm            = &quot;http://localhost:4566&quot;
-    stepfunctions  = &quot;http://localhost:4566&quot;
-    sts            = &quot;http://localhost:4566&quot;
-    ec2            = &quot;http://localhost:4566&quot;
+    apigateway     = &#34;http://localhost:4566&#34;
+    cloudformation = &#34;http://localhost:4566&#34;
+    cloudwatch     = &#34;http://localhost:4566&#34;
+    dynamodb       = &#34;http://localhost:4566&#34;
+    es             = &#34;http://localhost:4566&#34;
+    firehose       = &#34;http://localhost:4566&#34;
+    iam            = &#34;http://localhost:4566&#34;
+    kinesis        = &#34;http://localhost:4566&#34;
+    lambda         = &#34;http://localhost:4566&#34;
+    route53        = &#34;http://localhost:4566&#34;
+    redshift       = &#34;http://localhost:4566&#34;
+    s3             = &#34;http://localhost:4566&#34;
+    secretsmanager = &#34;http://localhost:4566&#34;
+    ses            = &#34;http://localhost:4566&#34;
+    sns            = &#34;http://localhost:4566&#34;
+    sqs            = &#34;http://localhost:4566&#34;
+    ssm            = &#34;http://localhost:4566&#34;
+    stepfunctions  = &#34;http://localhost:4566&#34;
+    sts            = &#34;http://localhost:4566&#34;
+    ec2            = &#34;http://localhost:4566&#34;
   }
 }
 ...
@@ -241,17 +242,17 @@ provider &quot;aws&quot; {
 <p>Next I installed Golang 1.15.2 then I pulled up the <a href="https://terratest.gruntwork.io/docs/getting-started/quick-start/">Terratest Quick start</a> guide and followed
 the 5 short steps under <code>Setting up your project</code>.</p>
 <p>Using the associated example <a href="https://github.com/gruntwork-io/terratest/blob/master/test/terraform_aws_s3_example_test.go">s3 bucket test</a> and making a few modifications:</p>
-<pre><code>package test
+<pre tabindex="0"><code>package test
 
 import (
-	&quot;fmt&quot;
-	&quot;strings&quot;
-	&quot;testing&quot;
+	&#34;fmt&#34;
+	&#34;strings&#34;
+	&#34;testing&#34;
 
-	&quot;github.com/gruntwork-io/terratest/modules/aws&quot;
-	&quot;github.com/gruntwork-io/terratest/modules/random&quot;
-	&quot;github.com/gruntwork-io/terratest/modules/terraform&quot;
-	&quot;github.com/stretchr/testify/assert&quot;
+	&#34;github.com/gruntwork-io/terratest/modules/aws&#34;
+	&#34;github.com/gruntwork-io/terratest/modules/random&#34;
+	&#34;github.com/gruntwork-io/terratest/modules/terraform&#34;
+	&#34;github.com/stretchr/testify/assert&#34;
 )
 
 // An example of how to test the Terraform module in examples/terraform-aws-s3-example using Terratest.
@@ -261,29 +262,29 @@ func TestTerraformAwsS3Example(t *testing.T) {
 
 	// Give this S3 Bucket a unique ID for a name tag so we can distinguish it from any other Buckets provisioned
 	// in your AWS account
-	expectedName := fmt.Sprintf(&quot;terratest-aws-s3-example-%s&quot;, strings.ToLower(random.UniqueId()))
+	expectedName := fmt.Sprintf(&#34;terratest-aws-s3-example-%s&#34;, strings.ToLower(random.UniqueId()))
 
 	// Give this S3 Bucket an environment to operate as a part of for the purposes of resource tagging
-	expectedEnvironment := &quot;Automated Testing&quot;
+	expectedEnvironment := &#34;Automated Testing&#34;
 
 	// This usually picks a random AWS region to test in. This helps ensure your code works in all regions.
 	// I used us-east-1 only since the default region for LocalStack is us-east-1
-	awsRegion := aws.GetRandomStableRegion(t, []string{&quot;us-east-1&quot;}, nil)
+	awsRegion := aws.GetRandomStableRegion(t, []string{&#34;us-east-1&#34;}, nil)
 
 	terraformOptions := &amp;terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: &quot;../examples/s3_bucket&quot;,
+		TerraformDir: &#34;../examples/s3_bucket&#34;,
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{
-			&quot;tag_bucket_name&quot;:        expectedName,
-			&quot;tag_bucket_environment&quot;: expectedEnvironment,
-			&quot;with_policy&quot;:            &quot;true&quot;,
+			&#34;tag_bucket_name&#34;:        expectedName,
+			&#34;tag_bucket_environment&#34;: expectedEnvironment,
+			&#34;with_policy&#34;:            &#34;true&#34;,
 		},
 
 		// Environment variables to set when running Terraform
 		EnvVars: map[string]string{
-			&quot;AWS_DEFAULT_REGION&quot;: awsRegion,
+			&#34;AWS_DEFAULT_REGION&#34;: awsRegion,
 		},
 	}
 
@@ -294,11 +295,11 @@ func TestTerraformAwsS3Example(t *testing.T) {
 	terraform.InitAndApply(t, terraformOptions)
 
 	// Run `terraform output` to get the value of an output variable
-	bucketID := terraform.Output(t, terraformOptions, &quot;bucket_id&quot;)
+	bucketID := terraform.Output(t, terraformOptions, &#34;bucket_id&#34;)
 
 	// Verify that our Bucket has versioning enabled
 	actualStatus := aws.GetS3BucketVersioning(t, awsRegion, bucketID)
-	expectedStatus := &quot;Enabled&quot;
+	expectedStatus := &#34;Enabled&#34;
 	assert.Equal(t, expectedStatus, actualStatus)
 
 	// Verify that our Bucket has a policy attached
@@ -316,7 +317,7 @@ state but how do I confirm that?</p>
 exactly how that would work since he&rsquo;s never had to do it before. I wasn&rsquo;t sure either since I don&rsquo;t have any go module experience.</p>
 <p>I looked at the <a href="https://github.com/ffernandezcast/terratest/tags">forked repo Terratest tags</a> and the latest tag was <code>v0.28.5</code>. From the go docs the go module <code>replace</code> directive will take a version (or a relative path) but not a branch.</p>
 <p>Taking a look at my <code>go.mod</code> file:</p>
-<pre><code>module github.com/GITHUB_USERNAME/REPO_NAME
+<pre tabindex="0"><code>module github.com/GITHUB_USERNAME/REPO_NAME
 
 go 1.15
 
@@ -325,7 +326,7 @@ require (
 	github.com/stretchr/testify v1.6.1
 )
 </code></pre><p>I add the <code>replace</code> directive with the 3rd party repos version.</p>
-<pre><code>module github.com/GITHUB_USERNAME/REPO_NAME
+<pre tabindex="0"><code>module github.com/GITHUB_USERNAME/REPO_NAME
 
 go 1.15
 
@@ -341,16 +342,15 @@ code I want is in a branch called <code>add-aws-custom-configuration-support</co
 <p>According to the answers in this <a href="https://stackoverflow.com/questions/53682247/how-to-point-go-module-dependency-in-go-mod-to-a-latest-commit-in-a-repo">stack overflow post</a>
 I can use <code>go get</code> to get a commit hash or a branch. When I run it on the
 branch I want, I get an error:</p>
-<pre><code>$ go get github.com/ffernandezcast/terratest@add-aws-custom-configuration-support
+<pre tabindex="0"><code>$ go get github.com/ffernandezcast/terratest@add-aws-custom-configuration-support
 go: github.com/ffernandezcast/terratest add-aws-custom-configuration-support =&gt; v0.28.6-0.20200915124510-25813206bebc
 go get: github.com/ffernandezcast/terratest@v0.28.6-0.20200915124510-25813206bebc: parsing go.mod:
         module declares its path as: github.com/gruntwork-io/terratest
                 but was required as: github.com/ffernandezcast/terratest
-
 </code></pre><p>I&rsquo;m not sure what the last two lines mean but I can see that the error
 gave me a <a href="https://golang.org/cmd/go/#hdr-Pseudo_versions">psuedo version</a> for the branch and it looks like the same version format that the <code>replace</code> directive should take, so
 I plugged it in.</p>
-<pre><code>module github.com/GITHUB_USERNAME/REPO_NAME
+<pre tabindex="0"><code>module github.com/GITHUB_USERNAME/REPO_NAME
 
 go 1.15
 
@@ -362,17 +362,17 @@ require (
 replace github.com/gruntwork-io/terratest v0.30.0 =&gt; github.com/ffernandezcast/terratest v0.28.6-0.20200915124510-25813206bebc
 </code></pre><p>Then updated my go test with the recommended variables from the <a href="https://github.com/gruntwork-io/terratest/pull/495">PR</a> so that
 we can configure the LocalStack endpoints in the <code>aws</code> package.</p>
-<pre><code>package test
+<pre tabindex="0"><code>package test
 
 import (
-	&quot;fmt&quot;
-	&quot;strings&quot;
-	&quot;testing&quot;
+	&#34;fmt&#34;
+	&#34;strings&#34;
+	&#34;testing&#34;
 
-	&quot;github.com/gruntwork-io/terratest/modules/aws&quot;
-	&quot;github.com/gruntwork-io/terratest/modules/random&quot;
-	&quot;github.com/gruntwork-io/terratest/modules/terraform&quot;
-	&quot;github.com/stretchr/testify/assert&quot;
+	&#34;github.com/gruntwork-io/terratest/modules/aws&#34;
+	&#34;github.com/gruntwork-io/terratest/modules/random&#34;
+	&#34;github.com/gruntwork-io/terratest/modules/terraform&#34;
+	&#34;github.com/stretchr/testify/assert&#34;
 )
 
 // An example of how to test the Terraform module in examples/terraform-aws-s3-example using Terratest.
@@ -380,53 +380,53 @@ func TestTerraformAwsS3Example(t *testing.T) {
 	t.Parallel()
 
 	var LocalEndpoints = map[string]string{
-		&quot;apigateway&quot;:     &quot;http://localhost:4566&quot;,
-		&quot;cloudformation&quot;: &quot;http://localhost:4566&quot;,
-		&quot;cloudwatch&quot;:     &quot;http://localhost:4566&quot;,
-		&quot;dynamodb&quot;:       &quot;http://localhost:4566&quot;,
-		&quot;es&quot;:             &quot;http://localhost:4566&quot;,
-		&quot;firehose&quot;:       &quot;http://localhost:4566&quot;,
-		&quot;iam&quot;:            &quot;http://localhost:4566&quot;,
-		&quot;kinesis&quot;:        &quot;http://localhost:4566&quot;,
-		&quot;lambda&quot;:         &quot;http://localhost:4566&quot;,
-		&quot;route53&quot;:        &quot;http://localhost:4566&quot;,
-		&quot;redshift&quot;:       &quot;http://localhost:4566&quot;,
-		&quot;s3&quot;:             &quot;http://localhost:4566&quot;,
-		&quot;secretsmanager&quot;: &quot;http://localhost:4566&quot;,
-		&quot;ses&quot;:            &quot;http://localhost:4566&quot;,
-		&quot;sns&quot;:            &quot;http://localhost:4566&quot;,
-		&quot;sqs&quot;:            &quot;http://localhost:4566&quot;,
-		&quot;ssm&quot;:            &quot;http://localhost:4566&quot;,
-		&quot;stepfunctions&quot;:  &quot;http://localhost:4566&quot;,
-		&quot;sts&quot;:            &quot;http://localhost:4566&quot;,
+		&#34;apigateway&#34;:     &#34;http://localhost:4566&#34;,
+		&#34;cloudformation&#34;: &#34;http://localhost:4566&#34;,
+		&#34;cloudwatch&#34;:     &#34;http://localhost:4566&#34;,
+		&#34;dynamodb&#34;:       &#34;http://localhost:4566&#34;,
+		&#34;es&#34;:             &#34;http://localhost:4566&#34;,
+		&#34;firehose&#34;:       &#34;http://localhost:4566&#34;,
+		&#34;iam&#34;:            &#34;http://localhost:4566&#34;,
+		&#34;kinesis&#34;:        &#34;http://localhost:4566&#34;,
+		&#34;lambda&#34;:         &#34;http://localhost:4566&#34;,
+		&#34;route53&#34;:        &#34;http://localhost:4566&#34;,
+		&#34;redshift&#34;:       &#34;http://localhost:4566&#34;,
+		&#34;s3&#34;:             &#34;http://localhost:4566&#34;,
+		&#34;secretsmanager&#34;: &#34;http://localhost:4566&#34;,
+		&#34;ses&#34;:            &#34;http://localhost:4566&#34;,
+		&#34;sns&#34;:            &#34;http://localhost:4566&#34;,
+		&#34;sqs&#34;:            &#34;http://localhost:4566&#34;,
+		&#34;ssm&#34;:            &#34;http://localhost:4566&#34;,
+		&#34;stepfunctions&#34;:  &#34;http://localhost:4566&#34;,
+		&#34;sts&#34;:            &#34;http://localhost:4566&#34;,
 	}
 	aws.SetAwsEndpointsOverrides(LocalEndpoints)
 
 	// Give this S3 Bucket a unique ID for a name tag so we can distinguish it from any other Buckets provisioned
 	// in your AWS account
-	expectedName := fmt.Sprintf(&quot;terratest-aws-s3-example-%s&quot;, strings.ToLower(random.UniqueId()))
+	expectedName := fmt.Sprintf(&#34;terratest-aws-s3-example-%s&#34;, strings.ToLower(random.UniqueId()))
 
 	// Give this S3 Bucket an environment to operate as a part of for the purposes of resource tagging
-	expectedEnvironment := &quot;Automated Testing&quot;
+	expectedEnvironment := &#34;Automated Testing&#34;
 
 	// This usually picks a random AWS region to test in. This helps ensure your code works in all regions.
 	// I used us-east-1 only since the default region for LocalStack is us-east-1
-	awsRegion := aws.GetRandomStableRegion(t, []string{&quot;us-east-1&quot;}, nil)
+	awsRegion := aws.GetRandomStableRegion(t, []string{&#34;us-east-1&#34;}, nil)
 
 	terraformOptions := &amp;terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: &quot;../examples/s3_bucket&quot;,
+		TerraformDir: &#34;../examples/s3_bucket&#34;,
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{
-			&quot;tag_bucket_name&quot;:        expectedName,
-			&quot;tag_bucket_environment&quot;: expectedEnvironment,
-			&quot;with_policy&quot;:            &quot;true&quot;,
+			&#34;tag_bucket_name&#34;:        expectedName,
+			&#34;tag_bucket_environment&#34;: expectedEnvironment,
+			&#34;with_policy&#34;:            &#34;true&#34;,
 		},
 
 		// Environment variables to set when running Terraform
 		EnvVars: map[string]string{
-			&quot;AWS_DEFAULT_REGION&quot;: awsRegion,
+			&#34;AWS_DEFAULT_REGION&#34;: awsRegion,
 		},
 	}
 
@@ -437,11 +437,11 @@ func TestTerraformAwsS3Example(t *testing.T) {
 	terraform.InitAndApply(t, terraformOptions)
 
 	// Run `terraform output` to get the value of an output variable
-	bucketID := terraform.Output(t, terraformOptions, &quot;bucket_id&quot;)
+	bucketID := terraform.Output(t, terraformOptions, &#34;bucket_id&#34;)
 
 	// Verify that our Bucket has versioning enabled
 	actualStatus := aws.GetS3BucketVersioning(t, awsRegion, bucketID)
-	expectedStatus := &quot;Enabled&quot;
+	expectedStatus := &#34;Enabled&#34;
 	assert.Equal(t, expectedStatus, actualStatus)
 
 	// Verify that our Bucket has a policy attached

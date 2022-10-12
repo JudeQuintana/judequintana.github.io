@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.69.2" />
+<meta name="generator" content="Hugo 0.104.3" />
 
     
     
@@ -23,15 +23,16 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Expanding Function Arguments in Terraform"/>
 <meta name="twitter:description" content="The other day I was wondering if it was possble to unpack a list of elements as args to a function in Terraform similar to * in Python? Because this code will give invalid function argument errors:
-locals { new_bits = [4,4,8,4] subnets = cidrsubnets(&quot;10.1.0.0/16&quot;, local.new_bits) # &lt;= can i unpack? } It turns out you can do this with the expansion symbol ... (three periods). Not to be confused with the Unicode ellipsis character."/>
+locals { new_bits = [4,4,8,4] subnets = cidrsubnets(&#34;10.1.0.0/16&#34;, local.new_bits) # &lt;= can i unpack? } It turns out you can do this with the expansion symbol ... (three periods). Not to be confused with the Unicode ellipsis character."/>
 
 <meta property="og:title" content="Expanding Function Arguments in Terraform" />
 <meta property="og:description" content="The other day I was wondering if it was possble to unpack a list of elements as args to a function in Terraform similar to * in Python? Because this code will give invalid function argument errors:
-locals { new_bits = [4,4,8,4] subnets = cidrsubnets(&quot;10.1.0.0/16&quot;, local.new_bits) # &lt;= can i unpack? } It turns out you can do this with the expansion symbol ... (three periods). Not to be confused with the Unicode ellipsis character." />
+locals { new_bits = [4,4,8,4] subnets = cidrsubnets(&#34;10.1.0.0/16&#34;, local.new_bits) # &lt;= can i unpack? } It turns out you can do this with the expansion symbol ... (three periods). Not to be confused with the Unicode ellipsis character." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jq1.io/posts/expanding_function_arguments/" />
+<meta property="og:url" content="https://jq1.io/posts/expanding_function_arguments/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-08-23T16:31:18-06:00" />
 <meta property="article:modified_time" content="2020-08-23T16:31:18-06:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
 
 
     
@@ -191,34 +192,34 @@ Built with <a href="https://gohugo.io">Hugo</a>
   <div class="post">
     <p>The other day I was wondering if it was possble to unpack a list of elements as args to a function in Terraform similar to <code>*</code> in Python?
 Because this code will give invalid function argument errors:</p>
-<pre><code>locals {
+<pre tabindex="0"><code>locals {
   new_bits = [4,4,8,4]
-  subnets = cidrsubnets(&quot;10.1.0.0/16&quot;, local.new_bits) # &lt;= can i unpack?
+  subnets = cidrsubnets(&#34;10.1.0.0/16&#34;, local.new_bits) # &lt;= can i unpack?
 }
 </code></pre><p>It turns out you can do this with the expansion symbol <code>...</code> (three periods). Not to be confused with the Unicode ellipsis character. In the Terraform docs it&rsquo;s used for <a href="https://www.terraform.io/docs/configuration/expressions.html#expanding-function-arguments">Expanding Function Arguments</a>:</p>
-<pre><code>locals {
+<pre tabindex="0"><code>locals {
   new_bits = [4,4,8,4]
-  subnets = cidrsubnets(&quot;10.1.0.0/16&quot;, local.new_bits...)
+  subnets = cidrsubnets(&#34;10.1.0.0/16&#34;, local.new_bits...)
 }
 </code></pre><p>Resulting subnets list:</p>
-<pre><code>local.subnets = [
-  &quot;10.1.0.0/20&quot;,
-  &quot;10.1.16.0/20&quot;,
-  &quot;10.1.32.0/24&quot;,
-  &quot;10.1.48.0/20&quot;,
+<pre tabindex="0"><code>local.subnets = [
+  &#34;10.1.0.0/20&#34;,
+  &#34;10.1.16.0/20&#34;,
+  &#34;10.1.32.0/24&#34;,
+  &#34;10.1.48.0/20&#34;,
 ]
 </code></pre><p>It&rsquo;s pretty straight forward now that we know to use the expansion symbol <code>...</code> for the &ldquo;unpacking&rdquo; behavior. But wait, there&rsquo;s more! While reading through the <a href="https://www.terraform.io/docs/configuration/expressions.html#for-expressions">For Expressions</a> section I came accross using an expansion symbol in a <code>for</code> loop &ldquo;if the result type is an object (using { and } delimiters) then the value result expression can be followed by the &hellip; symbol to group together results that have a common key&rdquo;.</p>
 <p>Apparently, if we attempt to group values with the same key using <code>for</code>
 without <code>...</code> to generate a new map then you get a <code>Duplicate object key</code> error:</p>
-<pre><code>$ terraform console
-&gt; { for s in [&quot;here&quot;, &quot;there&quot;, &quot;this&quot;, &quot;that&quot;] : substr(s, 0, 1) =&gt; s }
+<pre tabindex="0"><code>$ terraform console
+&gt; { for s in [&#34;here&#34;, &#34;there&#34;, &#34;this&#34;, &#34;that&#34;] : substr(s, 0, 1) =&gt; s }
 
 Error: Duplicate object key
 
   on &lt;console-input&gt; line 1:
   (source code not available)
 
-Two different items produced the key &quot;t&quot; in this 'for' expression. If
+Two different items produced the key &#34;t&#34; in this &#39;for&#39; expression. If
 duplicates are expected, use the ellipsis (...) after the value expression to
 enable grouping by key.
 </code></pre><p>The error message says to use the ellipsis but it&rsquo;s not clear on how to use it.
@@ -226,16 +227,16 @@ And it&rsquo;s weird that the error refers to <code>...</code> as an ellipsis be
 the docs call it an expansion symbol.</p>
 <p>Now <code>...</code> enters the ring! And we&rsquo;re able to group each word in the list
 by the same key, the first letter in each word, in the new map!</p>
-<pre><code>$ terraform console
-&gt; { for s in [&quot;here&quot;, &quot;there&quot;, &quot;this&quot;, &quot;that&quot;] : substr(s, 0, 1) =&gt; s... }
+<pre tabindex="0"><code>$ terraform console
+&gt; { for s in [&#34;here&#34;, &#34;there&#34;, &#34;this&#34;, &#34;that&#34;] : substr(s, 0, 1) =&gt; s... }
 {
-  &quot;h&quot; = [
-    &quot;here&quot;,
+  &#34;h&#34; = [
+    &#34;here&#34;,
   ]
-  &quot;t&quot; = [
-    &quot;there&quot;,
-    &quot;this&quot;,
-    &quot;that&quot;
+  &#34;t&#34; = [
+    &#34;there&#34;,
+    &#34;this&#34;,
+    &#34;that&#34;
   ]
 }
 </code></pre><p>I haven&rsquo;t needed a <code>for</code> filter with group by behavior yet but this will definitely come in handy when I do!</p>

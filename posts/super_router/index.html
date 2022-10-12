@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.69.2" />
+<meta name="generator" content="Hugo 0.104.3" />
 
     
     
@@ -35,9 +35,10 @@ This is a follow up to the generating routes blog post.
 TNT Architecture Recap The Terraform Networking Trifecta project demonstrated the ability to &ldquo;scale&rdquo; AWS VPCs in Terraform code by adding VPC objects to a list.
 Example VPC architecture but with ephemeral subnets: With Tiered VPCs we can narrow down the context (ie app, cicd, general) and maximize the use of smaller network sizes." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jq1.io/posts/super_router/" />
+<meta property="og:url" content="https://jq1.io/posts/super_router/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-08-13T16:07:10-06:00" />
 <meta property="article:modified_time" content="2022-08-13T16:07:10-06:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
 
 
     
@@ -209,8 +210,8 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <h2 id="super-router">Super Router</h2>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tgw_super_router_for_tgw_centralized_router">Super Router module</a> now provides both intra-region and cross-region peering and routing for Centralized Routers and Tiered VPCs.</p>
 <p>We can now &ldquo;scale&rdquo; TGW architecture by <a href="https://github.com/JudeQuintana/terraform-main/blob/main/super_router_demo/super_router_usw2_to_use1.tf">adding them</a> to their relative provider&rsquo;s region list of Centralized Routers (ie <code>aws.local</code> -&gt; <code>local_centralized_routers</code> or <code>aws.peer</code> -&gt; <code>peer_centralized_routers</code>) to enable routing across TGWs and VPCs (same AWS account only, no cross account).</p>
-<pre><code>module &quot;tgw_super_router_usw2_to_use1&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tgw_super_router_for_tgw_centralized_router?ref=v1.4.4&quot;
+<pre tabindex="0"><code>module &#34;tgw_super_router_usw2_to_use1&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/tgw_super_router_for_tgw_centralized_router?ref=v1.4.4&#34;
 
   providers = {
     aws.local = aws.usw2 # super router will be built in the aws.local provider region

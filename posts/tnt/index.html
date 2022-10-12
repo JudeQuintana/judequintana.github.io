@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.69.2" />
+<meta name="generator" content="Hugo 0.104.3" />
 
     
     
@@ -35,9 +35,10 @@ Content generation is hard so hats off to those who are consistently generating 
 This project is for all the Terraform headz building networks in the cloud!
 It&rsquo;s building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jq1.io/posts/tnt/" />
+<meta property="og:url" content="https://jq1.io/posts/tnt/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-07-22T20:11:22-06:00" />
 <meta property="article:modified_time" content="2021-07-22T20:11:22-06:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
 
 
     
@@ -311,99 +312,99 @@ subnets in an AZ access to the internet.</li>
 </li>
 </ul>
 <p>Example tier:</p>
-<pre><code>tier = {
+<pre tabindex="0"><code>tier = {
   azs = {
     a = {
       # internally routable private subnets but with no routing for
       # outbound internet traffic
-      private = [&quot;192.168.0.0/24&quot;, &quot;192.168.1.0/24&quot;]
-      public  = [&quot;192.168.3.0/28&quot;]
+      private = [&#34;192.168.0.0/24&#34;, &#34;192.168.1.0/24&#34;]
+      public  = [&#34;192.168.3.0/28&#34;]
     }
     b = {
       # internally routable private subnet with routing for
       # outbound internet traffic
       enable_natgw = true
-      private = [&quot;192.168.5.0/24&quot;, &quot;192.168.6.0/24&quot;]
-      public  = [&quot;192.168.8.0/28&quot;]
+      private = [&#34;192.168.5.0/24&#34;, &#34;192.168.6.0/24&#34;]
+      public  = [&#34;192.168.8.0/28&#34;]
     }
     c = {
       # no private subnets exist but a NAT Gateway will be created
       enable_natgw = true
       private = []
-      public  = [&quot;192.168.13.0/28&quot;]
+      public  = [&#34;192.168.13.0/28&#34;]
     }
   }
-  name    = &quot;general&quot;
-  network = &quot;192.168.0.0/20&quot;
+  name    = &#34;general&#34;
+  network = &#34;192.168.0.0/20&#34;
 }
 </code></pre><p>I&rsquo;ve also settled on these decomposed structures for <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/tiered_vpc_ng/outputs.tf">outputs.tf</a> that other modules will call/consume.</p>
 <p>Here is an example of building out 3 VPCs each with
 a different /20 network, almost fully subnetted.</p>
-<pre><code># snippet
+<pre tabindex="0"><code># snippet
 locals {
   vpc_tiers = [
     {
       azs = {
         a = {
-          private = [&quot;10.0.0.0/24&quot;, &quot;10.0.1.0/24&quot;, &quot;10.0.2.0/24&quot;]
-          public  = [&quot;10.0.3.0/24&quot;, &quot;10.0.4.0/24&quot;]
+          private = [&#34;10.0.0.0/24&#34;, &#34;10.0.1.0/24&#34;, &#34;10.0.2.0/24&#34;]
+          public  = [&#34;10.0.3.0/24&#34;, &#34;10.0.4.0/24&#34;]
         }
         b = {
           enable_natgw = true
-          private = [&quot;10.0.5.0/24&quot;, &quot;10.0.6.0/24&quot;, &quot;10.0.7.0/24&quot;]
-          public  = [&quot;10.0.8.0/24&quot;, &quot;10.0.9.0/24&quot;]
+          private = [&#34;10.0.5.0/24&#34;, &#34;10.0.6.0/24&#34;, &#34;10.0.7.0/24&#34;]
+          public  = [&#34;10.0.8.0/24&#34;, &#34;10.0.9.0/24&#34;]
         }
         c = {
-          private = [&quot;10.0.10.0/24&quot;, &quot;10.0.11.0/24&quot;, &quot;10.0.12.0/24&quot;]
-          public  = [&quot;10.0.13.0/24&quot;, &quot;10.0.14.0/24&quot;]
+          private = [&#34;10.0.10.0/24&#34;, &#34;10.0.11.0/24&#34;, &#34;10.0.12.0/24&#34;]
+          public  = [&#34;10.0.13.0/24&#34;, &#34;10.0.14.0/24&#34;]
         }
       }
-      name    = &quot;app&quot;
-      network = &quot;10.0.0.0/20&quot;
+      name    = &#34;app&#34;
+      network = &#34;10.0.0.0/20&#34;
     },
     {
       azs = {
         a = {
-          private = [&quot;172.16.0.0/24&quot;, &quot;172.16.1.0/24&quot;, &quot;172.16.2.0/24&quot;]
-          public  = [&quot;172.16.3.0/28&quot;, &quot;172.16.4.0/28&quot;]
+          private = [&#34;172.16.0.0/24&#34;, &#34;172.16.1.0/24&#34;, &#34;172.16.2.0/24&#34;]
+          public  = [&#34;172.16.3.0/28&#34;, &#34;172.16.4.0/28&#34;]
         }
         b = {
           enable_natgw = true
-          private = [&quot;172.16.5.0/24&quot;, &quot;172.16.6.0/24&quot;, &quot;172.16.7.0/24&quot;]
-          public  = [&quot;172.16.8.0/28&quot;, &quot;172.16.9.0/28&quot;]
+          private = [&#34;172.16.5.0/24&#34;, &#34;172.16.6.0/24&#34;, &#34;172.16.7.0/24&#34;]
+          public  = [&#34;172.16.8.0/28&#34;, &#34;172.16.9.0/28&#34;]
         }
         c = {
-          private = [&quot;172.16.10.0/24&quot;, &quot;172.16.11.0/24&quot;, &quot;172.16.12.0/24&quot;]
-          public  = [&quot;172.16.13.0/28&quot;, &quot;172.16.14.0/28&quot;]
+          private = [&#34;172.16.10.0/24&#34;, &#34;172.16.11.0/24&#34;, &#34;172.16.12.0/24&#34;]
+          public  = [&#34;172.16.13.0/28&#34;, &#34;172.16.14.0/28&#34;]
         }
       }
-      name    = &quot;cicd&quot;
-      network = &quot;172.16.0.0/20&quot;
+      name    = &#34;cicd&#34;
+      network = &#34;172.16.0.0/20&#34;
     },
     {
       azs = {
         a = {
           enable_natgw = true
-          private = [&quot;192.168.0.0/24&quot;, &quot;192.168.1.0/24&quot;, &quot;192.168.2.0/24&quot;]
-          public  = [&quot;192.168.13.0/28&quot;]
+          private = [&#34;192.168.0.0/24&#34;, &#34;192.168.1.0/24&#34;, &#34;192.168.2.0/24&#34;]
+          public  = [&#34;192.168.13.0/28&#34;]
         }
         b = {
-          private = [&quot;192.168.5.0/24&quot;, &quot;192.168.6.0/24&quot;, &quot;192.168.7.0/24&quot;]
-          public  = [&quot;192.168.8.0/28&quot;]
+          private = [&#34;192.168.5.0/24&#34;, &#34;192.168.6.0/24&#34;, &#34;192.168.7.0/24&#34;]
+          public  = [&#34;192.168.8.0/28&#34;]
         }
         c = {
-          private = [&quot;192.168.10.0/24&quot;, &quot;192.168.11.0/24&quot;, &quot;192.168.12.0/24&quot;]
-          public  = [&quot;192.168.13.0/28&quot;]
+          private = [&#34;192.168.10.0/24&#34;, &#34;192.168.11.0/24&#34;, &#34;192.168.12.0/24&#34;]
+          public  = [&#34;192.168.13.0/28&#34;]
         }
       }
-      name    = &quot;general&quot;
-      network = &quot;192.168.0.0/20&quot;
+      name    = &#34;general&#34;
+      network = &#34;192.168.0.0/20&#34;
     }
   ]
 }
 
-module &quot;vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.4.5&quot;
+module &#34;vpcs&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc_ng?ref=v1.4.5&#34;
 
   for_each = { for t in local.vpc_tiers : t.name =&gt; t }
 
@@ -416,26 +417,26 @@ module &quot;vpcs&quot; {
 <p>This will allow ssh and ping protocols accross Tiered VPCs so
 communication will just work once we enable routing to each other with Transit
 Gateway.</p>
-<pre><code># snipppet
+<pre tabindex="0"><code># snipppet
 locals {
   intra_vpcs_security_group_rules = [
     {
-      label     = &quot;ssh&quot;
+      label     = &#34;ssh&#34;
       from_port = 22
       to_port   = 22
-      protocol  = &quot;tcp&quot;
+      protocol  = &#34;tcp&#34;
     },
     {
-      label     = &quot;ping&quot;
+      label     = &#34;ping&#34;
       from_port = 8
       to_port   = 0
-      protocol  = &quot;icmp&quot;
+      protocol  = &#34;icmp&#34;
     }
   ]
 }
 
-module &quot;intra_vpc_security_group_rules&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.4.5&quot;
+module &#34;intra_vpc_security_group_rules&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.4.5&#34;
 
   for_each = { for r in local.intra_vpcs_security_group_rules : r.label =&gt; r }
 
@@ -451,9 +452,9 @@ module from the routing.</p>
 <p>All attachments will be associated and routes propagated to one TGW Route Table.</p>
 <p>Each Tiered VPC will have all their route tables updated with a generated route to all other VPC networks via
 the TGW.</p>
-<pre><code># snippet
-module &quot;tgw_centralized_router&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.4.5&quot;
+<pre tabindex="0"><code># snippet
+module &#34;tgw_centralized_router&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.4.5&#34;
 
   env_prefix       = var.env_prefix
   region_az_labels = var.region_az_labels
@@ -536,20 +537,20 @@ user read only permissions.
 </li>
 </ul>
 <p><strong>Assemble the Trifecta</strong> by cloning the <a href="https://github.com/JudeQuintana/terraform-main/">Networking Trifecta Demo</a> repo.</p>
-<pre><code>$ git clone git@github.com:JudeQuintana/terraform-main.git
+<pre tabindex="0"><code>$ git clone git@github.com:JudeQuintana/terraform-main.git
 $ cd networking_trifecta_demo
 </code></pre><p>Update the <code>key_name</code> in <a href="https://github.com/JudeQuintana/terraform-main/blob/main/networking_trifecta_demo/variables.tf#L19">variables.tf</a> with the EC2 key pair name you&rsquo;re using for the <code>us-west-2</code> region (see pre-requisites above).</p>
-<pre><code># snippet
-variable &quot;base_ec2_instance_attributes&quot; {
+<pre tabindex="0"><code># snippet
+variable &#34;base_ec2_instance_attributes&#34; {
   ...
   default = {
-    key_name      = &quot;my-ec2-key&quot;            # EC2 key pair name to use when launching an instance
-    ami           = &quot;ami-0518bb0e75d3619ca&quot; # AWS Linux 2 us-west-2
-    instance_type = &quot;t2.micro&quot;
+    key_name      = &#34;my-ec2-key&#34;            # EC2 key pair name to use when launching an instance
+    ami           = &#34;ami-0518bb0e75d3619ca&#34; # AWS Linux 2 us-west-2
+    instance_type = &#34;t2.micro&#34;
   }
 }
 </code></pre><p>The VPCs must be applied first:</p>
-<pre><code>$ terraform init
+<pre tabindex="0"><code>$ terraform init
 $ terraform apply -target module.vpcs
 </code></pre><p>Now we&rsquo;ll:</p>
 <ul>
@@ -557,41 +558,41 @@ $ terraform apply -target module.vpcs
 <li>Launch instances in each enabled AZ for all VPCs.</li>
 <li>Route between VPCs via TGW.</li>
 </ul>
-<pre><code>$ terraform apply -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.tgw_centralized_router
+<pre tabindex="0"><code>$ terraform apply -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.tgw_centralized_router
 </code></pre><p>Once the apply is complete, it will take 1-2 minutes for the TGW
 routing to fully propagate.</p>
 <p><strong>Verify Connectivity Between VPCs</strong></p>
-<pre><code>$ cd ../scripts/
+<pre tabindex="0"><code>$ cd ../scripts/
 $ chmod u+x get_instance_info.sh
 $ ./get_instance_info.sh
 </code></pre><p>Example output:</p>
-<pre><code># aws_instance.instances[&quot;cicd-private&quot;]
-    private_ip                           = &quot;172.16.5.11&quot;
+<pre tabindex="0"><code># aws_instance.instances[&#34;cicd-private&#34;]
+    private_ip                           = &#34;172.16.5.11&#34;
 
-# aws_instance.instances[&quot;general-private&quot;]
-    private_ip                           = &quot;192.168.10.8&quot;
+# aws_instance.instances[&#34;general-private&#34;]
+    private_ip                           = &#34;192.168.10.8&#34;
 
-# aws_instance.instances[&quot;app-public&quot;]
-    private_ip                           = &quot;10.0.3.200&quot;
-    public_ip                            = &quot;54.187.241.115&quot;
+# aws_instance.instances[&#34;app-public&#34;]
+    private_ip                           = &#34;10.0.3.200&#34;
+    public_ip                            = &#34;54.187.241.115&#34;
 
-# module.vpcs[&quot;app&quot;].aws_vpc.this
-    default_security_group_id        = &quot;sg-id-1234&quot;
+# module.vpcs[&#34;app&#34;].aws_vpc.this
+    default_security_group_id        = &#34;sg-id-1234&#34;
 
 # My Public IP
 XX.XXX.XXX.XX
 </code></pre><p>Using the output above, add an inbound ssh rule from &ldquo;My Public IP&rdquo; to the default security group id of the App VPC.</p>
 <p>This can be done manually in the AWS console or with the aws cli command below.</p>
-<pre><code>$ aws ec2 authorize-security-group-ingress --region us-west-2 --group-id sg-id-1234 --protocol tcp --port 22 --cidr My.Public.IP.Here/32
+<pre tabindex="0"><code>$ aws ec2 authorize-security-group-ingress --region us-west-2 --group-id sg-id-1234 --protocol tcp --port 22 --cidr My.Public.IP.Here/32
 </code></pre><p>Next, ssh to the <code>app-public</code> instance public IP (ie <code>54.187.241.115</code>) using the EC2 key pair private key.</p>
 <p>Then, ssh to the <code>private_ip</code> of the <code>general-private</code> instance, then <code>cicd-private</code>, then back to <code>app-public</code>.</p>
-<pre><code>$ ssh -i ~/.ssh/my-ec2-key.pem -A ec2-user@54.187.241.115
+<pre tabindex="0"><code>$ ssh -i ~/.ssh/my-ec2-key.pem -A ec2-user@54.187.241.115
 
 [ec2-user@app-public ~]$ ping google.com # works! via igw
 [ec2-user@app-public ~]$ ping 192.168.10.8 # works! via tgw
 [ec2-user@app-public ~]$ ssh 192.168.10.8
 
-[ec2-user@general-private ~]$ ping google.com # doesn't work! no natgw
+[ec2-user@general-private ~]$ ping google.com # doesn&#39;t work! no natgw
 [ec2-user@general-private ~]$ ping 172.16.5.11 # works! via tgw
 [ec2-user@general-private ~]$ ssh 172.16.5.11
 
@@ -602,7 +603,7 @@ XX.XXX.XXX.XX
 [ec2-user@app-public ~]$
 </code></pre><p>🔻 Trifecta Complete!!!</p>
 <p><strong>Clean Up</strong></p>
-<pre><code>$ terraform destroy
+<pre tabindex="0"><code>$ terraform destroy
 </code></pre><h1 id="final-thoughts">Final Thoughts</h1>
 <p>This article endeding up being way more work than I thought was needed so thanks for taking the time
 to read about my random cloud networking ideas, stay up!</p>

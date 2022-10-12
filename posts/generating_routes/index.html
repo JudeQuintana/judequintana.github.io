@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.69.2" />
+<meta name="generator" content="Hugo 0.104.3" />
 
     
     
@@ -26,18 +26,19 @@
 Earlier this season we abstracted a TGW Centralized Router.
 Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
 It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
-# snippet variable &quot;vpcs&quot; { type = map(object({ network = string az_to_private_route_table_id = map(string) az_to_public_route_table_id = map(string) })) } locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, ."/>
+# snippet variable &#34;vpcs&#34; { type = map(object({ network = string az_to_private_route_table_id = map(string) az_to_public_route_table_id = map(string) })) } locals { # { vpc-1-network =&gt; [ &#34;vpc-1-private-rtb-id-1&#34;, &#34;vpc-1-public-rtb-id-1&#34;, ."/>
 
 <meta property="og:title" content="Building a generate routes function using Terraform test" />
 <meta property="og:description" content="Welcome to the next episode of thinking out loud to route in the cloud, you know my steez!
 Earlier this season we abstracted a TGW Centralized Router.
 Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
 It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
-# snippet variable &quot;vpcs&quot; { type = map(object({ network = string az_to_private_route_table_id = map(string) az_to_public_route_table_id = map(string) })) } locals { # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, ." />
+# snippet variable &#34;vpcs&#34; { type = map(object({ network = string az_to_private_route_table_id = map(string) az_to_public_route_table_id = map(string) })) } locals { # { vpc-1-network =&gt; [ &#34;vpc-1-private-rtb-id-1&#34;, &#34;vpc-1-public-rtb-id-1&#34;, ." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jq1.io/posts/generating_routes/" />
+<meta property="og:url" content="https://jq1.io/posts/generating_routes/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-03-05T16:59:00-07:00" />
 <meta property="article:modified_time" content="2022-03-05T16:59:00-07:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
 
 
     
@@ -199,8 +200,8 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p><a href="https://jq1.io/posts/tnt/">Earlier this season</a> we abstracted a <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/">TGW Centralized Router</a>.</p>
 <p>Part of it&rsquo;s responsibility is to <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/main.tf#L83-L113">manage routes</a> between <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPCs</a> within a single region.</p>
 <p>It will create routes to other VPC networks in private and public route tables for each VPC (except itself).</p>
-<pre><code># snippet
-variable &quot;vpcs&quot; {
+<pre tabindex="0"><code># snippet
+variable &#34;vpcs&#34; {
   type = map(object({
     network                      = string
     az_to_private_route_table_id = map(string)
@@ -209,13 +210,13 @@ variable &quot;vpcs&quot; {
 }
 
 locals {
-  # { vpc-1-network =&gt; [ &quot;vpc-1-private-rtb-id-1&quot;, &quot;vpc-1-public-rtb-id-1&quot;, ... ], ...}
+  # { vpc-1-network =&gt; [ &#34;vpc-1-private-rtb-id-1&#34;, &#34;vpc-1-public-rtb-id-1&#34;, ... ], ...}
   vpc_network_to_private_and_public_route_table_ids = {
     for vpc_name, this in var.vpcs :
     this.network =&gt; concat(values(this.az_to_private_route_table_id), values(this.az_to_public_route_table_id))
   }
 
-  # [ { rtb_id = &quot;vpc-1-rtb-id-123&quot;, other_networks = [ &quot;other-vpc-2-network&quot;, &quot;other-vpc3-network&quot;, ... ] }, ...]
+  # [ { rtb_id = &#34;vpc-1-rtb-id-123&#34;, other_networks = [ &#34;other-vpc-2-network&#34;, &#34;other-vpc3-network&#34;, ... ] }, ...]
   associate_private_and_public_route_table_ids_with_other_networks = flatten(
     [for network, rtb_ids in local.vpc_network_to_private_and_public_route_table_ids :
       [for rtb_id in rtb_ids : {
@@ -227,15 +228,15 @@ locals {
   private_and_public_routes_to_other_networks = merge(
     [for r in local.associate_private_and_public_route_table_ids_with_other_networks :
       { for rtb_id_and_route in setproduct([r.rtb_id], r.other_networks) :
-        format(&quot;%s|%s&quot;, rtb_id_and_route[0], rtb_id_and_route[1]) =&gt; rtb_id_and_route[1] # each key must be unique, dont group by key
+        format(&#34;%s|%s&#34;, rtb_id_and_route[0], rtb_id_and_route[1]) =&gt; rtb_id_and_route[1] # each key must be unique, dont group by key
   }]...)
 }
 
-resource &quot;aws_route&quot; &quot;this&quot; {
+resource &#34;aws_route&#34; &#34;this&#34; {
   for_each = local.private_and_public_routes_to_other_networks
 
   destination_cidr_block = each.value
-  route_table_id         = split(&quot;|&quot;, each.key)[0]
+  route_table_id         = split(&#34;|&#34;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
 }
 </code></pre><p>It&rsquo;s possible to calculate only private or only public routes to
@@ -243,9 +244,9 @@ other VPCs by passing in an empty list for subnets that you don&rsquo;t want pro
 <p>Looking forward, it would be nice to route between many TGW Centralized
 Routers but cross region with some kind of TGW Super Router abstraction.</p>
 <p>I think it should roughly look like:</p>
-<pre><code># enable cross region routing between the TGW Centralized Routers
-module &quot;tgw_super_router&quot; {
-  source = &quot;git/path/to/tgw_super_router_for_tgw_centralized_router&quot;
+<pre tabindex="0"><code># enable cross region routing between the TGW Centralized Routers
+module &#34;tgw_super_router&#34; {
+  source = &#34;git/path/to/tgw_super_router_for_tgw_centralized_router&#34;
 
   providers = {
     aws.local  = aws.use1 # build super router in aws.local provider
@@ -280,11 +281,11 @@ module &quot;tgw_super_router&quot; {
 <p>For instructions on running this generate routes Terraform test suite go <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">here</a>.</p>
 <p>We can add more gating with CIDR validation at the <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/utils/generate_routes_to_other_vpcs/variables.tf">variable.tf</a> level and ensuring only a map of <code>tierd_vpc_ng</code> objects is passed.</p>
 <p>We&rsquo;ll use <code>call</code> for the output to treat this module object as a function (with no resources) like an execute function call.</p>
-<pre><code>resource &quot;test_assertions&quot; &quot;generate_routes_to_other_vpcs&quot; {
-  component = &quot;generate_routes_to_other_vpcs&quot;
+<pre tabindex="0"><code>resource &#34;test_assertions&#34; &#34;generate_routes_to_other_vpcs&#34; {
+  component = &#34;generate_routes_to_other_vpcs&#34;
 
-  equal &quot;map_of_unique_routes_to_other_vpcs&quot; {
-    description = &quot;generated routes&quot;
+  equal &#34;map_of_unique_routes_to_other_vpcs&#34; {
+    description = &#34;generated routes&#34;
     got         = module.main.call
     want        = local.private_and_public_routes_to_other_vpcs
   }
@@ -293,8 +294,8 @@ module &quot;tgw_super_router&quot; {
 <p>Route resource consumers need to split on the key with the pipe character &ldquo;|&rdquo; to get the route table id.</p>
 <p>It&rsquo;s a shortcut with a consequence that consumers need to how to handle the data in the map (ie split on the key) because the route resource only needs two types of data for my use case.</p>
 <p>Now we can replace <a href="https://github.com/JudeQuintana/terraform-modules/blob/3be85f2cbd590fbb02dc9190213e0b9296388c56/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/main.tf#L83-L113">adding routes to each VPC in the Centralized Router</a> in the future with:</p>
-<pre><code># snippet
-variable &quot;vpcs&quot; {
+<pre tabindex="0"><code># snippet
+variable &#34;vpcs&#34; {
   type = map(object({
     network                      = string
     az_to_private_route_table_id = map(string)
@@ -302,17 +303,17 @@ variable &quot;vpcs&quot; {
   }))
 }
 
-module &quot;generate_routes_to_other_vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=v1.3.0&quot;
+module &#34;generate_routes_to_other_vpcs&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=v1.3.0&#34;
 
   vpcs = var.vpcs
 }
 
-resource &quot;aws_route&quot; &quot;this&quot; {
+resource &#34;aws_route&#34; &#34;this&#34; {
   for_each = module.generate_routes_to_other_vpcs.call
 
   destination_cidr_block = each.value
-  route_table_id         = split(&quot;|&quot;, each.key)[0]
+  route_table_id         = split(&#34;|&#34;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
 }
 </code></pre><p>We could build different data structures inside the module to better organize the output to potentially remove the need for the route consumer know how to operate on the map other than iterate.</p>
@@ -338,8 +339,8 @@ resource &quot;aws_route&quot; &quot;this&quot; {
 <p>As it turns out, a list of route objects makes it easier to handle when passing them to other route resource types (ie vpc, tgw) instead of using a map of routes.</p>
 <p>The caller should build their own map with unique keys before passing it to an aws_route.</p>
 <p>So I refactored the <code>call</code> output to reflect that.</p>
-<pre><code># snippet
-variable &quot;vpcs&quot; {
+<pre tabindex="0"><code># snippet
+variable &#34;vpcs&#34; {
   type = map(object({
     network                      = string
     az_to_private_route_table_id = map(string)
@@ -347,8 +348,8 @@ variable &quot;vpcs&quot; {
   }))
 }
 
-module &quot;generate_routes_to_other_vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=v1.4.1&quot;
+module &#34;generate_routes_to_other_vpcs&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=v1.4.1&#34;
 
   vpcs = var.vpcs
 }
@@ -356,11 +357,11 @@ module &quot;generate_routes_to_other_vpcs&quot; {
 locals {
   vpc_routes_to_other_vpcs = {
     for this in module.generate_routes_to_other_vpcs.call :
-    format(&quot;|&quot;, this.route_table_id, this.destination_cidr_block) =&gt; this
+    format(&#34;|&#34;, this.route_table_id, this.destination_cidr_block) =&gt; this
   }
 }
 
-resource &quot;aws_route&quot; &quot;this&quot; {
+resource &#34;aws_route&#34; &#34;this&#34; {
   for_each = local.vpc_routes_to_other_vpcs
 
   destination_cidr_block = each.value.destination_cidr_block
@@ -371,8 +372,8 @@ resource &quot;aws_route&quot; &quot;this&quot; {
 output.</p>
 <p>But now I think generating a map of routes with unique keys for the caller is
 not a shortcut worth taking becuase of the inflexibility when needing different transforms.</p>
-<pre><code># snippet
-variable &quot;vpcs&quot; {
+<pre tabindex="0"><code># snippet
+variable &#34;vpcs&#34; {
   type = map(object({
     network                      = string
     az_to_private_route_table_id = map(string)
@@ -380,17 +381,17 @@ variable &quot;vpcs&quot; {
   }))
 }
 
-module &quot;generate_routes_to_other_vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=v1.4.1&quot;
+module &#34;generate_routes_to_other_vpcs&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//utils/generate_routes_to_other_vpcs?ref=v1.4.1&#34;
 
   vpcs = var.vpcs
 }
 
-resource &quot;aws_route&quot; &quot;this&quot; {
+resource &#34;aws_route&#34; &#34;this&#34; {
   for_each = module.generate_routes_to_other_vpcs.call_legacy
 
   destination_cidr_block = each.value
-  route_table_id         = split(&quot;|&quot;, each.key)[0]
+  route_table_id         = split(&#34;|&#34;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
 }
 </code></pre><p>Also, I didn&rsquo;t end up using <code>module.generate_routes_to_other_vpcs</code>

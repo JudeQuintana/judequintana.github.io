@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.69.2" />
+<meta name="generator" content="Hugo 0.104.3" />
 
     
     
@@ -29,9 +29,10 @@ Here is the related VPC network diagram for visual reference. Preface I was plan
 <meta property="og:description" content="TL;DR Just show me the code! This is a Dynamic VPC Module that builds a redundant network architecture in AWS based on structured input using for_each and for constructs. It will build a VPC with private and public subnets per AZ with the proper routing and labeling.
 Here is the related VPC network diagram for visual reference. Preface I was planning on releasing this blog post shortly after Terraform 0.12 released but there were unexpected delays." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jq1.io/posts/dynamic_vpc/" />
+<meta property="og:url" content="https://jq1.io/posts/dynamic_vpc/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-08-21T10:28:58-06:00" />
 <meta property="article:modified_time" content="2020-08-21T10:28:58-06:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
 
 
     
@@ -212,51 +213,49 @@ has minimal <code>for_each</code> usage (probably by design to support various u
 <h2 id="the-old-way">The Old Way</h2>
 <h4 id="count">count</h4>
 <p>Previously in Terraform 0.11 we could only build resource lists with <code>count</code>.  Notice that the third octet of the subnet CIDR is generated based on the index of resource objects in the list.</p>
-<pre><code>variable = &quot;cidr_block&quot; {
-  default = &quot;10.0.0.0/16&quot;
+<pre tabindex="0"><code>variable = &#34;cidr_block&#34; {
+  default = &#34;10.0.0.0/16&#34;
 }
 
-variable &quot;azs&quot; {
+variable &#34;azs&#34; {
   type = list
-  default = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+  default = [&#34;a&#34;, &#34;b&#34;, &#34;c&#34;]
 }
 ...
 
-resource &quot;aws_subnet&quot; &quot;private&quot; {
+resource &#34;aws_subnet&#34; &#34;private&#34; {
   count                   = length(var.azs)
 
   vpc_id                  = aws_vpc.vpc.id
-  availability_zone       = format(&quot;%s%s&quot;, local.region_name, var.azs[count.index])
+  availability_zone       = format(&#34;%s%s&#34;, local.region_name, var.azs[count.index])
   cidr_block              = cidrsubnet(var.cidr_block, 8, count.index)
   map_public_ip_on_launch = false
 }
 ...
 
-output &quot;private_subnet_ids&quot; {
+output &#34;private_subnet_ids&#34; {
   value = aws_subnet.private[*].id
 }
-
 </code></pre><p>We would get us an indexed list of resource <code>aws_subnet.private</code> objects similar to this
 abstract example:</p>
-<pre><code>aws_subnet.private = [
+<pre tabindex="0"><code>aws_subnet.private = [
   {
-    az     = &quot;us-east-1a&quot;,
-    subnet = &quot;10.0.0.0/24&quot;
+    az     = &#34;us-east-1a&#34;,
+    subnet = &#34;10.0.0.0/24&#34;
   },
   {
-    az     = &quot;us-east-1b&quot;,
-    subnet = &quot;10.0.1.0/24&quot;
+    az     = &#34;us-east-1b&#34;,
+    subnet = &#34;10.0.1.0/24&#34;
   },
   {
-    az     = &quot;us-east-1c&quot;,
-    subnet = &quot;10.0.2.0/24&quot;
+    az     = &#34;us-east-1c&#34;,
+    subnet = &#34;10.0.2.0/24&#34;
   }
 ]
-
 </code></pre><p>When resource creation depends on the index of a list it&rsquo;s usually a static configuration becuase if the ordering changes
 the list would need to be recomputed. This will force new resources which is what we don&rsquo;t want.</p>
 <p>Continuing the abstract example:</p>
-<pre><code># a, b, and c are objects
+<pre tabindex="0"><code># a, b, and c are objects
 aws_subnet.private = [a, b, c]
 =&gt; remove b subnet
 aws_subnet.private = [a, c]
@@ -274,7 +273,7 @@ However, <code>count</code> is still useful in cases when I want simple toggle l
 <p>The <code>for_each</code> meta-argument can iterate over a static map/set to create a resource
 map/set. However, it cant iterate over a resource map/set generated at runtime
 directly but there are exceptions to this using <code>for</code>.</p>
-<pre><code>variable &quot;azs&quot; {
+<pre tabindex="0"><code>variable &#34;azs&#34; {
  type = map(number)
  default = {
    a = 1
@@ -283,13 +282,13 @@ directly but there are exceptions to this using <code>for</code>.</p>
  }
 }
 ...
-</code></pre><pre><code>...
+</code></pre><pre tabindex="0"><code>...
 
-resource &quot;aws_subnet&quot; &quot;private&quot; {
+resource &#34;aws_subnet&#34; &#34;private&#34; {
   for_each = var.azs
 
   vpc_id                  = aws_vpc.vpc.id
-  availability_zone       = format(&quot;%s%s&quot;, local.region_name, each.key)
+  availability_zone       = format(&#34;%s%s&#34;, local.region_name, each.key)
   cidr_block              = cidrsubnet(var.cidr_block, 8, each.value)
   map_public_ip_on_launch = false
 }
@@ -297,18 +296,18 @@ resource &quot;aws_subnet&quot; &quot;private&quot; {
 </code></pre><p>Now, we&rsquo;ll get an <code>aws_subnet.private</code> resource map with the same keys as the
 static map that was passed into <code>for_each</code>.</p>
 <p>Abstract example:</p>
-<pre><code>aws_subnet.private = {
+<pre tabindex="0"><code>aws_subnet.private = {
   a = {
-    az     = &quot;us-east-1a&quot;,
-    subnet = &quot;10.0.0.0/24&quot;
+    az     = &#34;us-east-1a&#34;,
+    subnet = &#34;10.0.0.0/24&#34;
   },
   b = {
-    az     = &quot;us-east-1b&quot;,
-    subnet = &quot;10.0.1.0/24&quot;
+    az     = &#34;us-east-1b&#34;,
+    subnet = &#34;10.0.1.0/24&#34;
   },
   c = {
-    az     = &quot;us-east-1c&quot;,
-    subnet = &quot;10.0.2.0/24&quot;
+    az     = &#34;us-east-1c&#34;,
+    subnet = &#34;10.0.2.0/24&#34;
   }
 }
 </code></pre><h4 id="for">For</h4>
@@ -319,59 +318,57 @@ It&rsquo;s similar to Python dict/list comprehensions with different syntax.</p>
 a short hand <code>for</code> expression. Splat is for lists only.</p>
 <p>We can iterate over <code>aws_subnet.private</code> resource list created with <code>count</code> and
 create a new list contaning private subnet IDs via the splat operator:</p>
-<pre><code>output &quot;private_subnet_ids&quot; {
+<pre tabindex="0"><code>output &#34;private_subnet_ids&#34; {
   value = aws_subnet.private[*].id
 }
 </code></pre><p>This is equivalent to:</p>
-<pre><code>output &quot;private_subnet_ids&quot; {
+<pre tabindex="0"><code>output &#34;private_subnet_ids&#34; {
   value = [ for subnet in aws_subnet.private : subnet.id ]
 }
 </code></pre><p>Both will give us:</p>
-<pre><code>[ &quot;private-subnet-id-1&quot;, &quot;private-subnet-id-2&quot;, &quot;private-subnet-id-3&quot; ]
+<pre tabindex="0"><code>[ &#34;private-subnet-id-1&#34;, &#34;private-subnet-id-2&#34;, &#34;private-subnet-id-3&#34; ]
 </code></pre><p>Here we&rsquo;ll <code>output</code> a new map of AZs associated to private subnet IDs:</p>
-<pre><code>output &quot;private_subnet_ids&quot; {
+<pre tabindex="0"><code>output &#34;private_subnet_ids&#34; {
   value = { for az, subnet in aws_subnet.private : az =&gt; subnet.id }
 }
 </code></pre><p>This gives us:</p>
-<pre><code>{
-  a = &quot;private-subnet-id-1&quot;
-  b = &quot;private-subnet-id-2&quot;
-  c = &quot;private-subnet-id-3&quot;
+<pre tabindex="0"><code>{
+  a = &#34;private-subnet-id-1&#34;
+  b = &#34;private-subnet-id-2&#34;
+  c = &#34;private-subnet-id-3&#34;
 }
 </code></pre><p>You can also use <code>for</code> as a filter.</p>
 <p>Filter a list of objects based on an attribute:</p>
-<pre><code>locals {
+<pre tabindex="0"><code>locals {
   list_of_objects = [
-    { type = &quot;typeA&quot; },
-    { type = &quot;typeB&quot; },
-    { type = &quot;typeC&quot; }
+    { type = &#34;typeA&#34; },
+    { type = &#34;typeB&#34; },
+    { type = &#34;typeC&#34; }
   ]
 }
 
-output &quot;filtered_list_of_objects_based_on_type&quot; {
-  value = [ for o in local.list_of_objects : o if o.type == &quot;typeA&quot; ]
+output &#34;filtered_list_of_objects_based_on_type&#34; {
+  value = [ for o in local.list_of_objects : o if o.type == &#34;typeA&#34; ]
 }
 =&gt;
-[ {type = &quot;typeA&quot;} ]
-
+[ {type = &#34;typeA&#34;} ]
 </code></pre><p>Filter a map by value:</p>
-<pre><code>locals {
+<pre tabindex="0"><code>locals {
   some_map = {
-    key1 = &quot;value1&quot;
-    key2 = &quot;value2&quot;
-    key3 = &quot;value1&quot;
+    key1 = &#34;value1&#34;
+    key2 = &#34;value2&#34;
+    key3 = &#34;value1&#34;
   }
 }
 
-output &quot;filtered_map_value&quot; {
-value = { for k, v in local.some_map : k =&gt; v if v == &quot;value1&quot; }
+output &#34;filtered_map_value&#34; {
+value = { for k, v in local.some_map : k =&gt; v if v == &#34;value1&#34; }
 }
 =&gt;
 {
-  key1 = &quot;value1&quot;
-  key3 = &quot;value1&quot;
+  key1 = &#34;value1&#34;
+  key3 = &#34;value1&#34;
 }
-
 </code></pre><p><code>for</code> can be used just about anywhere.</p>
 <hr>
 <p>Update:</p>
@@ -392,15 +389,15 @@ the different data structures.</p>
 <hr>
 <p>I&rsquo;ve seen it be used to generate a new map from a runtime generated
 resource map as input into <code>for_each</code> which can get around this limitation:</p>
-<pre><code>resource &quot;aws_route_table_association&quot; &quot;private&quot; {
+<pre tabindex="0"><code>resource &#34;aws_route_table_association&#34; &#34;private&#34; {
   for_each = aws_subnet.private #&lt;=== NOT ALLOWED
   ...
 }
 </code></pre><p>Here&rsquo;s an complicated example to show how
 far you can push the use of <code>for</code> leading to unnecessary complexity (not recommended):</p>
-<pre><code>...
+<pre tabindex="0"><code>...
 
-resource &quot;aws_route_table_association&quot; &quot;private&quot; {
+resource &#34;aws_route_table_association&#34; &#34;private&#34; {
   for_each = { for az, subnet in aws_subnet.private: az =&gt; subnet.id }
 
   route_table_id = lookup(
@@ -413,7 +410,6 @@ resource &quot;aws_route_table_association&quot; &quot;private&quot; {
   )
 }
 ...
-
 </code></pre><p>I don&rsquo;t recommend building resources using <code>for</code> to generate a new map from a runtime generated resource map as input into <code>for_each</code>. Because,
 not only does this make reasoning about the resource more difficult but now the resource creation directly depends on another resource&rsquo;s state
 to build itself which leaves us with less flexibility and control when state changes upstream.
@@ -422,7 +418,7 @@ This can all be simplified with a different pattern.</p>
 <h2 id="dynamically-generated-resources">Dynamically Generated Resources</h2>
 <p>The complicated <code>for</code> example above can be further simplified by using a shared static map that <code>for_each</code>
 iterates over for related resources and using functions to access resource maps generated at runtime.</p>
-<pre><code>variable &quot;azs&quot; {
+<pre tabindex="0"><code>variable &#34;azs&#34; {
  type = map(number)
  default = {
    a = 1
@@ -431,9 +427,9 @@ iterates over for related resources and using functions to access resource maps 
  }
 }
 ...
-</code></pre><pre><code>...
+</code></pre><pre tabindex="0"><code>...
 
-resource &quot;aws_route_table_association&quot; &quot;private&quot; {
+resource &#34;aws_route_table_association&#34; &#34;private&#34; {
   for_each = var.azs
 
   route_table_id = lookup(aws_route_table.private, each.key).id
@@ -446,7 +442,7 @@ the advantage of using the shared static map in <code>for_each</code>.</p>
 <h2 id="bringing-it-together">Bringing It Together</h2>
 <p>Now that we can dynamically generate resources, in theory, we should be able to remove AZ <code>b</code> from the AZ map
 which will then remove all resources related to it while not affecting resources ralated to the other AZs.</p>
-<pre><code>var.azs = {
+<pre tabindex="0"><code>var.azs = {
   a = 1
   b = 2
   c = 3
@@ -458,7 +454,7 @@ var.azs = {
 }
 tf apply =&gt; (successful, no conflicts)
 </code></pre><p>This works as expected. Now we should be able to add AZ <code>b</code> back in:</p>
-<pre><code>var.azs = {
+<pre tabindex="0"><code>var.azs = {
   a = 1
   c = 3
 }
@@ -473,9 +469,9 @@ tf plan =&gt; (unexpected changes to resources releated to AZs a and c)
 chain certain resource maps want to re-compute their attribute values, some of
 which will force new resources like <code>route_table_id</code> and <code>subnet_id</code> in
 an association resource:</p>
-<pre><code>...
+<pre tabindex="0"><code>...
 
-resource &quot;aws_route_table_association&quot; &quot;private&quot; {
+resource &#34;aws_route_table_association&#34; &#34;private&#34; {
   for_each = var.azs
 
   route_table_id = lookup(aws_route_table.private, each.key).id
@@ -488,9 +484,9 @@ resource &quot;aws_route_table_association&quot; &quot;private&quot; {
 meta-argument block. For every dynamically generated resource
 we&rsquo;ll ignore the attribute that&rsquo;s being set. Excuse the broken
 syntax highlighting in this example.</p>
-<pre><code>...
+<pre tabindex="0"><code>...
 
-resource &quot;aws_route_table_association&quot; &quot;private&quot; {
+resource &#34;aws_route_table_association&#34; &#34;private&#34; {
   for_each = var.azs
 
   route_table_id = lookup(aws_route_table.private, each.key).id
@@ -507,7 +503,7 @@ So we&rsquo;ll ignore changes to those attributes that want to force a new resou
 <p>It&rsquo;s advised that <code>ignore_changes</code> is used sparingly because now the
 module won&rsquo;t detect state drift on those resources if there are changes made in the AWS console.</p>
 <p>Now we can add AZ <code>b</code> back in without affecting the other resources.</p>
-<pre><code>var.azs = {
+<pre tabindex="0"><code>var.azs = {
   a = 1
   c = 3
 }
@@ -527,49 +523,49 @@ is in <a href="https://github.com/JudeQuintana/terraform-modules/blob/master/net
 because I wanted less focus on the directory structure.</p>
 <p>Also, I like being explicit about passing in an aliased <code>provider</code> into the module. It makes it
 easier to identify which region or account I&rsquo;m applying module resources into.</p>
-<pre><code>terraform {
-  required_version = &quot;~&gt; 0.12.6&quot;
+<pre tabindex="0"><code>terraform {
+  required_version = &#34;~&gt; 0.12.6&#34;
   required_providers {
-  aws = &quot;~&gt; 2.70.0&quot;
+  aws = &#34;~&gt; 2.70.0&#34;
   }
 }
 
 # base provider
-provider &quot;aws&quot; {
-  region = &quot;us-east-1&quot;
+provider &#34;aws&#34; {
+  region = &#34;us-east-1&#34;
 }
 
-provider &quot;aws&quot; {
-  region = &quot;us-east-1&quot;
-  alias  = &quot;use1&quot;
+provider &#34;aws&#34; {
+  region = &#34;us-east-1&#34;
+  alias  = &#34;use1&#34;
 }
 
-variable &quot;region_az_short_names&quot; {
-  description = &quot;Region and AZ names mapped to short naming conventions for labeling&quot;
+variable &#34;region_az_short_names&#34; {
+  description = &#34;Region and AZ names mapped to short naming conventions for labeling&#34;
   type = map(string)
 
   default = {
-    us-east-1  = &quot;use1&quot;
-    us-east-1a = &quot;use1a&quot;
-    us-east-1b = &quot;use1b&quot;
-    us-east-1c = &quot;use1c&quot;
-    us-west-2  = &quot;usw2&quot;
-    us-west-2a = &quot;usw2a&quot;
-    us-west-2b = &quot;usw2b&quot;
-    us-west-2c = &quot;usw2c&quot;
+    us-east-1  = &#34;use1&#34;
+    us-east-1a = &#34;use1a&#34;
+    us-east-1b = &#34;use1b&#34;
+    us-east-1c = &#34;use1c&#34;
+    us-west-2  = &#34;usw2&#34;
+    us-west-2a = &#34;usw2a&#34;
+    us-west-2b = &#34;usw2b&#34;
+    us-west-2c = &#34;usw2c&#34;
   }
 }
 
-module &quot;stage_use1_vpc&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/dynamic_vpc?ref=v1.0.4&quot;
+module &#34;stage_use1_vpc&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/dynamic_vpc?ref=v1.0.4&#34;
 
   providers = {
     aws = aws.use1
   }
 
-  env_prefix            = &quot;stage&quot;
+  env_prefix            = &#34;stage&#34;
   region_az_short_names = var.region_az_short_names
-  cidr_block            = &quot;10.0.0.0/16&quot;
+  cidr_block            = &#34;10.0.0.0/16&#34;
   azs = {
     a = 1
     b = 2

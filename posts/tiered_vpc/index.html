@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.69.2" />
+<meta name="generator" content="Hugo 0.104.3" />
 
     
     
@@ -31,9 +31,10 @@ Routing is automatic and the module outputs can be consumed for peering."/>
 Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including a public subnet (/24), a private subnet (/24) and NAT Gateways per AZ. The interface is simple because there is minimal focus on subnetting due to the internal subnet generation.
 Routing is automatic and the module outputs can be consumed for peering." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jq1.io/posts/tiered_vpc/" />
+<meta property="og:url" content="https://jq1.io/posts/tiered_vpc/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-01-12T20:03:45-07:00" />
 <meta property="article:modified_time" content="2021-01-12T20:03:45-07:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
 
 
     
@@ -199,28 +200,28 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p>However, the biggest draw backs are that subnets of various valid sizes can&rsquo;t be added or removed from an AZ. Flexibility in subnet creation is needed to take advantage of baseline VPC features like network segmentation.</p>
 <p>The <a href="https://jq1.io/posts/tiered_subnet_calculator">Tiered Subnet Calculator</a> idea had several takeways that were crucial
 to iterating on Dynamic VPC. Subnet generation makes subnetting less dynamic and knowing your subnetting is the key to architecting networks.  The best thing to come out of the calculator was the structured output.</p>
-<pre><code>calculated_tiers = [
+<pre tabindex="0"><code>calculated_tiers = [
   {
-    &quot;acl&quot; = &quot;public&quot;
-    &quot;azs&quot; = {
-      &quot;a&quot; = &quot;10.0.0.0/24&quot;
-      &quot;b&quot; = &quot;10.0.1.0/24&quot;
-      &quot;c&quot; = &quot;10.0.2.0/24&quot;
-      &quot;d&quot; = &quot;10.0.3.0/24&quot;
+    &#34;acl&#34; = &#34;public&#34;
+    &#34;azs&#34; = {
+      &#34;a&#34; = &#34;10.0.0.0/24&#34;
+      &#34;b&#34; = &#34;10.0.1.0/24&#34;
+      &#34;c&#34; = &#34;10.0.2.0/24&#34;
+      &#34;d&#34; = &#34;10.0.3.0/24&#34;
     }
-    &quot;name&quot; = &quot;app&quot;
-    &quot;network&quot; = &quot;10.0.0.0/20&quot;
+    &#34;name&#34; = &#34;app&#34;
+    &#34;network&#34; = &#34;10.0.0.0/20&#34;
   },
   {
-    &quot;acl&quot; = &quot;private&quot;
-    &quot;azs&quot; = {
-      &quot;a&quot; = &quot;10.0.16.0/24&quot;
-      &quot;b&quot; = &quot;10.0.17.0/24&quot;
-      &quot;c&quot; = &quot;10.0.18.0/24&quot;
-      &quot;d&quot; = &quot;10.0.19.0/24&quot;
+    &#34;acl&#34; = &#34;private&#34;
+    &#34;azs&#34; = {
+      &#34;a&#34; = &#34;10.0.16.0/24&#34;
+      &#34;b&#34; = &#34;10.0.17.0/24&#34;
+      &#34;c&#34; = &#34;10.0.18.0/24&#34;
+      &#34;d&#34; = &#34;10.0.19.0/24&#34;
     }
-    &quot;name&quot; = &quot;db&quot;
-    &quot;network&quot; = &quot;10.0.16.0/20&quot;
+    &#34;name&#34; = &#34;db&#34;
+    &#34;network&#34; = &#34;10.0.16.0/20&#34;
   }
 ]
 </code></pre><p>Each object is basically a tiered VPC structure. It&rsquo;s much easier to think about tiers when scaling out VPCs because we can narrow down the context (ie app, db, general) and maximize the use of smaller network sizes. Routing between VPCs should be easier now that <a href="https://aws.amazon.com/transit-gateway/">Transit Gateway</a> exists.</p>
@@ -231,8 +232,8 @@ This fusion created the <a href="https://github.com/JudeQuintana/terraform-modul
 <p>Subnet generation has been removed because subnets should be subnetted correctly before module instansiation.
 All subnets will have randomly generated name for better labeling. I chose not to do subnet CIDR validation against the network CIDR because the <code>aws_subnet</code> resource will error on invalid subnets during creation.</p>
 <p><code>variables.tf</code></p>
-<pre><code># snippet
-variable &quot;tier&quot; {
+<pre tabindex="0"><code># snippet
+variable &#34;tier&#34; {
   type = object({
     name    = string
     network = string
@@ -247,50 +248,50 @@ variable &quot;tier&quot; {
       for az in var.tier.azs : true
       if length(az.public) &gt; 0
     ]) == length(var.tier.azs)
-    error_message = &quot;There must be at least 1 public subnet per az.&quot;
+    error_message = &#34;There must be at least 1 public subnet per az.&#34;
   }
 }
 </code></pre><p>The shared public route table for all AZs will update automatically when public subnets are add or removed.</p>
-<pre><code>tier = {
+<pre tabindex="0"><code>tier = {
   azs = {
     a = {
       private = null
-      public = [&quot;10.47.0.0/28&quot;] # 10.47.0.0/24 chopped up into /28
+      public = [&#34;10.47.0.0/28&#34;] # 10.47.0.0/24 chopped up into /28
     }
   }
-  name    = &quot;general&quot;
-  network = &quot;10.47.0.0/20&quot;
+  name    = &#34;general&#34;
+  network = &#34;10.47.0.0/20&#34;
 }
 </code></pre><p>I can define the private subnet layer at any time. Again, NAT Gateways are created per AZ
 which is why we need at least one public subnet per AZ to create them in. The relative AZ&rsquo;s private route tables
 also update automatically when private subnets are added or removed.</p>
-<pre><code>tier = {
+<pre tabindex="0"><code>tier = {
   azs = {
     a = {
-      private = [&quot;10.47.11.0/24&quot;, &quot;10.47.12.0/24&quot;]
-      public  = [&quot;10.47.0.0/28&quot;] # 10.47.0.0/24 chopped up into /28
+      private = [&#34;10.47.11.0/24&#34;, &#34;10.47.12.0/24&#34;]
+      public  = [&#34;10.47.0.0/28&#34;] # 10.47.0.0/24 chopped up into /28
     }
   }
-  name    = &quot;general&quot;
-  network = &quot;10.47.0.0/20&quot;
+  name    = &#34;general&#34;
+  network = &#34;10.47.0.0/20&#34;
 }
 </code></pre><p>Adding more subnets and another AZ:</p>
-<pre><code>provider &quot;aws&quot; {
-  region = &quot;us-west-2&quot;
+<pre tabindex="0"><code>provider &#34;aws&#34; {
+  region = &#34;us-west-2&#34;
 }
 
-variable &quot;env_prefix&quot; {
-  default = &quot;test&quot;
+variable &#34;env_prefix&#34; {
+  default = &#34;test&#34;
 }
 
-variable &quot;region_az_labels&quot; {
+variable &#34;region_az_labels&#34; {
   type = map(string)
 
   default = {
-    us-west-2  = &quot;usw2&quot;
-    us-west-2a = &quot;usw2a&quot;
-    us-west-2b = &quot;usw2b&quot;
-    us-west-2c = &quot;usw2c&quot;
+    us-west-2  = &#34;usw2&#34;
+    us-west-2a = &#34;usw2a&#34;
+    us-west-2b = &#34;usw2b&#34;
+    us-west-2c = &#34;usw2c&#34;
   }
 }
 
@@ -298,29 +299,28 @@ locals {
   general_tier = {
     azs = {
       a = {
-        private = [&quot;10.47.11.0/24&quot;, &quot;10.47.12.0/24&quot;]
-        public  = [&quot;10.47.0.0/28&quot;, &quot;10.47.0.16/28&quot;] # 10.47.0.0/24 chopped up into /28
+        private = [&#34;10.47.11.0/24&#34;, &#34;10.47.12.0/24&#34;]
+        public  = [&#34;10.47.0.0/28&#34;, &#34;10.47.0.16/28&#34;] # 10.47.0.0/24 chopped up into /28
       },
       c = {
         private = null
-        public  = [&quot;10.47.6.0/24&quot;, &quot;10.47.7.0/24&quot;]
+        public  = [&#34;10.47.6.0/24&#34;, &#34;10.47.7.0/24&#34;]
       },
     }
-    name    = &quot;general&quot;
-    network = &quot;10.47.0.0/20&quot;
+    name    = &#34;general&#34;
+    network = &#34;10.47.0.0/20&#34;
   }
 }
 
-module &quot;general_vpc&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc?ref=v1.1.1&quot;
+module &#34;general_vpc&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc?ref=v1.1.1&#34;
 
   tier             = local.general_tier
   env_prefix       = var.env_prefix
   region_az_labels = var.region_az_labels
 }
-
 </code></pre><p>The resource naming would be as follows:</p>
-<pre><code>&lt;env_prefix&gt;-&lt;region|az&gt;-&lt;tier_name&gt;-&lt;public|private&gt;-&lt;pet_name|misc_label&gt;
+<pre tabindex="0"><code>&lt;env_prefix&gt;-&lt;region|az&gt;-&lt;tier_name&gt;-&lt;public|private&gt;-&lt;pet_name|misc_label&gt;
 </code></pre><p>VPC:</p>
 <ul>
 <li>TEST-usw2-general</li>
@@ -362,147 +362,147 @@ module &quot;general_vpc&quot; {
 peering so I cooked up a few marvelous flavors to make ya mouth water!
 Like oh shit!</p>
 <p>Separate collections:</p>
-<pre><code>private_route_table_ids = {
-  a = &quot;rtb-0c517e8e8a0cfd1a7&quot;
+<pre tabindex="0"><code>private_route_table_ids = {
+  a = &#34;rtb-0c517e8e8a0cfd1a7&#34;
 }
 private_subnet_ids = {
   a = [
-    &quot;subnet-0aeef4439292f37d0&quot;,
-    &quot;subnet-0d722e62b5316094c&quot;,
+    &#34;subnet-0aeef4439292f37d0&#34;,
+    &#34;subnet-0d722e62b5316094c&#34;,
   ]
 }
 public_route_table_ids = {
-  a = &quot;rtb-07490f656c15c1ba4&quot;
-  c = &quot;rtb-07490f656c15c1ba4&quot;
+  a = &#34;rtb-07490f656c15c1ba4&#34;
+  c = &#34;rtb-07490f656c15c1ba4&#34;
 }
 public_subnet_ids = {
   a = [
-    &quot;subnet-08560aef6093bed8b&quot;,
-    &quot;subnet-0f3b2e567e19f9ba0&quot;,
+    &#34;subnet-08560aef6093bed8b&#34;,
+    &#34;subnet-0f3b2e567e19f9ba0&#34;,
   ]
   c = [
-    &quot;subnet-091d97b6ffce14a88&quot;,
-    &quot;subnet-09e3c3f1f1363f37f&quot;,
+    &#34;subnet-091d97b6ffce14a88&#34;,
+    &#34;subnet-09e3c3f1f1363f37f&#34;,
   ]
 }
 </code></pre><p>Bundled Tier Object:</p>
-<pre><code>tier_bundle = {
+<pre tabindex="0"><code>tier_bundle = {
   a = {
     private = [
-      &quot;10.47.11.0/24&quot;,
-      &quot;10.47.12.0/24&quot;,
+      &#34;10.47.11.0/24&#34;,
+      &#34;10.47.12.0/24&#34;,
     ]
     private_ids = [
-      &quot;subnet-0aeef4439292f37d0&quot;,
-      &quot;subnet-0d722e62b5316094c&quot;,
+      &#34;subnet-0aeef4439292f37d0&#34;,
+      &#34;subnet-0d722e62b5316094c&#34;,
     ]
-    private_route_table_id = &quot;rtb-0c517e8e8a0cfd1a7&quot;
+    private_route_table_id = &#34;rtb-0c517e8e8a0cfd1a7&#34;
     public = [
-      &quot;10.47.0.0/28&quot;,
-      &quot;10.47.0.16/28&quot;,
+      &#34;10.47.0.0/28&#34;,
+      &#34;10.47.0.16/28&#34;,
     ]
     public_ids = [
-      &quot;subnet-08560aef6093bed8b&quot;,
-      &quot;subnet-0f3b2e567e19f9ba0&quot;,
+      &#34;subnet-08560aef6093bed8b&#34;,
+      &#34;subnet-0f3b2e567e19f9ba0&#34;,
     ]
-    public_route_table_id = &quot;rtb-07490f656c15c1ba4&quot;
+    public_route_table_id = &#34;rtb-07490f656c15c1ba4&#34;
   }
   c = {
     private                = []
     private_ids            = []
     private_route_table_id = null
     public = [
-      &quot;10.47.6.0/24&quot;,
-      &quot;10.47.7.0/24&quot;,
+      &#34;10.47.6.0/24&#34;,
+      &#34;10.47.7.0/24&#34;,
     ]
     public_ids = [
-      &quot;subnet-091d97b6ffce14a88&quot;,
-      &quot;subnet-09e3c3f1f1363f37f&quot;,
+      &#34;subnet-091d97b6ffce14a88&#34;,
+      &#34;subnet-09e3c3f1f1363f37f&#34;,
     ]
-    public_route_table_id = &quot;rtb-07490f656c15c1ba4&quot;
+    public_route_table_id = &#34;rtb-07490f656c15c1ba4&#34;
   }
 }
 </code></pre><p>Structured Tier Object:</p>
-<pre><code>tier_structured = {
+<pre tabindex="0"><code>tier_structured = {
   a = {
     private = [
       {
-        id     = &quot;subnet-0aeef4439292f37d0&quot;
-        subnet = &quot;10.47.11.0/24&quot;
+        id     = &#34;subnet-0aeef4439292f37d0&#34;
+        subnet = &#34;10.47.11.0/24&#34;
       },
       {
-        id     = &quot;subnet-0d722e62b5316094c&quot;
-        subnet = &quot;10.47.12.0/24&quot;
+        id     = &#34;subnet-0d722e62b5316094c&#34;
+        subnet = &#34;10.47.12.0/24&#34;
       },
     ]
-    private_route_table_id = &quot;rtb-0c517e8e8a0cfd1a7&quot;
+    private_route_table_id = &#34;rtb-0c517e8e8a0cfd1a7&#34;
     public = [
       {
-        id     = &quot;subnet-08560aef6093bed8b&quot;
-        subnet = &quot;10.47.0.0/28&quot;
+        id     = &#34;subnet-08560aef6093bed8b&#34;
+        subnet = &#34;10.47.0.0/28&#34;
       },
       {
-        id     = &quot;subnet-0f3b2e567e19f9ba0&quot;
-        subnet = &quot;10.47.0.16/28&quot;
+        id     = &#34;subnet-0f3b2e567e19f9ba0&#34;
+        subnet = &#34;10.47.0.16/28&#34;
       },
     ]
-    public_route_table_id = &quot;rtb-07490f656c15c1ba4&quot;
+    public_route_table_id = &#34;rtb-07490f656c15c1ba4&#34;
   }
   c = {
     private                = []
     private_route_table_id = null
     public = [
       {
-        id     = &quot;subnet-091d97b6ffce14a88&quot;
-        subnet = &quot;10.47.6.0/24&quot;
+        id     = &#34;subnet-091d97b6ffce14a88&#34;
+        subnet = &#34;10.47.6.0/24&#34;
       },
       {
-        id     = &quot;subnet-09e3c3f1f1363f37f&quot;
-        subnet = &quot;10.47.7.0/24&quot;
+        id     = &#34;subnet-09e3c3f1f1363f37f&#34;
+        subnet = &#34;10.47.7.0/24&#34;
       },
     ]
-    public_route_table_id = &quot;rtb-07490f656c15c1ba4&quot;
+    public_route_table_id = &#34;rtb-07490f656c15c1ba4&#34;
   }
 }
 </code></pre><h2 id="module-iteration">Module Iteration</h2>
 <p>Terraform 0.13 enables use of <code>for_each</code> on modules. Let&rsquo;s see it in action!</p>
-<pre><code>terraform {
-  required_version = &quot;&gt;= 0.13&quot;
+<pre tabindex="0"><code>terraform {
+  required_version = &#34;&gt;= 0.13&#34;
 
   required_providers {
     aws = {
-      source  = &quot;hashicorp/aws&quot;
-      version = &quot;~&gt; 3.0&quot;
+      source  = &#34;hashicorp/aws&#34;
+      version = &#34;~&gt; 3.0&#34;
     }
   }
 }
 
 # default provider
-provider &quot;aws&quot; {
-  region = &quot;us-east-1&quot;
+provider &#34;aws&#34; {
+  region = &#34;us-east-1&#34;
 }
 
-provider &quot;aws&quot; {
-  region = &quot;us-west-2&quot;
-  alias  = &quot;usw2&quot;
+provider &#34;aws&#34; {
+  region = &#34;us-west-2&#34;
+  alias  = &#34;usw2&#34;
 }
 
-variable &quot;env_prefix&quot; {
-  default = &quot;test&quot;
+variable &#34;env_prefix&#34; {
+  default = &#34;test&#34;
 }
 
-variable &quot;region_az_labels&quot; {
+variable &#34;region_az_labels&#34; {
   type = map(string)
 
   default = {
-    us-east-1  = &quot;use1&quot;
-    us-east-1a = &quot;use1a&quot;
-    us-east-1b = &quot;use1b&quot;
-    us-east-2c = &quot;use1c&quot;
-    us-west-2  = &quot;usw2&quot;
-    us-west-2a = &quot;usw2a&quot;
-    us-west-2b = &quot;usw2b&quot;
-    us-west-2c = &quot;usw2c&quot;
+    us-east-1  = &#34;use1&#34;
+    us-east-1a = &#34;use1a&#34;
+    us-east-1b = &#34;use1b&#34;
+    us-east-2c = &#34;use1c&#34;
+    us-west-2  = &#34;usw2&#34;
+    us-west-2a = &#34;usw2a&#34;
+    us-west-2b = &#34;usw2b&#34;
+    us-west-2c = &#34;usw2c&#34;
   }
 }
 
@@ -511,50 +511,50 @@ locals {
     {
       azs = {
         a = {
-          private = [&quot;10.0.8.0/24&quot;, &quot;10.0.9.0/24&quot;]
-          public  = [&quot;10.0.0.0/24&quot;, &quot;10.0.1.0/24&quot;]
+          private = [&#34;10.0.8.0/24&#34;, &#34;10.0.9.0/24&#34;]
+          public  = [&#34;10.0.0.0/24&#34;, &#34;10.0.1.0/24&#34;]
         },
         b = {
-          private = [&quot;10.0.11.0/24&quot;, &quot;10.0.12.0/24&quot;]
-          public  = [&quot;10.0.3.0/24&quot;, &quot;10.0.4.0/24&quot;]
+          private = [&#34;10.0.11.0/24&#34;, &#34;10.0.12.0/24&#34;]
+          public  = [&#34;10.0.3.0/24&#34;, &#34;10.0.4.0/24&#34;]
         },
       }
-      name    = &quot;app&quot;
-      network = &quot;10.0.0.0/20&quot;
+      name    = &#34;app&#34;
+      network = &#34;10.0.0.0/20&#34;
     },
     {
       azs = {
         a = {
-          private = [&quot;10.0.16.0/24&quot;, &quot;10.0.17.0/24&quot;]
-          public  = [&quot;10.0.28.0/28&quot;] # 10.0.28.0/24 chopped up into /28
+          private = [&#34;10.0.16.0/24&#34;, &#34;10.0.17.0/24&#34;]
+          public  = [&#34;10.0.28.0/28&#34;] # 10.0.28.0/24 chopped up into /28
         },
         b = {
-          private = [&quot;10.0.20.0/24&quot;, &quot;10.0.21.0/24&quot;]
-          public  = [&quot;10.0.28.16/28&quot;] # 10.0.28.0/24 chopped up into /28
+          private = [&#34;10.0.20.0/24&#34;, &#34;10.0.21.0/24&#34;]
+          public  = [&#34;10.0.28.16/28&#34;] # 10.0.28.0/24 chopped up into /28
         },
       }
-      name    = &quot;db&quot;
-      network = &quot;10.0.16.0/20&quot;
+      name    = &#34;db&#34;
+      network = &#34;10.0.16.0/20&#34;
     },
     {
       azs = {
         a = {
-          private = [&quot;10.47.11.0/24&quot;, &quot;10.47.12.0/24&quot;]
-          public  = [&quot;10.47.0.0/28&quot;, &quot;10.47.0.16/28&quot;] # 10.47.0.0/24 chopped up into /28
+          private = [&#34;10.47.11.0/24&#34;, &#34;10.47.12.0/24&#34;]
+          public  = [&#34;10.47.0.0/28&#34;, &#34;10.47.0.16/28&#34;] # 10.47.0.0/24 chopped up into /28
         },
         c = {
           private = null
-          public  = [&quot;10.47.6.0/24&quot;, &quot;10.47.7.0/24&quot;]
+          public  = [&#34;10.47.6.0/24&#34;, &#34;10.47.7.0/24&#34;]
         },
       }
-      name    = &quot;general&quot;
-      network = &quot;10.47.0.0/20&quot;
+      name    = &#34;general&#34;
+      network = &#34;10.47.0.0/20&#34;
     }
   ]
 }
 
-module &quot;usw2_vpcs&quot; {
-  source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc?ref=v1.1.1&quot;
+module &#34;usw2_vpcs&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/tiered_vpc?ref=v1.1.1&#34;
   for_each = { for t in local.tiers : t.name =&gt; t }
 
   providers = {
@@ -565,7 +565,6 @@ module &quot;usw2_vpcs&quot; {
   env_prefix       = var.env_prefix
   region_az_labels = var.region_az_labels
 }
-
 </code></pre><h2 id="takeaways">Takeaways</h2>
 <p>Terraform is all about transforming collections. Filtering and building related data structures for resources to lookup against later works out well. Learn to express yourself with <code>for</code> and wield unlimited cosmic power.</p>
 <p>Nested <code>for</code> loops are necessary for iterating over deep data structures. But if you find yourself writing them on shallow maps or objects then think about how simple <code>for</code> loops yield simple data structures. Being concise goes a long way.</p>
