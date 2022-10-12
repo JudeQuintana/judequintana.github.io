@@ -24,14 +24,14 @@
 <meta name="twitter:title" content="$init super refactor"/>
 <meta name="twitter:description" content="Aaaand we&rsquo;re back with another heavy hitting round of super refactorization in Terraform!
 I think the first iteration of Super Router for AWS went well.
-It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module.
+It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module and then &ldquo;scale&rdquo; them.
 But there was one really annoying flaw.
 The caveat in the design is that the peer TGWs will have to go through the Super Router&rsquo;s local provider region to get to other peer TGWs."/>
 
 <meta property="og:title" content="$init super refactor" />
 <meta property="og:description" content="Aaaand we&rsquo;re back with another heavy hitting round of super refactorization in Terraform!
 I think the first iteration of Super Router for AWS went well.
-It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module.
+It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module and then &ldquo;scale&rdquo; them.
 But there was one really annoying flaw.
 The caveat in the design is that the peer TGWs will have to go through the Super Router&rsquo;s local provider region to get to other peer TGWs." />
 <meta property="og:type" content="article" />
@@ -197,15 +197,15 @@ Built with <a href="https://gohugo.io">Hugo</a>
   <div class="post">
     <p>Aaaand we&rsquo;re back with another heavy hitting round of super refactorization in Terraform!</p>
 <p>I think the first iteration of <a href="https://jq1.io/posts/super_router/">Super Router</a> for AWS went well.</p>
-<p>It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module.</p>
+<p>It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module and then &ldquo;scale&rdquo; them.</p>
 <p>But there was one really annoying flaw.</p>
 <p>The caveat in the design is that the peer TGWs will have to go through the Super Router&rsquo;s local provider region to get to other peer TGWs.</p>
 <p>Meaning that TGWs in <code>us-east-1</code> will have to route through the Super Router TGW in <code>us-west-2</code> to get to other TGWs in <code>us-east-1</code>.</p>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/pull/12">super refactor</a> eliminates this caveat.</p>
 <p>Shout out to Lade Sobowale for pointing out another TGW is needed to get rid of the unnecessary cross region journey.</p>
-<p>Super Router is now composed of two TGWs instead of one TGW (one for each region) making it&rsquo;s functionality actually SUPER.</p>
+<p>Super Router is now composed of two TGWs (one for each region) instead of one TGW  making it&rsquo;s functionality actually SUPER.</p>
 <p>TGWs will route to other intra-region TGWs without leaving the region.</p>
-<p>Cross-region routing works like before.</p>
+<p>Cross-region routing is down to one TGW attachment instead of one for each peer.</p>
 <p>Going from this awkward architecture:</p>
 <pre><code>module &quot;tgw_super_router_usw2_to_use1&quot; {
   source = &quot;git@github.com:JudeQuintana/terraform-modules.git//networking/tgw_super_router_for_tgw_centralized_router?ref=v1.4.4&quot;
