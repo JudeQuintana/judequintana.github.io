@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>go-mod-replace on jq1.io</title>
+    <link>https://jq1.io/tags/go-mod-replace/</link>
+    <description>Recent content in go-mod-replace on jq1.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 23 Sep 2020 22:35:36 -0600</lastBuildDate><atom:link href="https://jq1.io/tags/go-mod-replace/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go Modules Replace Use Case: Terratest and LocalStack</title>
+      <link>https://jq1.io/posts/go_mod_terratest_localstack/</link>
+      <pubDate>Wed, 23 Sep 2020 22:35:36 -0600</pubDate>
+      
+      <guid>https://jq1.io/posts/go_mod_terratest_localstack/</guid>
+      <description>At work we&amp;rsquo;re planning on having our IaC to grow up a bit. We&amp;rsquo;re really wanting it to get a job and start contributing more around here. Something like a shiny new Terraform Pipeline would be nice. That means we need to get our Terraform testing sorted out.
+I came across this HashiCorp video called Testing Infrastructure as Code on Localhost where Samuel Kihahu talks about combining Terratest + Terraform + LocalStack to allow him to test Terraform modules locally.</description>
+    </item>
+    
+  </channel>
+</rss>

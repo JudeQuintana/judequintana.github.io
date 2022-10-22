@@ -5,11 +5,44 @@
     <loc>https://jq1.io/posts/init_super_refactor/</loc>
     <lastmod>2022-10-11T08:11:58-06:00</lastmod>
   </url><url>
+    <loc>https://jq1.io/tags/aws/</loc>
+    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/cross-region/</loc>
+    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/decentralized-hub-spoke-topology/</loc>
+    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/intra-region/</loc>
+    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
     <loc>https://jq1.io/</loc>
+    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/peering/</loc>
     <lastmod>2022-10-11T08:11:58-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/posts/</loc>
     <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/routing/</loc>
+    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/</loc>
+    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/terraform/</loc>
+    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/tgw/</loc>
+    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/vpc/</loc>
+    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/centralized-hub-spoke-topology/</loc>
+    <lastmod>2022-08-13T16:07:10-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/posts/super_router/</loc>
     <lastmod>2022-08-13T16:07:10-06:00</lastmod>
@@ -17,25 +50,67 @@
     <loc>https://jq1.io/posts/generating_routes/</loc>
     <lastmod>2022-03-05T16:59:00-07:00</lastmod>
   </url><url>
+    <loc>https://jq1.io/tags/local-testing/</loc>
+    <lastmod>2022-03-05T16:59:00-07:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/list-of-objects/</loc>
+    <lastmod>2021-11-19T08:32:57-07:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/opinions/</loc>
+    <lastmod>2021-11-19T08:32:57-07:00</lastmod>
+  </url><url>
     <loc>https://jq1.io/posts/opinion_23/</loc>
     <lastmod>2021-11-19T08:32:57-07:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/security-group-rules/</loc>
+    <lastmod>2021-07-22T20:11:22-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/posts/tnt/</loc>
     <lastmod>2021-07-22T20:11:22-06:00</lastmod>
   </url><url>
+    <loc>https://jq1.io/tags/combine-ideas/</loc>
+    <lastmod>2021-01-12T20:03:45-07:00</lastmod>
+  </url><url>
     <loc>https://jq1.io/posts/tiered_vpc/</loc>
     <lastmod>2021-01-12T20:03:45-07:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/subnet-calculator/</loc>
+    <lastmod>2020-12-01T20:48:34-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/posts/tiered_subnet_calculator/</loc>
     <lastmod>2020-12-01T20:48:34-07:00</lastmod>
   </url><url>
+    <loc>https://jq1.io/tags/golang/</loc>
+    <lastmod>2020-10-10T11:38:15-06:00</lastmod>
+  </url><url>
     <loc>https://jq1.io/posts/hash_server_9000/</loc>
+    <lastmod>2020-10-10T11:38:15-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/hash-server/</loc>
     <lastmod>2020-10-10T11:38:15-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/posts/go_mod_terratest_localstack/</loc>
     <lastmod>2020-09-23T22:35:36-06:00</lastmod>
   </url><url>
+    <loc>https://jq1.io/tags/go-mod-replace/</loc>
+    <lastmod>2020-09-23T22:35:36-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/localstack/</loc>
+    <lastmod>2020-09-23T22:35:36-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/terratest/</loc>
+    <lastmod>2020-09-23T22:35:36-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/ellipsis/</loc>
+    <lastmod>2020-08-23T16:31:18-06:00</lastmod>
+  </url><url>
     <loc>https://jq1.io/posts/expanding_function_arguments/</loc>
+    <lastmod>2020-08-23T16:31:18-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/for/</loc>
+    <lastmod>2020-08-23T16:31:18-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/group-by/</loc>
     <lastmod>2020-08-23T16:31:18-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/posts/dynamic_vpc/</loc>
@@ -47,7 +122,5 @@
     <loc>https://jq1.io/about/</loc>
   </url><url>
     <loc>https://jq1.io/categories/</loc>
-  </url><url>
-    <loc>https://jq1.io/tags/</loc>
   </url>
 </urlset>

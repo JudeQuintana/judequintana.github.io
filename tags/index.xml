@@ -5,6 +5,223 @@
     <link>https://jq1.io/tags/</link>
     <description>Recent content in Tags on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://jq1.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Tue, 11 Oct 2022 08:11:58 -0600</lastBuildDate><atom:link href="https://jq1.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>aws</title>
+      <link>https://jq1.io/tags/aws/</link>
+      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cross-region</title>
+      <link>https://jq1.io/tags/cross-region/</link>
+      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/cross-region/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>decentralized-hub-spoke-topology</title>
+      <link>https://jq1.io/tags/decentralized-hub-spoke-topology/</link>
+      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/decentralized-hub-spoke-topology/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>intra-region</title>
+      <link>https://jq1.io/tags/intra-region/</link>
+      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/intra-region/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>peering</title>
+      <link>https://jq1.io/tags/peering/</link>
+      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/peering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>routing</title>
+      <link>https://jq1.io/tags/routing/</link>
+      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/routing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>terraform</title>
+      <link>https://jq1.io/tags/terraform/</link>
+      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/terraform/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tgw</title>
+      <link>https://jq1.io/tags/tgw/</link>
+      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/tgw/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vpc</title>
+      <link>https://jq1.io/tags/vpc/</link>
+      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/vpc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>centralized-hub-spoke-topology</title>
+      <link>https://jq1.io/tags/centralized-hub-spoke-topology/</link>
+      <pubDate>Sat, 13 Aug 2022 16:07:10 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/centralized-hub-spoke-topology/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>local-testing</title>
+      <link>https://jq1.io/tags/local-testing/</link>
+      <pubDate>Sat, 05 Mar 2022 16:59:00 -0700</pubDate>
+      
+      <guid>https://jq1.io/tags/local-testing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>list-of-objects</title>
+      <link>https://jq1.io/tags/list-of-objects/</link>
+      <pubDate>Fri, 19 Nov 2021 08:32:57 -0700</pubDate>
+      
+      <guid>https://jq1.io/tags/list-of-objects/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>opinions</title>
+      <link>https://jq1.io/tags/opinions/</link>
+      <pubDate>Fri, 19 Nov 2021 08:32:57 -0700</pubDate>
+      
+      <guid>https://jq1.io/tags/opinions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>security-group-rules</title>
+      <link>https://jq1.io/tags/security-group-rules/</link>
+      <pubDate>Thu, 22 Jul 2021 20:11:22 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/security-group-rules/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>combine-ideas</title>
+      <link>https://jq1.io/tags/combine-ideas/</link>
+      <pubDate>Tue, 12 Jan 2021 20:03:45 -0700</pubDate>
+      
+      <guid>https://jq1.io/tags/combine-ideas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>subnet-calculator</title>
+      <link>https://jq1.io/tags/subnet-calculator/</link>
+      <pubDate>Tue, 01 Dec 2020 20:48:34 -0700</pubDate>
+      
+      <guid>https://jq1.io/tags/subnet-calculator/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://jq1.io/tags/golang/</link>
+      <pubDate>Sat, 10 Oct 2020 11:38:15 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hash-server</title>
+      <link>https://jq1.io/tags/hash-server/</link>
+      <pubDate>Sat, 10 Oct 2020 11:38:15 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/hash-server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>go-mod-replace</title>
+      <link>https://jq1.io/tags/go-mod-replace/</link>
+      <pubDate>Wed, 23 Sep 2020 22:35:36 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/go-mod-replace/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>localstack</title>
+      <link>https://jq1.io/tags/localstack/</link>
+      <pubDate>Wed, 23 Sep 2020 22:35:36 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/localstack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>terratest</title>
+      <link>https://jq1.io/tags/terratest/</link>
+      <pubDate>Wed, 23 Sep 2020 22:35:36 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/terratest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ellipsis</title>
+      <link>https://jq1.io/tags/ellipsis/</link>
+      <pubDate>Sun, 23 Aug 2020 16:31:18 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/ellipsis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>for</title>
+      <link>https://jq1.io/tags/for/</link>
+      <pubDate>Sun, 23 Aug 2020 16:31:18 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/for/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>group-by</title>
+      <link>https://jq1.io/tags/group-by/</link>
+      <pubDate>Sun, 23 Aug 2020 16:31:18 -0600</pubDate>
+      
+      <guid>https://jq1.io/tags/group-by/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
