@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>local-testing on jq1.io</title>
-    <link>https://jq1.io/tags/local-testing/</link>
-    <description>Recent content in local-testing on jq1.io</description>
+    <title>Golang on jq1.io</title>
+    <link>https://jq1.io/categories/golang/</link>
+    <description>Recent content in Golang on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 05 Mar 2022 16:59:00 -0700</lastBuildDate><atom:link href="https://jq1.io/tags/local-testing/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Building a generate routes function using Terraform test</title>
-      <link>https://jq1.io/posts/generating_routes/</link>
-      <pubDate>Sat, 05 Mar 2022 16:59:00 -0700</pubDate>
-      
-      <guid>https://jq1.io/posts/generating_routes/</guid>
-      <description>Welcome to the next episode of thinking out loud to route in the cloud, you know my steez!
-Earlier this season we abstracted a TGW Centralized Router.
-Part of it&amp;rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
-It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
-# snippet variable &amp;#34;vpcs&amp;#34; { type = map(object({ network = string az_to_private_route_table_id = map(string) az_to_public_route_table_id = map(string) })) } locals { # { vpc-1-network =&amp;gt; [ &amp;#34;vpc-1-private-rtb-id-1&amp;#34;, &amp;#34;vpc-1-public-rtb-id-1&amp;#34;, .</description>
-    </item>
-    
+    <lastBuildDate>Sat, 10 Oct 2020 11:38:15 -0600</lastBuildDate><atom:link href="https://jq1.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hash Server 9000 in Go</title>
       <link>https://jq1.io/posts/hash_server_9000/</link>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>abstraction on jq1.io</title>
+    <link>https://jq1.io/tags/abstraction/</link>
+    <description>Recent content in abstraction on jq1.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 12 Jan 2021 20:03:45 -0700</lastBuildDate><atom:link href="https://jq1.io/tags/abstraction/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Synthesizing Tiered VPC in Terraform</title>
+      <link>https://jq1.io/posts/tiered_vpc/</link>
+      <pubDate>Tue, 12 Jan 2021 20:03:45 -0700</pubDate>
+      
+      <guid>https://jq1.io/posts/tiered_vpc/</guid>
+      <description>Today&amp;rsquo;s Mathematics Dynamic VPC x Tiered Subnet Calculator = Tiered VPC
+Observing Abstractions In hindsight, the Dynamic VPC module should instead be called Simple VPC. It provides a general VPC tier including a public subnet (/24), a private subnet (/24) and NAT Gateways per AZ. The interface is simple because there is minimal focus on subnetting due to the internal subnet generation.
+Routing is automatic and the module outputs can be consumed for peering.</description>
+    </item>
+    
+  </channel>
+</rss>

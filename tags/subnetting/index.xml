@@ -6,7 +6,20 @@
     <description>Recent content in subnetting on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 01 Dec 2020 20:48:34 -0700</lastBuildDate><atom:link href="https://jq1.io/tags/subnetting/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 22 Jul 2021 20:11:22 -0600</lastBuildDate><atom:link href="https://jq1.io/tags/subnetting/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Terraform Networking Trifecta</title>
+      <link>https://jq1.io/posts/tnt/</link>
+      <pubDate>Thu, 22 Jul 2021 20:11:22 -0600</pubDate>
+      
+      <guid>https://jq1.io/posts/tnt/</guid>
+      <description>Intro Initially I&amp;rsquo;d planned to blog more than just about Terraform but it hasn&amp;rsquo;t turned out that way due to lack of time.
+But that&amp;rsquo;s OK because I really do enjoy creating and writing about networking topics with Terraform in the cloud.
+Content generation is hard so hats off to those who are consistently generating it.
+This project is for all the Terraform headz building networks in the cloud!
+It&amp;rsquo;s building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code.</description>
+    </item>
+    
     <item>
       <title>Tiered Subnet Calculator in Terraform</title>
       <link>https://jq1.io/posts/tiered_subnet_calculator/</link>

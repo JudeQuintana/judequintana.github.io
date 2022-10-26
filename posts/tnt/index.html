@@ -193,6 +193,16 @@ Built with <a href="https://gohugo.io">Hugo</a>
     
     
     
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/terraform">TERRAFORM</a>
+              
+          
+      
+    
     
     
       
@@ -200,9 +210,6 @@ Built with <a href="https://gohugo.io">Hugo</a>
           <br/>
            <i class="fas fa-tags"></i>
           
-          <a class="badge badge-tag" href="/tags/terraform">terraform</a>
-           
-      
           <a class="badge badge-tag" href="/tags/aws">aws</a>
            
       
@@ -216,6 +223,9 @@ Built with <a href="https://gohugo.io">Hugo</a>
            
       
           <a class="badge badge-tag" href="/tags/routing">routing</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/subnetting">subnetting</a>
           
       
     
@@ -480,7 +490,7 @@ module &#34;intra_vpc_security_group_rules&#34; {
 </code></pre><p>It&rsquo;s important that the Security Group rules are created in a separate
 module from the routing.</p>
 <h1 id="transit-gateway-centralized-router">Transit Gateway Centralized Router</h1>
-<p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a> module will attach all AZs in each Tiered VPC to the TGW.</p>
+<p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a> module will attach all AZs in each Tiered VPC to a TGW.</p>
 <p>Think router on a stick!</p>
 <p>All attachments will be associated and routes propagated to one TGW Route Table.</p>
 <p>Each Tiered VPC will have all their route tables updated with a generated route to all other VPC networks via
