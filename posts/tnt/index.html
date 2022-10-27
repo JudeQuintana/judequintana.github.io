@@ -349,7 +349,7 @@ the public subnets.</li>
 <li>
 <p>NAT Gateways are no longer built by default when private subnets exist in an AZ.</p>
 <ul>
-<li>This allows for routable private subnets that have no outbound internet traffic unless <code>enable_natgw = true</code>, in which case the NAT Gateway will be built and private route tables updated.</li>
+<li>This allows private subnets that have no outbound internet traffic unless <code>enable_natgw = true</code>, in which case the NAT Gateway will be built in a public subnet and private route tables updated.</li>
 <li>Now you can just &ldquo;flip the switch&rdquo; to give all private
 subnets in an AZ access to the internet.</li>
 <li>NAT Gateways are created with an EIP per AZ when enabled.
