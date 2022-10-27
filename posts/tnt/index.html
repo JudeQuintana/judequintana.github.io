@@ -278,7 +278,8 @@ motivated so peep the visuals to spice up the concept.</p>
 <a href="https://twitter.com/MAKIO135/status/1404543066724253699">https://twitter.com/MAKIO135/status/1404543066724253699</a>
 <a href="https://twitter.com/MAKIO135/status/1368340867803660289">https://twitter.com/MAKIO135/status/1368340867803660289</a></p>
 <p>Big shout out Lionel Radisson!</p>
-<h1 id="tiered-vpc-ng">Tiered VPC-NG</h1>
+<h1 id="tnt-architecture">TNT Architecture</h1>
+<h3 id="tiered-vpc-ng">Tiered VPC-NG</h3>
 <p>The new <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a>
 module is based off the old <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc">Tiered VPC</a> prototype.</p>
 <p>NG is supposed to be a finalized design based off the learnings of it&rsquo;s predecessor but it&rsquo;s just cool to call my projects next gen!</p>
@@ -308,6 +309,19 @@ module is based off the old <a href="https://github.com/JudeQuintana/terraform-m
 </li>
 <li>
 <p>Requires a minimum of at least one public subnet per AZ.</p>
+<ul>
+<li>Trade-offs
+<ul>
+<li>Eats up a public subnet even if we are only going to use private
+subnets.</li>
+<li>Allows us to simply declare <code>enable_natgw = true</code> in the AZ block
+of the VPC and build the NATGW in the first public subnet in the AZ.</li>
+<li>Allows Centralized Router to easily filter and select the first public
+subnet in each enabled AZ to build the vpc attachments because it
+will always exist.</li>
+</ul>
+</li>
+</ul>
 </li>
 <li>
 <p>Can add and remove subnets and/or AZs at any time<a href="https://jq1.io/posts/tnt/#caveats">*</a>.</p>
@@ -447,7 +461,7 @@ module &#34;vpcs&#34; {
   region_az_labels = var.region_az_labels
   tier             = each.value
 }
-</code></pre><h1 id="intra-vpc-security-group-rules">Intra VPC Security Group Rules</h1>
+</code></pre><h3 id="intra-vpc-security-group-rules">Intra VPC Security Group Rules</h3>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/intra_vpc_security_group_rule_for_tiered_vpc_ng">Intra VPC Security Group Rule</a> module will create an inbound only rule for each VPC that will point to all other VPC networks except the VPC itself.</p>
 <p>This will allow ssh and ping protocols accross Tiered VPCs so
 communication will just work once we enable routing to each other with Transit
@@ -481,7 +495,7 @@ module &#34;intra_vpc_security_group_rules&#34; {
 }
 </code></pre><p>It&rsquo;s important that the Security Group rules are created in a separate
 module from the routing.</p>
-<h1 id="transit-gateway-centralized-router">Transit Gateway Centralized Router</h1>
+<h3 id="transit-gateway-centralized-router">Transit Gateway Centralized Router</h3>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Transit Gateway Centralized Router</a> module will attach all AZs in each Tiered VPC to a TGW.</p>
 <p>Think router on a stick!</p>
 <p>All VPC attachments will be associated and routes propagated to one TGW Route Table.</p>
