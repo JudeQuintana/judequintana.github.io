@@ -245,7 +245,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p>Example VPC architecture but with ephemeral subnets:
 <img src="https://jq1.io/img/vpc/aws-vpc-diagram.png" alt="vpc-ng"></p>
 <p>With Tiered VPCs we can narrow down the context (ie app, cicd, general) and maximize the use of smaller network sizes.</p>
-<p>Then routing between them by <a href="https://github.com/JudeQuintana/terraform-main/blob/6a27852078a0234cde4bb24dd138485ac2a8046f/networking_trifecta_demo/networking.tf#L86">passing a map</a> of <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a> modules to the <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng#module_generate_routes_to_other_vpcs">Centralized Router</a> module which will attach the VPCs to a Transit Gateway with the proper peering and routing.</p>
+<p>Then routing between them by <a href="https://github.com/JudeQuintana/terraform-main/blob/6a27852078a0234cde4bb24dd138485ac2a8046f/networking_trifecta_demo/networking.tf#L86">passing a map</a> of <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a> modules to the <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng#module_generate_routes_to_other_vpcs">Centralized Router</a> module which will attach the VPCs to a Transit Gateway with the proper vpc attachments and routing.</p>
 <p>Example TNT Architecture (zoom out):
 <img src="https://jq1.io/img/tnt.png" alt="tnt"></p>
 <h2 id="super-router">Super Router</h2>
