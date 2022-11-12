@@ -6,7 +6,18 @@
     <description>Recent content in basics on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2020 11:38:15 -0600</lastBuildDate><atom:link href="https://jq1.io/tags/basics/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 19 Nov 2021 08:32:57 -0700</lastBuildDate><atom:link href="https://jq1.io/tags/basics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Terraform Opinion #23: Use list of objects over map of maps</title>
+      <link>https://jq1.io/posts/opinion_23/</link>
+      <pubDate>Fri, 19 Nov 2021 08:32:57 -0700</pubDate>
+      
+      <guid>https://jq1.io/posts/opinion_23/</guid>
+      <description>Lately, I&amp;rsquo;ve seen quite a bit of Terraform snippets that use a static map of maps to directly configure resources.
+For example:
+locals { map_of_maps = { name1 = { attribute1 = &amp;#34;name1-value1&amp;#34; attribute2 = &amp;#34;name1-value2&amp;#34; attribute3 = &amp;#34;name1-value3&amp;#34; } name2 = { attribute1 = &amp;#34;name2-value1&amp;#34; attribute2 = &amp;#34;name2-value2&amp;#34; attribute3 = &amp;#34;name2-value3&amp;#34; } name3 = { attribute1 = &amp;#34;name3-value1&amp;#34; attribute2 = &amp;#34;name3-value2&amp;#34; attribute3 = &amp;#34;name3-value3&amp;#34; } } } resource &amp;#34;some_resource&amp;#34; &amp;#34;this&amp;#34; { for_each = local.</description>
+    </item>
+    
     <item>
       <title>Hash Server 9000 in Go</title>
       <link>https://jq1.io/posts/hash_server_9000/</link>
