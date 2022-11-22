@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.105.0">
+<meta name="generator" content="Hugo 0.106.0">
 
     
 
@@ -175,7 +175,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
         
         Aaaand we&rsquo;re back with another heavy hitting round of super refactorization in Terraform!
 I think the first iteration of Super Router for AWS went well.
-It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module and then &ldquo;scale&rdquo; them.
+It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module and then &ldquo;scaling&rdquo; them.
 But there was one really annoying flaw.
 The caveat in the design is that the peer TGWs will have to go through the Super Router&rsquo;s local provider region to get to other peer TGWs.
         
