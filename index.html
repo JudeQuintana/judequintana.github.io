@@ -175,7 +175,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
         
         Aaaand we&rsquo;re back with another heavy hitting round of super refactorization in Terraform!
 I think the first iteration of Super Router for AWS went well.
-It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module and then &ldquo;scaling&rdquo; them.
+It allowed us to peer and route both intra-region and cross-region TGWs and VPCs with a single module.
 But there was one really annoying flaw.
 The caveat in the design is that the peer TGWs will have to go through the Super Router&rsquo;s local provider region to get to other peer TGWs.
         
