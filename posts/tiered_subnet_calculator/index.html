@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.106.0">
+<meta name="generator" content="Hugo 0.108.0">
 
     
     
@@ -32,7 +32,6 @@ Furthermore, auto subnet calculation should be in assistance to the process of a
 <meta property="og:url" content="https://jq1.io/posts/tiered_subnet_calculator/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-12-01T20:48:34-07:00" />
 <meta property="article:modified_time" content="2020-12-01T20:48:34-07:00" /><meta property="og:site_name" content="The Art of Demolition" />
-
 
 
     
@@ -214,7 +213,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
     
     
     <br/>
-    <i class="fas fa-clock"></i> 6 min read
+    <i class="fas fa-clock"></i> 7 min read
 </div>
 
 
@@ -606,6 +605,11 @@ Hosts:     4064
 <p>I know I said auto subnet calculation should not be fed directly as input to the VPC module but that is just my opinion.</p>
 <p>It doesn&rsquo;t mean you shouldn&rsquo;t try or that it hasn&rsquo;t <a href="https://github.com/hashicorp/terraform-cidr-subnets">already been looked into by very smart people</a>.</p>
 <p>The goal is to challenge our own ideas.</p>
+<hr>
+<p>Update Dec 17th 2022:</p>
+<p>Things have changed since TF v0.13 like the resulting order for a list of objects with <code>for</code>.</p>
+<p>So this article is outdated if you&rsquo;re using a more recent version of Terraform.</p>
+<p>I&rsquo;ll try to update article when I can.</p>
 
   </div>
   <div>
