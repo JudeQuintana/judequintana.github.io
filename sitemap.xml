@@ -2,49 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://jq1.io/posts/init_super_refactor/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
-  </url><url>
     <loc>https://jq1.io/tags/aws/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/categories/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/cloud-networking/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/cross-region/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/decentralized-hub-spoke-topology/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/intra-region/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/peering/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/posts/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/routing/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/security-group-rules/</loc>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/posts/slappin_chrome_on_the_wip/</loc>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/categories/terraform/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/tgw/</loc>
-    <lastmod>2022-10-11T08:11:58-06:00</lastmod>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/vpc/</loc>
+    <lastmod>2023-01-28T10:49:56-07:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/posts/init_super_refactor/</loc>
     <lastmod>2022-10-11T08:11:58-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/centralized-hub-spoke-topology/</loc>
@@ -78,9 +84,6 @@
     <lastmod>2021-11-19T08:32:57-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/hub-spoke-topology/</loc>
-    <lastmod>2021-07-22T20:11:22-06:00</lastmod>
-  </url><url>
-    <loc>https://jq1.io/tags/security-group-rules/</loc>
     <lastmod>2021-07-22T20:11:22-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/subnetting/</loc>

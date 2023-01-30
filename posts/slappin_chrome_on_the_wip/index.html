@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.110.0">
+
+    
+    
+    
+
+<title>Slappin&#39; chrome on the WIP • jq1.io</title>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Slappin&#39; chrome on the WIP"/>
+<meta name="twitter:description" content="Reflection in the Rear-View: Initially, I thought the TNT Architecture project and Super Router project were good enough to leave alone and move on.
+But after looking back on what was built there were so many areas for improvement that I could not resist the extended refinement.
+I went ahead and gave the most useful modules a clean chrome wrapping with encoded engravings.
+Most of the work went into internal module changes and consolidating the best patterns to use, in my opinon."/>
+
+<meta property="og:title" content="Slappin&#39; chrome on the WIP" />
+<meta property="og:description" content="Reflection in the Rear-View: Initially, I thought the TNT Architecture project and Super Router project were good enough to leave alone and move on.
+But after looking back on what was built there were so many areas for improvement that I could not resist the extended refinement.
+I went ahead and gave the most useful modules a clean chrome wrapping with encoded engravings.
+Most of the work went into internal module changes and consolidating the best patterns to use, in my opinon." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jq1.io/posts/slappin_chrome_on_the_wip/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-28T10:49:56-07:00" />
+<meta property="article:modified_time" content="2023-01-28T10:49:56-07:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/github.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" sizes="32x32" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://jq1.io/">jq1.io</a>
+      </span>
+      
+        
+        
+        
+        <div class="author-image">
+          <img src="https://jq1.io/img/thought.png" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+      
+      
+      <p class="site__description">
+         Ideas as Code 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">jq1.io</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/JayQ_One" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	<a href="https://github.com/judequintana" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/jq1" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="mailto:jude@jq1.io" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	<a href="https://jq1.io/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2023 Jude Quintana
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a>
+</div>
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Slappin&#39; chrome on the WIP</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Jan 28, 2023
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/terraform">TERRAFORM</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/aws">aws</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/vpc">vpc</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/tgw">tgw</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/peering">peering</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/routing">routing</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/security-group-rules">security-group-rules</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/intra-region">intra-region</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/cross-region">cross-region</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/decentralized-hub-spoke-topology">decentralized-hub-spoke-topology</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/cloud-networking">cloud-networking</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 5 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="post">
+    <p><img src="https://www.motortrend.com/uploads/sites/7/2019/12/1958-Chevrolet-Impala-Japanese-lowrider.jpg" alt="front">
+<img src="https://www.motortrend.com/uploads/sites/7/2019/12/1958-Chevrolet-Impala-Continental-Kit.jpg" alt="back"></p>
+<hr>
+<hr>
+<h3 id="reflection-in-the-rear-view">Reflection in the Rear-View:</h3>
+<p>Initially, I thought the <a href="https://jq1.io/posts/tnt/">TNT Architecture project</a> and <a href="https://jq1.io/posts/init_super_refactor/">Super Router project</a> were good enough to leave alone and move on.</p>
+<p>But after looking back on what was built there were so many areas for improvement that I could not resist the extended refinement.</p>
+<p>I went ahead and gave the most useful modules a clean chrome wrapping with encoded engravings.</p>
+<p>Most of the work went into internal module changes and consolidating the best patterns to use, in my opinon.</p>
+<p>This includes new Tiered VPC-NG features for maximum subnet flexibility and a brand new Super Intra VPC Security Group Rules module!</p>
+<p>Introducing the high powered <a href="https://www.motortrend.com/vehicle-genres/semas-attention-grabbing-58-impala/">Shokunin</a> version <code>v1.4.6</code> for all modules used in <a href="https://github.com/JudeQuintana/terraform-main/tree/main/networking_trifecta_demo">TNT Architecture Demo</a> and <a href="https://github.com/JudeQuintana/terraform-main/tree/main/super_router_demo">Super Router Demo</a> so be sure to check out new features.</p>
+<p>The next time you&rsquo;re cruising in the cloud, take a <a href="https://youtu.be/_CL6n0FJZpk?t=20">spin</a> in the choice ride!</p>
+<p>~jq1 #StayUp #AoD</p>
+<p>&ldquo;No more livin&rsquo; hard. Barbeques every day, drivin&rsquo; fancy cars.&rdquo; - Dr. Dre</p>
+<p>&ldquo;The way the wheels spin cuttin&rsquo; through the still wind, outsiders lookin&rsquo; in with the ill grin.&rdquo; - Q-Tip</p>
+<hr>
+<hr>
+<h3 id="general-refactoring-across-modules">General Refactoring Across Modules:</h3>
+<ul>
+<li>Being explicit goes a long way so automatic naming via the random provider was removed across the board.</li>
+<li>Moved most variables into object configurations in each module so now it&rsquo;s easier to configure them with <code>for_each</code>.</li>
+<li>Many moar validations and preconditions for better interface guard rails especially the cross region checks.</li>
+<li>Doubled down on consistent naming patterns for resources, data sources, variables, local variables and tags.</li>
+<li>Simplified transform output requirements.</li>
+<li>Removed risky <code>for</code> loop assumptions leading to stronger transform patterns.</li>
+<li><code>base.tf</code> is the new main now that main.tf is used only for document generation with <code>terraform-docs</code>.</li>
+</ul>
+<hr>
+<hr>
+<h3 id="tiered-vpc-nghttpsgithubcomjudequintanaterraform-modulestreemasternetworkingtiered_vpc_ng"><a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a>:</h3>
+<ul>
+<li>Can access subnet id by subnet name map via output.</li>
+<li>Can rename public and private subnets directly without forcing a new subnet resource.</li>
+<li>Public subnets now have a special attribute option.
+<ul>
+<li>Only one can have <code>special = true</code> which enables 3 things:
+<ul>
+<li>Associate a NAT Gateway if <code>enable_natgw = true</code>.</li>
+<li>Use for associating VPC attatchments when Tiered VPC is passed to a Centralized Router (one in each AZ).</li>
+<li>Existing public subnets can be rearranged in any order in their repective subnet list without forcing new resources.</li>
+</ul>
+</li>
+<li>The trade off is always having to allocate one public subnet per AZ, even if you don&rsquo;t need to use it (ie using private subnets only).</li>
+</ul>
+</li>
+<li>Important:
+<ul>
+<li>All VPC names should be unique across regions (validation enforced).</li>
+<li>I highly recommend allocating a small public subnet like a /28 and setting it&rsquo;s special attribute to true for each AZ.</li>
+</ul>
+</li>
+</ul>
+<p>Examples (<a href="https://github.com/JudeQuintana/terraform-main/blob/main/networking_trifecta_demo/vpcs.tf">TNT</a> | <a href="https://github.com/JudeQuintana/terraform-main/blob/main/super_router_demo/vpcs_usw2.tf">Super Router</a>):</p>
+<p>Before:</p>
+<pre tabindex="0"><code>locals {
+  tiered_vpc = {
+    name    = &#34;app&#34;
+    network = &#34;10.0.0.0/20&#34;
+    azs = {
+      a = {
+        private = [&#34;10.0.0.0/24&#34;, &#34;10.0.1.0/24&#34;, &#34;10.0.2.0/24&#34;]
+        public  = [&#34;10.0.3.0/24&#34;, &#34;10.0.4.0/24&#34;]
+      }
+    }
+  }
+}
+</code></pre><p>After:</p>
+<pre tabindex="0"><code>locals {
+  new_tiered_vpc = {
+    name         = &#34;app&#34;
+    network_cidr = &#34;10.0.0.0/20&#34;
+    azs = {
+      a = {
+        private_subnets = [
+          { name = &#34;cluster1&#34;, cidr = &#34;10.0.0.0/24&#34; }
+        ]
+        public_subnets = [
+          { name = &#34;random1&#34;, cidr = &#34;10.0.3.0/28&#34; },
+          { name = &#34;haproxy1&#34;, cidr = &#34;10.0.4.0/26&#34; },
+          { name = &#34;natgw&#34;, cidr = &#34;10.0.10.0/28&#34;, special = true }
+        ]
+      }
+    }
+  }
+}
+</code></pre><hr>
+<hr>
+<h3 id="centralized-routerhttpsgithubcomjudequintanaterraform-modulestreemasternetworkingtransit_gateway_centralized_router_for_tiered_vpc_ng"><a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng">Centralized Router</a>:</h3>
+<ul>
+<li>Can set name directly.</li>
+<li>Can blackhole routes for specific network cidrs.</li>
+<li>Important:
+<ul>
+<li>All centralized router names should be unique across regions (validation enforced).</li>
+</ul>
+</li>
+</ul>
+<p>Examples (<a href="https://github.com/JudeQuintana/terraform-main/blob/main/networking_trifecta_demo/centralized_router.tf">TNT</a> | <a href="https://github.com/JudeQuintana/terraform-main/blob/main/super_router_demo/centralized_routers_usw2.tf">Super Router</a>):</p>
+<pre tabindex="0"><code>module &#34;centralized_router&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/transit_gateway_centralized_router_for_tiered_vpc_ng?ref=v1.4.6&#34;
+
+  env_prefix       = var.env_prefix
+  region_az_labels = var.region_az_labels
+  centralized_router = {
+    name            = &#34;gabmit&#34;
+    amazon_side_asn = 64512
+    blackhole_cidrs = [&#34;172.16.8.0/24&#34;]
+    vpcs            = module.vpcs
+  }
+}
+</code></pre><hr>
+<hr>
+<h3 id="generate-routes-to-other-vpcshttpsgithubcomjudequintanaterraform-modulestreemasterutilsgenerate_routes_to_other_vpcs-function"><a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/generate_routes_to_other_vpcs">Generate Routes to Other VPCs</a> (function):</h3>
+<ul>
+<li>Refactored interface and internals but behavior is the same.
+<ul>
+<li>Only used as a nested module function in Centralized Router to generate routes to other VPCs.</li>
+</ul>
+</li>
+</ul>
+<p>Example (<a href="https://github.com/JudeQuintana/terraform-modules/blob/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng/routing.tf">Centralized Router</a>):</p>
+<p>Before:</p>
+<pre tabindex="0"><code>variable &#34;vpcs&#34; {
+  description = &#34;map of tiered_vpc_ng objects&#34;
+  type = map(object({
+    network                      = string
+    az_to_private_route_table_id = map(string)
+    az_to_public_route_table_id  = map(string)
+  }))
+}
+</code></pre><p>After:</p>
+<pre tabindex="0"><code>variable &#34;vpcs&#34; {
+  description = &#34;map of tiered_vpc_ng objects&#34;
+  type = map(object({
+    network_cidr            = string
+    private_route_table_ids = list(string)
+    public_route_table_ids  = list(string)
+  }))
+}
+</code></pre><hr>
+<hr>
+<h3 id="super-routerhttpsgithubcomjudequintanaterraform-modulestreemasternetworkingtgw_super_router_for_tgw_centralized_router"><a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tgw_super_router_for_tgw_centralized_router">Super Router</a>:</h3>
+<ul>
+<li>Can set name directly.</li>
+<li>Can blackhole routes for specific network cidrs.</li>
+<li>Continues to build a decentralized hub spoke topology.</li>
+</ul>
+<p>Example (<a href="https://github.com/JudeQuintana/terraform-main/blob/main/super_router_demo/super_router_usw2_to_use1.tf">Super Router</a>):</p>
+<pre tabindex="0"><code>module &#34;super_router_usw2_to_use1&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/tgw_super_router_for_tgw_centralized_router?ref=v1.4.6&#34;
+
+  providers = {
+    aws.local = aws.usw2 # local super router tgw will be built in the aws.local provider region
+    aws.peer  = aws.use1 # peer super router tgw will be built in the aws.peer provider region
+  }
+
+  env_prefix       = var.env_prefix
+  region_az_labels = var.region_az_labels
+  super_router = {
+    name            = &#34;professor-x&#34;
+    blackhole_cidrs = local.blackhole_cidrs
+    local = {
+      amazon_side_asn     = 64521
+      centralized_routers = module.centralized_routers_usw2
+    }
+    peer = {
+      amazon_side_asn     = 64522
+      centralized_routers = module.centralized_routers_use1
+    }
+  }
+}
+</code></pre><hr>
+<hr>
+<h3 id="intra-vpc-security-group-rulehttpsgithubcomjudequintanaterraform-modulestreemasternetworkingintra_vpc_security_group_rule_for_tiered_vpc_ng"><a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/intra_vpc_security_group_rule_for_tiered_vpc_ng">Intra VPC Security Group Rule</a>:</h3>
+<ul>
+<li>Refactored internals but behavior is the same.
+<ul>
+<li>Can set security group rules for VPCs within same region.</li>
+<li>It&rsquo;s recommended that the Routers are built before the Security
+Group Rules to enforce validations that are too awkward to handle in
+this module.</li>
+</ul>
+</li>
+</ul>
+<p>Examples (<a href="https://github.com/JudeQuintana/terraform-main/blob/main/networking_trifecta_demo/security_group_rules.tf">TNT</a> | <a href="https://github.com/JudeQuintana/terraform-main/blob/main/super_router_demo/secuirty_group_rules.tf">Super Router</a>):</p>
+<pre tabindex="0"><code>module &#34;intra_vpc_security_group_rules&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/intra_vpc_security_group_rule_for_tiered_vpc_ng?ref=v1.4.6&#34;
+
+  for_each = { for r in local.intra_vpc_security_group_rules : r.label =&gt; r }
+
+  env_prefix       = var.env_prefix
+  region_az_labels = var.region_az_labels
+  intra_vpc_security_group_rule = {
+    rule = each.value
+    vpcs = module.vpcs
+  }
+}
+</code></pre><hr>
+<hr>
+<h3 id="new-super-intra-vpc-security-group-ruleshttpsgithubcomjudequintanaterraform-modulestreemasternetworkingsuper_intra_vpc_security_group_rules"><strong>NEW</strong> <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/super_intra_vpc_security_group_rules">Super Intra VPC Security Group Rules</a>:</h3>
+<ul>
+<li>Can set security group rules for cross regions VPCs.</li>
+<li>Important:
+<ul>
+<li>It&rsquo;s recommended that the Routers are built before the Security
+Group Rules to enforce validations that are too awkward to handle in
+this module.</li>
+</ul>
+</li>
+</ul>
+<p>Example (<a href="https://github.com/JudeQuintana/terraform-main/blob/main/super_router_demo/security_group_rules.tf">Super Router</a>):</p>
+<pre tabindex="0"><code>module &#34;super_intra_vpc_security_group_rules_usw2_to_use1&#34; {
+  source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/super_intra_vpc_security_group_rules?ref=v1.4.6&#34;
+
+  providers = {
+    aws.local = aws.usw2
+    aws.peer  = aws.use1
+  }
+
+  env_prefix       = var.env_prefix
+  region_az_labels = var.region_az_labels
+  super_intra_vpc_security_group_rules = {
+    local = {
+      intra_vpc_security_group_rules = module.intra_vpc_security_group_rules_usw2
+    }
+    peer = {
+      intra_vpc_security_group_rules = module.intra_vpc_security_group_rules_use1
+    }
+  }
+}
+</code></pre><hr>
+<hr>
+
+  </div>
+  <div>
+	
+   <h2>Feedback</h2>
+   <p>What did you think about this post? <a href="mailto:jude@jq1.io">jude@jq1.io</a></p>
+	
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/init_super_refactor/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">$init super refactor</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+  
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YE3FYNTXXN"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-YE3FYNTXXN', { 'anonymize_ip': false });
+}
+</script>
+
+
+<script src="https://use.fontawesome.com/releases/v6.2.0/js/all.js" integrity="sha384-W5zCdxUh9KjkijDohSc4bFCIfbZKNYcz/hdWjfRL1whrEJO6YBXMaZcAZU5YWJNW" crossorigin="anonymous"></script>
+
+
+    
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+        
+    
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

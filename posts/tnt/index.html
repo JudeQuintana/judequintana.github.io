@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.109.0">
+<meta name="generator" content="Hugo 0.110.0">
 
     
     
@@ -156,7 +156,7 @@ It&rsquo;s building on my previous Tiered VPC idea but by adding a couple more a
     </div>
     
 <div class="copyright">
-  &copy; 2022 Jude Quintana
+  &copy; 2023 Jude Quintana
   
 </div>
 
@@ -228,7 +228,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
     
     
     <br/>
-    <i class="fas fa-clock"></i> 9 min read
+    <i class="fas fa-clock"></i> 10 min read
 </div>
 
 
@@ -545,10 +545,16 @@ subnet can&rsquo;t be deleted until it&rsquo;s attachment is removed from the TG
 </ul>
 </li>
 </ul>
+<hr>
+<p>Update January 29th 2023:</p>
+<p>The Shokunin version <code>v1.4.6</code> has been released for the modules above.</p>
+<p>New features means new steez in <a href="https://jq1.io/posts/slappin_chrome_on_the_wip/">Slappin chrome on the WIP&rsquo;</a>!</p>
+<p>The demo below has been updated to use Shokunin version <code>v1.4.6</code>.</p>
+<hr>
 <h1 id="trifecta-demo-time">Trifecta Demo Time</h1>
 <p><strong>This will be a demo of the following:</strong></p>
 <ul>
-<li>Configure <code>us-west-2a</code> AZ in <code>app</code> VPC - <code>10.0.0.0/20</code>
+<li>Configure <code>us-west-2a</code> and <code>us-west-2b</code> AZs in <code>app</code> VPC - <code>10.0.0.0/20</code>
 <ul>
 <li>Launch <code>app-public</code> instance in public subnet.</li>
 </ul>
@@ -612,13 +618,12 @@ $ terraform apply -target module.vpcs
 <li>Launch instances in each enabled AZ for all VPCs.</li>
 <li>Route between VPCs via TGW.</li>
 </ul>
-<pre tabindex="0"><code>$ terraform apply -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.tgw_centralized_router
+<pre tabindex="0"><code>$ terraform apply -target module.intra_vpc_security_group_rules -target aws_instance.instances -target module.centralized_router
 </code></pre><p>Once the apply is complete, it will take 1-2 minutes for the TGW
 routing to fully propagate.</p>
 <p><strong>Verify Connectivity Between VPCs</strong></p>
-<pre tabindex="0"><code>$ cd ../scripts/
-$ chmod u+x get_instance_info.sh
-$ ./get_instance_info.sh
+<pre tabindex="0"><code>$ chmod u+x ./scripts/get_instance_info.sh
+$ ./scripts/get_instance_info.sh
 </code></pre><p>Example output:</p>
 <pre tabindex="0"><code># aws_instance.instances[&#34;cicd-private&#34;]
     private_ip                           = &#34;172.16.5.11&#34;
@@ -635,11 +640,14 @@ $ ./get_instance_info.sh
 
 # My Public IP
 XX.XXX.XXX.XX
-</code></pre><p>Using the output above, add an inbound ssh rule from &ldquo;My Public IP&rdquo; to the default security group id of the App VPC.</p>
-<p>This can be done manually in the AWS console or with the aws cli command below.</p>
-<pre tabindex="0"><code>$ aws ec2 authorize-security-group-ingress --region us-west-2 --group-id sg-id-1234 --protocol tcp --port 22 --cidr My.Public.IP.Here/32
-</code></pre><p>Next, ssh to the <code>app-public</code> instance public IP (ie <code>54.187.241.115</code>) using the EC2 key pair private key.</p>
-<p>Then, ssh to the <code>private_ip</code> of the <code>general-private</code> instance, then <code>cicd-private</code>, then back to <code>app-public</code>.</p>
+
+# If you have awscli configured follow the instructions below otherwise you have to do it manually in the AWS console
+# AWS CLI Command to copy, replace both app-vpc-default-sg-id and My.Public.IP.Here and run script:
+
+aws ec2 authorize-security-group-ingress --region us-west-2 --group-id app-vpc-default-sg-id --protocol tcp --port 22 --cidr My.Public.IP.Here/32
+</code></pre><p>Run the <code>awscli</code> command from the output above to add an inbound ssh rule from &ldquo;My Public IP&rdquo; to the default security group id of the App VPC.</p>
+<p>Next, ssh to the <code>app-public</code> instance public IP (ie <code>54.187.241.115</code>) using the EC2 key pair private key.</p>
+<p>Then, ssh to the <code>private_ip</code> of the <code>general-private</code> instance, then ssh to <code>cicd-private</code>, then ssh back to <code>app-public</code>.</p>
 <pre tabindex="0"><code>$ ssh -i ~/.ssh/my-ec2-key.pem -A ec2-user@54.187.241.115
 
 [ec2-user@app-public ~]$ ping google.com # works! via igw
@@ -657,8 +665,7 @@ XX.XXX.XXX.XX
 [ec2-user@app-public ~]$
 </code></pre><p>🔻 Trifecta Complete!!!</p>
 <p><strong>Clean Up</strong></p>
-<pre tabindex="0"><code>$ cd networking_trifecta_demo
-$ terraform destroy
+<pre tabindex="0"><code>$ terraform destroy
 </code></pre><h1 id="final-thoughts">Final Thoughts</h1>
 <p>This article endeding up being way more work than I thought was needed so thanks for taking the time
 to read about my random cloud networking ideas, stay up!</p>

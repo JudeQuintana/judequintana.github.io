@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.109.0">
+<meta name="generator" content="Hugo 0.110.0">
 
     
 
@@ -142,7 +142,7 @@
     </div>
     
 <div class="copyright">
-  &copy; 2022 Jude Quintana
+  &copy; 2023 Jude Quintana
   
 </div>
 
@@ -160,6 +160,28 @@ Built with <a href="https://gohugo.io">Hugo</a>
   <div class="post-list">
     
     
+      
+        
+      
+      <div class="post-list__item">
+        <span class="item__title--big">
+          <a href="/posts/expanding_function_arguments/" >Expanding Function Arguments in Terraform</a>
+        </span>
+        <span class="item__date">
+          Aug 23, 2020
+        </span>
+        <span >
+        
+        The other day I was wondering if it was possble to unpack a list of elements as args to a function in Terraform similar to * in Python or splat in Ruby? Because this code will give invalid function argument errors:
+locals { new_bits = [4,4,8,4] subnets = cidrsubnets(&#34;10.1.0.0/16&#34;, local.new_bits) # &lt;= can i unpack? } It turns out you can do this with the expansion symbol ... (three periods). Not to be confused with the Unicode ellipsis character.
+        
+        </span>
+        
+          ... <a class="read-more-symbol" href="/posts/expanding_function_arguments/">➦</a>
+        
+        </div>
+        
+     
       
         
       

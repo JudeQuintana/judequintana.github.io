@@ -6,11 +6,11 @@
     <description>Recent content in Tags on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Oct 2022 08:11:58 -0600</lastBuildDate><atom:link href="https://jq1.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 28 Jan 2023 10:49:56 -0700</lastBuildDate><atom:link href="https://jq1.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>aws</title>
       <link>https://jq1.io/tags/aws/</link>
-      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
       
       <guid>https://jq1.io/tags/aws/</guid>
       <description></description>
@@ -19,7 +19,7 @@
     <item>
       <title>cloud-networking</title>
       <link>https://jq1.io/tags/cloud-networking/</link>
-      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
       
       <guid>https://jq1.io/tags/cloud-networking/</guid>
       <description></description>
@@ -28,7 +28,7 @@
     <item>
       <title>cross-region</title>
       <link>https://jq1.io/tags/cross-region/</link>
-      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
       
       <guid>https://jq1.io/tags/cross-region/</guid>
       <description></description>
@@ -37,7 +37,7 @@
     <item>
       <title>decentralized-hub-spoke-topology</title>
       <link>https://jq1.io/tags/decentralized-hub-spoke-topology/</link>
-      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
       
       <guid>https://jq1.io/tags/decentralized-hub-spoke-topology/</guid>
       <description></description>
@@ -46,7 +46,7 @@
     <item>
       <title>intra-region</title>
       <link>https://jq1.io/tags/intra-region/</link>
-      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
       
       <guid>https://jq1.io/tags/intra-region/</guid>
       <description></description>
@@ -55,7 +55,7 @@
     <item>
       <title>peering</title>
       <link>https://jq1.io/tags/peering/</link>
-      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
       
       <guid>https://jq1.io/tags/peering/</guid>
       <description></description>
@@ -64,16 +64,25 @@
     <item>
       <title>routing</title>
       <link>https://jq1.io/tags/routing/</link>
-      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
       
       <guid>https://jq1.io/tags/routing/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>security-group-rules</title>
+      <link>https://jq1.io/tags/security-group-rules/</link>
+      <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
+      
+      <guid>https://jq1.io/tags/security-group-rules/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>tgw</title>
       <link>https://jq1.io/tags/tgw/</link>
-      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
       
       <guid>https://jq1.io/tags/tgw/</guid>
       <description></description>
@@ -82,7 +91,7 @@
     <item>
       <title>vpc</title>
       <link>https://jq1.io/tags/vpc/</link>
-      <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
+      <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
       
       <guid>https://jq1.io/tags/vpc/</guid>
       <description></description>
@@ -157,15 +166,6 @@
       <pubDate>Thu, 22 Jul 2021 20:11:22 -0600</pubDate>
       
       <guid>https://jq1.io/tags/hub-spoke-topology/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>security-group-rules</title>
-      <link>https://jq1.io/tags/security-group-rules/</link>
-      <pubDate>Thu, 22 Jul 2021 20:11:22 -0600</pubDate>
-      
-      <guid>https://jq1.io/tags/security-group-rules/</guid>
       <description></description>
     </item>
     
