@@ -15,7 +15,7 @@
       <guid>https://jq1.io/posts/slappin_chrome_on_the_wip/</guid>
       <description>Reflection in the Rear-View: Initially, I thought the TNT Architecture project and Super Router project were good enough to leave alone and move on.
 But after looking back on what was built there were so many areas for improvement that I could not resist the extended refinement.
-I went ahead and gave the most useful modules a clean chrome wrapping with encoded engravings.
+I went ahead and gave the most useful Teraform AWS networking modules a clean chrome wrapping with encoded engravings.
 Most of the work went into internal module changes and consolidating the best patterns to use, in my opinon.</description>
     </item>
     
