@@ -15,7 +15,7 @@
       <guid>https://jq1.io/posts/slappin_chrome_on_the_wip/</guid>
       <description>Reflection in the Rear-View: Initially, I thought the TNT Architecture project and Super Router project were &amp;ldquo;good enough&amp;rdquo; to scale cross-region VPCs &amp;amp; TGWs in AWS.
 But, after looking back on what was built there were so many areas for improvement that I could not resist the extended refinement and discovery.
-I went ahead and gave the most useful Terraform AWS networking modules a clean chrome wrapping with encoded engravings.</description>
+I went ahead and gave the most useful Terraform networking modules a clean chrome wrapping with encoded engravings.</description>
     </item>
     
     <item>
