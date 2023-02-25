@@ -16,7 +16,7 @@
       <description>Reflection in the Rear-View: Initially, I thought the TNT Architecture project and Super Router project were &amp;ldquo;good enough&amp;rdquo; to scale VPCs and TGWs in AWS.
 But, after looking back on what was built there were so many areas for improvement that I could not resist the extended refinement and discovery.
 I went ahead and gave the most useful Terraform networking modules a clean chrome wrapping with encoded engravings.
-Most of the work went into internal module changes and consolidating the best patterns to use, in my opinion.</description>
+Most of the work went into internal module changes and consolidating my favorite patterns to use.</description>
     </item>
     
     <item>

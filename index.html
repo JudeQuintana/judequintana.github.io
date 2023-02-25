@@ -175,7 +175,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
         Reflection in the Rear-View: Initially, I thought the TNT Architecture project and Super Router project were &ldquo;good enough&rdquo; to scale VPCs and TGWs in AWS.
 But, after looking back on what was built there were so many areas for improvement that I could not resist the extended refinement and discovery.
 I went ahead and gave the most useful Terraform networking modules a clean chrome wrapping with encoded engravings.
-Most of the work went into internal module changes and consolidating the best patterns to use, in my opinion.
+Most of the work went into internal module changes and consolidating my favorite patterns to use.
         
         </span>
         
@@ -342,8 +342,11 @@ Routing is automatic and the module outputs can be consumed for peering.
         </span>
         <span >
         
-        I&rsquo;ve been thinking about adding support for building tiered subnets of any valid size for the next iteration of the Dynamic VPC Module. It occurred to me that auto subnet generation inside the module actually makes the subnetting less dynamic.
-Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module. This is due to the fact that order matters only for the subnetting calculation.
+        Update Dec 17th 2022:
+Things have changed since TF v0.13 like the resulting order for a list of objects with for.
+So this article is outdated and the caclulator doesn&rsquo;t work as described anymore if you&rsquo;re using a more recent version of Terraform.
+I&rsquo;ll try to update article when I can.
+I&rsquo;ve been thinking about adding support for building tiered subnets of any valid size for the next iteration of the Dynamic VPC Module.
         
         </span>
         
