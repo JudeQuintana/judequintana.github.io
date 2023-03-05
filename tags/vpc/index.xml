@@ -18,7 +18,8 @@ Great news! The modules that power TNT Architecture and Super Router projects fo
 The modules are mostly the same as what&amp;rsquo;s in my Terraform development repo at v1.4.9.
 Before (Dev version):
 source = &amp;#34;git@github.com:JudeQuintana/terraform-modules.git//networking/tgw_super_router_for_tgw_centralized_router?ref=v1.4.9&amp;#34; After (Terraform Cloud version):
-source = &amp;#34;JudeQuintana/super-router/aws&amp;#34; version = &amp;#34;1.0.0&amp;#34; This is my contribution to the Terraform and Cloud Networking communities.</description>
+source = &amp;#34;JudeQuintana/super-router/aws&amp;#34; version = &amp;#34;1.0.0&amp;#34; Definitely not a downgrade, it&amp;rsquo;s more of &amp;ldquo;confidence&amp;rdquo; release.
+This is my contribution to the Terraform and Cloud Networking communities.</description>
     </item>
     
     <item>
