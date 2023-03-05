@@ -17,8 +17,8 @@
 Great news! The modules that power TNT Architecture and Super Router projects have been published to the Terraform Cloud public registry at v1.0.0, like FINALLY!
 The modules are mostly the same as what&amp;rsquo;s in my Terraform development repo at v1.4.9.
 This is my contribution to the Terraform community.
-Ended up moving generate_routes_to_other_vpcs module into Centralized Router because it&amp;rsquo;s actually a function of that router.
-And, of course, the TNT Architecture Demo and Super Router Demo have been upgraded, hell yeah!</description>
+I hope it helps.
+Ended up moving generate_routes_to_other_vpcs module into Centralized Router because it&amp;rsquo;s actually a function of that router.</description>
     </item>
     
     <item>
