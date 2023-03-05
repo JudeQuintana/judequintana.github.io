@@ -17,8 +17,9 @@
 Great news! The modules that power TNT Architecture and Super Router projects for AWS have been published to the Terraform Cloud public registry at v1.0.0, like FINALLY!
 The modules are mostly the same as what&amp;rsquo;s in my Terraform development repo at v1.4.9.
 Before (Dev version):
-source = &amp;#34;git@github.com:JudeQuintana/terraform-modules.git//networking/tgw_super_router_for_tgw_centralized_router?ref=v1.4.9&amp;#34; After (Terraform Cloud version):
-source = &amp;#34;JudeQuintana/super-router/aws&amp;#34; version = &amp;#34;1.0.0&amp;#34; This is my contribution to the Terraform and Cloud Networking communities.</description>
+After (Terraform Cloud version):
+This is my contribution to the Terraform and Cloud Networking communities.
+I ended up moving generate_routes_to_other_vpcs module into the Centralized Router repo modules directory because it&amp;rsquo;s only function of that router, therefore, should be closer in code.</description>
     </item>
     
     <item>
