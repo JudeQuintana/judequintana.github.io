@@ -13,10 +13,10 @@
       <pubDate>Sat, 04 Mar 2023 15:44:09 -0700</pubDate>
       
       <guid>https://jq1.io/posts/finally_published_to_public_registry/</guid>
-      <description>Hey cloud network headz,
-Great news! The modules that power TNT Architecture and Super Router have been published to the Terraform Cloud public registry at v1.0.0, like FINALLY!
+      <description>Hey cloud networking people!
+Great news! The modules that power TNT Architecture and Super Router projects have been published to the Terraform Cloud public registry at v1.0.0, like FINALLY!
 The modules are mostly the same as what&amp;rsquo;s in my Terraform development repo at v1.4.9.
-Ended up moving generate_routes_to_other_vpcs module into centralized-router because it&amp;rsquo;s actually a function of that router.
+Ended up moving generate_routes_to_other_vpcs module into Centralized Router because it&amp;rsquo;s actually a function of that router.
 And, of course, the TNT Architecture Demo and Super Router Demo have been upgraded, hell yeah!</description>
     </item>
     
