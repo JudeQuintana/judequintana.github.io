@@ -15,10 +15,8 @@
       <guid>https://jq1.io/posts/finally_published_to_public_registry/</guid>
       <description>Hey everyone,
 Great news! The modules that power TNT Architecture and Super Router projects for AWS have been published to the Terraform Cloud public registry at v1.0.0, like FINALLY!
-The modules are mostly the same as what&amp;rsquo;s in my Terraform development repo at v1.4.9.
-Before (Dev version):
-source = &amp;#34;git@github.com:JudeQuintana/terraform-modules.git//networking/tgw_super_router_for_tgw_centralized_router?ref=v1.4.9&amp;#34; After (Terraform Cloud version):
-source = &amp;#34;JudeQuintana/super-router/aws&amp;#34; version = &amp;#34;1.0.0&amp;#34; Definitely not a downgrade, it&amp;rsquo;s more of a &amp;ldquo;confidence&amp;rdquo; release.</description>
+Tiered VPC-NG Centralized Router (includes Generate Routes to Other VPCs) Super Router Intra VPC Security Group Rule Super Intra VPC Security Group Rules The modules are mostly the same as what&amp;rsquo;s in my Terraform development repo at v1.4.9.
+Before (Dev version):</description>
     </item>
     
     <item>
