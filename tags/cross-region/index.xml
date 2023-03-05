@@ -18,7 +18,7 @@ Great news! The modules that power TNT Architecture and Super Router projects ha
 The modules are mostly the same as what&amp;rsquo;s in my Terraform development repo at v1.4.9.
 This is my contribution to the Terraform community.
 I hope it helps.
-Ended up moving generate_routes_to_other_vpcs module into Centralized Router because it&amp;rsquo;s actually a function of that router.</description>
+Ended up moving generate_routes_to_other_vpcs module into the Centralized Router repo modules directory because it&amp;rsquo;s only function of that router, therefore, should be closer.</description>
     </item>
     
     <item>
