@@ -269,6 +269,9 @@ resource &#34;aws_route&#34; &#34;this&#34; {
   destination_cidr_block = each.value
   route_table_id         = split(&#34;|&#34;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
+
+  # make sure route table is available first
+  depends_on = [aws_ec2_transit_gateway_route_table.this]
 }
 </code></pre><p>It&rsquo;s possible to calculate only private or only public routes to
 other VPCs by passing in an empty list for subnets that you don&rsquo;t want processed.</p>
@@ -346,6 +349,9 @@ resource &#34;aws_route&#34; &#34;this&#34; {
   destination_cidr_block = each.value
   route_table_id         = split(&#34;|&#34;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
+
+  # make sure route table is available first
+  depends_on = [aws_ec2_transit_gateway_route_table.this]
 }
 </code></pre><p>We could build different data structures inside the module to better organize the output to potentially remove the need for the route consumer know how to operate on the map other than iterate.</p>
 <p>It would be another layer of iteration and probably worth experimenting further.</p>
@@ -398,6 +404,9 @@ resource &#34;aws_route&#34; &#34;this&#34; {
   destination_cidr_block = each.value.destination_cidr_block
   route_table_id         = each.value.route_table_id
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
+
+  # make sure route table is available first
+  depends_on = [aws_ec2_transit_gateway_route_table.this]
 }
 </code></pre><p>You can still get the legacy map of generically defined routes with the <code>call_legacy</code>
 output.</p>
@@ -424,6 +433,9 @@ resource &#34;aws_route&#34; &#34;this&#34; {
   destination_cidr_block = each.value
   route_table_id         = split(&#34;|&#34;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
+
+  # make sure route table is available first
+  depends_on = [aws_ec2_transit_gateway_route_table.this]
 }
 </code></pre><p>Also, I didn&rsquo;t end up using <code>module.generate_routes_to_other_vpcs</code>
 function in more than one place like I thought I would but was still useful in Centralized Router.</p>
