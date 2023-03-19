@@ -270,7 +270,7 @@ resource &#34;aws_route&#34; &#34;this&#34; {
   route_table_id         = split(&#34;|&#34;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
 
-  # make sure route table is available first
+  # make sure the tgw route table is available first before the setting routes on the vpcs
   depends_on = [aws_ec2_transit_gateway_route_table.this]
 }
 </code></pre><p>It&rsquo;s possible to calculate only private or only public routes to
@@ -350,7 +350,7 @@ resource &#34;aws_route&#34; &#34;this&#34; {
   route_table_id         = split(&#34;|&#34;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
 
-  # make sure route table is available first
+  # make sure the tgw route table is available first before the setting routes on the vpcs
   depends_on = [aws_ec2_transit_gateway_route_table.this]
 }
 </code></pre><p>We could build different data structures inside the module to better organize the output to potentially remove the need for the route consumer know how to operate on the map other than iterate.</p>
@@ -405,7 +405,7 @@ resource &#34;aws_route&#34; &#34;this&#34; {
   route_table_id         = each.value.route_table_id
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
 
-  # make sure route table is available first
+  # make sure the tgw route table is available first before the setting routes on the vpcs
   depends_on = [aws_ec2_transit_gateway_route_table.this]
 }
 </code></pre><p>You can still get the legacy map of generically defined routes with the <code>call_legacy</code>
@@ -434,16 +434,34 @@ resource &#34;aws_route&#34; &#34;this&#34; {
   route_table_id         = split(&#34;|&#34;, each.key)[0]
   transit_gateway_id     = aws_ec2_transit_gateway.this.id
 
-  # make sure route table is available first
+  # make sure the tgw route table is available first before the setting routes on the vpcs
   depends_on = [aws_ec2_transit_gateway_route_table.this]
 }
 </code></pre><p>Also, I didn&rsquo;t end up using <code>module.generate_routes_to_other_vpcs</code>
 function in more than one place like I thought I would but was still useful in Centralized Router.</p>
 <hr>
 <p>Update January 29th 2023:</p>
-<p>The Shokunin version <code>v1.4.6</code> has been released for Generate Routes to Other VPCs module.</p>
+<p>The Shokunin version <code>v1.4.6</code> (and <a href="https://github.com/JudeQuintana/terraform-modules/tags">later</a>) has been released for Generate Routes to Other VPCs module.</p>
 <p>Refactored the interface but has same behavior.</p>
-<p>New features means new steez in <a href="https://jq1.io/posts/slappin_chrome_on_the_wip/">Slappin chrome on the WIP</a>!</p>
+<p>Before:</p>
+<pre tabindex="0"><code>variable &#34;vpcs&#34; {
+  description = &#34;map of tiered_vpc_ng objects&#34;
+  type = map(object({
+    network                      = string
+    az_to_private_route_table_id = map(string)
+    az_to_public_route_table_id  = map(string)
+  }))
+}
+</code></pre><p>After:</p>
+<pre tabindex="0"><code>variable &#34;vpcs&#34; {
+  description = &#34;map of tiered_vpc_ng objects&#34;
+  type = map(object({
+    network_cidr            = string
+    private_route_table_ids = list(string)
+    public_route_table_ids  = list(string)
+  }))
+}
+</code></pre><p>New features means new steez in <a href="https://jq1.io/posts/slappin_chrome_on_the_wip/">Slappin chrome on the WIP</a>!</p>
 
   </div>
   <div>
