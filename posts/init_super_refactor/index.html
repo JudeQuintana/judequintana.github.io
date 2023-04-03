@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.111.2">
+<meta name="generator" content="Hugo 0.111.3">
 
     
     
@@ -265,7 +265,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
   local_centralized_routers = [module.tgw_centralized_router_usw2, module.tgw_centralized_router_usw2_another] # local list must be all same region as each other in aws.local provider.
   peer_centralized_routers  = [module.tgw_centralized_router_use1, module.tgw_centralized_router_use1_another] # peer list must all be same region as each other in aws.peer provider.
 }
-</code></pre><p><img src="https://jq1.io/img/super-refactor-before.png" alt="super-router-before"></p>
+</code></pre><p><img src="https://jq1-io.s3.amazonaws.com/super-router/super-refactor-before.png" alt="super-router-before"></p>
 <p>To a moar super one:</p>
 <pre tabindex="0"><code>module &#34;tgw_super_router_usw2_to_use1&#34; {
   source = &#34;git@github.com:JudeQuintana/terraform-modules.git//networking/tgw_super_router_for_tgw_centralized_router?ref=v1.4.5&#34;
@@ -282,7 +282,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
   peer_amazon_side_asn      = 64522
   peer_centralized_routers  = [module.tgw_centralized_router_use1, module.tgw_centralized_router_use1_another] # peer list must all be same region as each other in aws.peer provider.
 }
-</code></pre><p><img src="https://jq1.io/img/super-refactor-after.png" alt="super-router-after"></p>
+</code></pre><p><img src="https://jq1-io.s3.amazonaws.com/super-router/super-refactor-after.png" alt="super-router-after"></p>
 <p>Looks like the <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tgw_super_router_for_tgw_centralized_router">Super Router module</a> just leveled up!</p>
 <p>Plus, the <a href="https://github.com/JudeQuintana/terraform-main/tree/main/super_router_demo">Super Router Demo</a> has been hella upgraded and updated so check it out!</p>
 <p>~jq1 #AoD</p>

@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.111.2">
+<meta name="generator" content="Hugo 0.111.3">
 
     
     
@@ -241,7 +241,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 architecture in AWS based on structured input using <code>for_each</code> and <code>for</code>
 constructs. It will build a VPC with private and public subnets per AZ with the proper routing and labeling.</p>
 <p>Here is the related VPC network diagram for visual reference.
-<img src="https://docs.aws.amazon.com/vpc/latest/userguide/images/nat-gateway-diagram.png" alt="example_vpc"></p>
+<img src="https://jq1-io.s3.amazonaws.com/base/aws-nat.png" alt="example_vpc"></p>
 <h2 id="preface">Preface</h2>
 <p>I was planning on releasing this blog post shortly after Terraform 0.12 released but there were unexpected delays. Now Terraform 0.13 is GA and
 the patterns I&rsquo;m presenting here will change significantly but I hope this post will help others with their module development.</p>
@@ -681,7 +681,7 @@ module &#34;stage_use1_vpc&#34; {
 </tbody>
 </table>
 <p>Again, here is the related VPC network diagram for visual reference.
-<img src="https://docs.aws.amazon.com/vpc/latest/userguide/images/nat-gateway-diagram.png" alt="example_vpc"></p>
+<img src="https://jq1-io.s3.amazonaws.com/base/aws-nat.png" alt="example_vpc"></p>
 <h4 id="caveats">Caveats</h4>
 <p>This VPC module more of a learning excersize and it does generate resources that cost money (ie NAT Gateways and EIPs).
 When it comes to scaling out networks via peer links it&rsquo;s best practice to segment your network tiers with their own subnets per AZ (ie

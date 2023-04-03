@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.111.2">
+<meta name="generator" content="Hugo 0.111.3">
 
     
     
@@ -245,11 +245,11 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <h2 id="tnt-architecture-recap">TNT Architecture Recap</h2>
 <p>The <a href="https://jq1.io/posts/tnt/">Terraform Networking Trifecta</a> project demonstrated the ability to &ldquo;scale&rdquo; AWS VPCs in Terraform code by <a href="https://github.com/JudeQuintana/terraform-main/blob/6a27852078a0234cde4bb24dd138485ac2a8046f/networking_trifecta_demo/networking.tf#L1-L45">adding VPC objects to a list</a>.</p>
 <p>Example VPC architecture but with auto named subnets:
-<img src="https://jq1.io/img/vpc/aws-vpc-diagram.png" alt="vpc-ng"></p>
+<img src="https://jq1-io.s3.amazonaws.com/base/aws-vpc.png" alt="vpc-ng"></p>
 <p>With Tiered VPCs we can narrow down the context (ie app, cicd, general) and maximize the use of smaller network sizes.</p>
 <p>Then routing between them by <a href="https://github.com/JudeQuintana/terraform-main/blob/6a27852078a0234cde4bb24dd138485ac2a8046f/networking_trifecta_demo/networking.tf#L86">passing a map</a> of <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a> modules to the <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/transit_gateway_centralized_router_for_tiered_vpc_ng#module_generate_routes_to_other_vpcs">Centralized Router</a> module which will attach the VPCs to a Transit Gateway with the proper vpc attachments and routing.</p>
 <p>Example TNT Architecture (zoom out):
-<img src="https://jq1.io/img/tnt.png" alt="tnt"></p>
+<img src="https://jq1-io.s3.amazonaws.com/tnt/tnt.png" alt="tnt"></p>
 <h2 id="super-router">Super Router</h2>
 <p>The <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tgw_super_router_for_tgw_centralized_router">Super Router module</a> now provides both intra-region and cross-region peering and routing for Centralized Routers and Tiered VPCs.</p>
 <p>We can now &ldquo;scale&rdquo; TGW architecture by <a href="https://github.com/JudeQuintana/terraform-main/blob/main/super_router_demo/super_router_usw2_to_use1.tf">adding them</a> to their relative provider&rsquo;s region list of Centralized Routers (ie <code>aws.local</code> -&gt; <code>local_centralized_routers</code> or <code>aws.peer</code> -&gt; <code>peer_centralized_routers</code>) to enable routing across TGWs and VPCs (same AWS account only, no cross account).</p>
@@ -268,7 +268,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
   peer_centralized_routers  = [module.tgw_centralized_router_use1, module.tgw_centralized_router_use1_another] # peer list must all be same region as each other in aws.peer provider.
 }
 </code></pre><p>The <a href="https://github.com/JudeQuintana/terraform-main/tree/main/super_router_demo">Super Router Demo</a> will build the following architecture:
-<img src="https://jq1.io/img/super-router.png" alt="super-router"></p>
+<img src="https://jq1-io.s3.amazonaws.com/super-router/super-router.png" alt="super-router"></p>
 <p>It can be validated with <a href="https://docs.aws.amazon.com/vpc/latest/tgwnm/route-analyzer.html">AWS Route Analyzer</a> and it&rsquo;s free to use, tiiiight!</p>
 <h2 id="caveats">Caveats</h2>
 <p>The caveat to the module design is that the peer TGWs will have to go through the super router&rsquo;s local provider region to get to other peer TGWs.</p>
