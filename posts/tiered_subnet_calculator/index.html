@@ -23,13 +23,13 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tiered Subnet Calculator in Terraform"/>
 <meta name="twitter:description" content="Update May 23th 2023:
-Things have changed since TF v0.13 like the resulting order (lexical sorting) of a set of objects with for.
+Things have changed since Terraform v0.13.0 like the resulting order (lexical sorting) of a set of objects with for.
 variable &#34;tiers&#34; { type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.
 variable &#34;tiers&#34; { type = list(object({ name = string acl = string newbit = number })) } Updated the article with newer outputs from Terraform v1."/>
 
 <meta property="og:title" content="Tiered Subnet Calculator in Terraform" />
 <meta property="og:description" content="Update May 23th 2023:
-Things have changed since TF v0.13 like the resulting order (lexical sorting) of a set of objects with for.
+Things have changed since Terraform v0.13.0 like the resulting order (lexical sorting) of a set of objects with for.
 variable &#34;tiers&#34; { type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.
 variable &#34;tiers&#34; { type = list(object({ name = string acl = string newbit = number })) } Updated the article with newer outputs from Terraform v1." />
 <meta property="og:type" content="article" />
@@ -227,7 +227,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
   <div class="post">
     <hr>
 <p>Update May 23th 2023:</p>
-<p>Things have changed since TF v0.13 like the resulting order (lexical sorting) of a set of objects with <code>for</code>.</p>
+<p>Things have changed since Terraform <code>v0.13.0</code> like the resulting order (lexical sorting) of a set of objects with <code>for</code>.</p>
 <pre tabindex="0"><code>variable &#34;tiers&#34; {
   type = set(object({
     name   = string
