@@ -367,8 +367,7 @@ Routing is automatic and the module outputs can be consumed for peering.
         
         Update May 23th 2023:
 Things have changed since Terraform v0.13.0 like the resulting order (lexical sorting) of a set of objects with for.
-variable &#34;tiers&#34; { type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.
-variable &#34;tiers&#34; { type = list(object({ name = string acl = string newbit = number })) } Updated the article with newer outputs from Terraform v1.
+variable &#34;tiers&#34; { description = &#34;Networking tiers&#34; type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.
         
         </span>
         

@@ -101,8 +101,7 @@ Routing is automatic and the module outputs can be consumed for peering.</descri
       <guid>https://jq1.io/posts/tiered_subnet_calculator/</guid>
       <description>Update May 23th 2023:
 Things have changed since Terraform v0.13.0 like the resulting order (lexical sorting) of a set of objects with for.
-variable &amp;#34;tiers&amp;#34; { type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&amp;rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.
-variable &amp;#34;tiers&amp;#34; { type = list(object({ name = string acl = string newbit = number })) } Updated the article with newer outputs from Terraform v1.</description>
+variable &amp;#34;tiers&amp;#34; { description = &amp;#34;Networking tiers&amp;#34; type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&amp;rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.</description>
     </item>
     
     <item>

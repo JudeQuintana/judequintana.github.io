@@ -24,14 +24,12 @@
 <meta name="twitter:title" content="Tiered Subnet Calculator in Terraform"/>
 <meta name="twitter:description" content="Update May 23th 2023:
 Things have changed since Terraform v0.13.0 like the resulting order (lexical sorting) of a set of objects with for.
-variable &#34;tiers&#34; { type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.
-variable &#34;tiers&#34; { type = list(object({ name = string acl = string newbit = number })) } Updated the article with newer outputs from Terraform v1."/>
+variable &#34;tiers&#34; { description = &#34;Networking tiers&#34; type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS."/>
 
 <meta property="og:title" content="Tiered Subnet Calculator in Terraform" />
 <meta property="og:description" content="Update May 23th 2023:
 Things have changed since Terraform v0.13.0 like the resulting order (lexical sorting) of a set of objects with for.
-variable &#34;tiers&#34; { type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.
-variable &#34;tiers&#34; { type = list(object({ name = string acl = string newbit = number })) } Updated the article with newer outputs from Terraform v1." />
+variable &#34;tiers&#34; { description = &#34;Networking tiers&#34; type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jq1.io/posts/tiered_subnet_calculator/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-12-01T20:48:34-07:00" />
@@ -229,6 +227,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <p>Update May 23th 2023:</p>
 <p>Things have changed since Terraform <code>v0.13.0</code> like the resulting order (lexical sorting) of a set of objects with <code>for</code>.</p>
 <pre tabindex="0"><code>variable &#34;tiers&#34; {
+  description = &#34;Networking tiers&#34;
   type = set(object({
     name   = string
     acl    = string
@@ -237,6 +236,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 }
 </code></pre><p>Using a list of objects will keep it&rsquo;s current order so I can use the <code>var.base_cidr_block</code> as a starting point for generating network subnets for AWS.</p>
 <pre tabindex="0"><code>variable &#34;tiers&#34; {
+  description = &#34;Networking tiers&#34;
   type = list(object({
     name   = string
     acl    = string
@@ -294,10 +294,12 @@ az_newbits = {
 }
 </code></pre><p><code>variables.tf</code></p>
 <pre tabindex="0"><code>variable &#34;base_cidr_block&#34; {
-  type = string
+  description = &#34;Large starting CIDR block ie 10.0.0.0/16&#34;
+  type        = string
 }
 
 variable &#34;tiers&#34; {
+  description = &#34;Networking tiers&#34;
   type = list(object({
     name   = string
     acl    = string
@@ -306,7 +308,8 @@ variable &#34;tiers&#34; {
 }
 
 variable &#34;az_newbits&#34; {
-  type = map(number)
+  description = &#34;New bits to add to calculated cidr blocks for subnets per AZ&#34;
+  type        = map(number)
 }
 </code></pre><p><code>main.tf</code></p>
 <pre tabindex="0"><code>locals {
