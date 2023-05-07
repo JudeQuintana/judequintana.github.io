@@ -99,11 +99,10 @@ Routing is automatic and the module outputs can be consumed for peering.</descri
       <pubDate>Tue, 01 Dec 2020 20:48:34 -0700</pubDate>
       
       <guid>https://jq1.io/posts/tiered_subnet_calculator/</guid>
-      <description>Update Dec 17th 2022:
-Things have changed since TF v0.13 like the resulting order for a list of objects with for.
-So this article is outdated and the caclulator doesn&amp;rsquo;t work as described anymore if you&amp;rsquo;re using a more recent version of Terraform.
-I&amp;rsquo;ll try to update article when I can figure out a fix or a better pattern (PR).
-I&amp;rsquo;ve been thinking about adding support for building tiered subnets of any valid size for the next iteration of the Dynamic VPC Module.</description>
+      <description>Update May 23th 2023:
+Things have changed since TF v0.13 like the resulting order (lexical sorting) of a set of objects with for.
+variable &amp;#34;tiers&amp;#34; { type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&amp;rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.
+variable &amp;#34;tiers&amp;#34; { type = list(object({ name = string acl = string newbit = number })) } Updated the article with newer outputs from Terraform v1.</description>
     </item>
     
     <item>
