@@ -249,7 +249,7 @@ from the <a href="https://github.com/JudeQuintana/terraform-modules/pull/13">PR<
 <p>~jq1 #StayUp</p>
 <hr>
 <p>I&rsquo;ve been thinking about adding support for building tiered subnets of any valid size
-for the next iteration of the <a href="https://jq1.io/posts/dynamic_vpc/">Dynamic VPC Module</a> which ended up being called <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered-VPC-NG</a>.
+for the next iteration of the <a href="https://jq1.io/posts/dynamic_vpc/">Dynamic VPC Module</a> which ended up being called <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/networking/tiered_vpc_ng">Tiered VPC-NG</a>.
 It occurred to me that auto subnet generation inside the module actually
 makes the subnetting less dynamic.</p>
 <p>Furthermore, auto subnet calculation should be in assistance to
@@ -259,7 +259,7 @@ subnetting calculation. So when tiers or AZs are changed, added or removed,
 the calculation will shift for none, some or all tiers.</p>
 <p>Removing the subnet generation will simplify the module itself and it will reinforce
 the notion that engineers should know their subnetting when architecting networks.
-With all that in mind, I created a <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/tiered_subnet_calculator">Tiered Subnet Calculator</a> module to assist with allocating subnets per AZ per network tier.</p>
+With all that in mind, I created a <a href="https://github.com/JudeQuintana/terraform-modules/tree/master/utils/tiered_subnet_calculator">Tiered Subnet Calculator module</a> to assist with allocating subnets per AZ per network tier.</p>
 <p><code>tiers.auto.tfvars</code></p>
 <pre tabindex="0"><code>base_cidr_block = &#34;10.0.0.0/16&#34;
 
