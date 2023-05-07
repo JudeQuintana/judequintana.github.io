@@ -27,7 +27,7 @@ It&amp;rsquo;s building on my previous Tiered VPC idea but by adding a couple mo
       
       <guid>https://jq1.io/posts/tiered_subnet_calculator/</guid>
       <description>Update May 23th 2023:
-Things have changed since Terraform v0.13.0 like the resulting order (lexical sorting) of a set of objects with for.
+Things have changed for the Tiered Subnet Calculator module since Terraform v0.13.0 like the resulting order (lexical sorting) of a set of objects with for.
 variable &amp;#34;tiers&amp;#34; { description = &amp;#34;Networking tiers&amp;#34; type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&amp;rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.</description>
     </item>
     
