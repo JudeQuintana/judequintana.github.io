@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.111.3">
+<meta name="generator" content="Hugo 0.117.0">
 
     
 
@@ -365,9 +365,8 @@ Routing is automatic and the module outputs can be consumed for peering.
         </span>
         <span >
         
-        Update May 6th 2023:
-Things have changed for the Tiered Subnet Calculator module since Terraform v0.13.0 like the resulting order (lexical sorting) of a set of objects with for.
-variable &#34;tiers&#34; { description = &#34;Networking tiers&#34; type = set(object({ name = string acl = string newbit = number })) } Using a list of objects will keep it&rsquo;s current order so I can use the var.base_cidr_block as a starting point for generating network subnets for AWS.
+        I&rsquo;ve been thinking about adding support for building tiered subnets of any valid size for the next iteration of the Dynamic VPC Module (which ended up being called Tiered VPC-NG). It occurred to me that auto subnet generation inside the module actually makes the subnetting less dynamic.
+Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module.
         
         </span>
         
