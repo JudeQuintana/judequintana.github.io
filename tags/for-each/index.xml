@@ -6,16 +6,15 @@
     <description>Recent content in for-each on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 21 Aug 2020 10:28:58 -0600</lastBuildDate><atom:link href="https://jq1.io/tags/for-each/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Aug 2020 10:28:58 -0600</lastBuildDate>
+    <atom:link href="https://jq1.io/tags/for-each/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Dynamic VPC Module in Terraform 0.12</title>
       <link>https://jq1.io/posts/dynamic_vpc/</link>
       <pubDate>Fri, 21 Aug 2020 10:28:58 -0600</pubDate>
-      
       <guid>https://jq1.io/posts/dynamic_vpc/</guid>
       <description>TL;DR Just show me the code! This is a Dynamic VPC Module that builds a redundant network architecture in AWS based on structured input using for_each and for constructs. It will build a VPC with private and public subnets per AZ with the proper routing and labeling.
 Here is the related VPC network diagram for visual reference. Preface I was planning on releasing this blog post shortly after Terraform 0.12 released but there were unexpected delays.</description>
     </item>
-    
   </channel>
 </rss>

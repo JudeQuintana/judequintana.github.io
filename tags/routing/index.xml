@@ -6,35 +6,31 @@
     <description>Recent content in routing on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 04 Mar 2023 15:44:09 -0700</lastBuildDate><atom:link href="https://jq1.io/tags/routing/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Mar 2023 15:44:09 -0700</lastBuildDate>
+    <atom:link href="https://jq1.io/tags/routing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Finally published to the Terraform Cloud public registry</title>
       <link>https://jq1.io/posts/finally_published_to_public_registry/</link>
       <pubDate>Sat, 04 Mar 2023 15:44:09 -0700</pubDate>
-      
       <guid>https://jq1.io/posts/finally_published_to_public_registry/</guid>
       <description>Hey everyone,
 Great news! The Terraform modules that power the TNT Architecture and Super Router projects for &amp;ldquo;scaling&amp;rdquo; VPCs and TGWs in AWS have been published to the Terraform Cloud public registry at v1.0.0, like FINALLY! They can be composed together to build a decentralized hub spoke topology with automatic peering and routing for cross-region and intra-region VPC and TGW connectivity.
 Tiered VPC-NG Centralized Router (includes Generate Routes to Other VPCs) Super Router Intra VPC Security Group Rule Super Intra VPC Security Group Rules The modules are mostly the same as what&amp;rsquo;s in my Terraform development repo at v1.</description>
     </item>
-    
     <item>
       <title>Slappin&#39; chrome on the WIP</title>
       <link>https://jq1.io/posts/slappin_chrome_on_the_wip/</link>
       <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
-      
       <guid>https://jq1.io/posts/slappin_chrome_on_the_wip/</guid>
       <description>Reflection in the Rear-View: Initially, I thought the TNT Architecture project and Super Router project were &amp;ldquo;good enough&amp;rdquo; to scale VPCs and TGWs in AWS.
 But, after looking back on what was built there were so many areas for improvement that I could not resist the extended refinement and discovery.
 I went ahead and gave the most useful Terraform networking modules a clean chrome wrapping with encoded engravings.
 Most of the work went into internal module changes and consolidating my favorite patterns to use.</description>
     </item>
-    
     <item>
       <title>$init super refactor</title>
       <link>https://jq1.io/posts/init_super_refactor/</link>
       <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
-      
       <guid>https://jq1.io/posts/init_super_refactor/</guid>
       <description>Aaaand we&amp;rsquo;re back with another heavy hitting round of super refactorization in Terraform!
 I think the first iteration of Super Router for AWS went well.
@@ -42,12 +38,10 @@ It allowed us to peer and route both intra-region and cross-region TGWs and VPCs
 But there was one really annoying flaw.
 The caveat in the design is that the peer TGWs will have to go through the Super Router&amp;rsquo;s local provider region to get to other peer TGWs.</description>
     </item>
-    
     <item>
       <title>Super Powered, Super Sharp, Super Router!</title>
       <link>https://jq1.io/posts/super_router/</link>
       <pubDate>Sat, 13 Aug 2022 16:07:10 -0600</pubDate>
-      
       <guid>https://jq1.io/posts/super_router/</guid>
       <description>What&amp;rsquo;s up world?!
 Welcome back for moar spicy cloud networking Terraform takes because we servin&amp;rsquo; them HOT over here so let&amp;rsquo;s dig in!
@@ -55,12 +49,10 @@ This is a follow up to the generating routes blog post.
 TNT Architecture Recap The Terraform Networking Trifecta project demonstrated the ability to &amp;ldquo;scale&amp;rdquo; AWS VPCs in Terraform code by adding VPC objects to a list.
 Example VPC architecture but with auto named subnets: With Tiered VPCs we can narrow down the context (ie app, cicd, general) and maximize the use of smaller network sizes.</description>
     </item>
-    
     <item>
       <title>Building a generate routes function using Terraform test</title>
       <link>https://jq1.io/posts/generating_routes/</link>
       <pubDate>Sat, 05 Mar 2022 16:59:00 -0700</pubDate>
-      
       <guid>https://jq1.io/posts/generating_routes/</guid>
       <description>Welcome to the next episode of thinking out loud to route in the cloud, you know my steez!
 Earlier this season we abstracted a TGW Centralized Router.
@@ -68,12 +60,10 @@ Part of it&amp;rsquo;s responsibility is to manage routes between Tiered VPCs wi
 It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
 # snippet variable &amp;#34;vpcs&amp;#34; { type = map(object({ network = string az_to_private_route_table_id = map(string) az_to_public_route_table_id = map(string) })) } locals { # { vpc-1-network =&amp;gt; [ &amp;#34;vpc-1-private-rtb-id-1&amp;#34;, &amp;#34;vpc-1-public-rtb-id-1&amp;#34;, .</description>
     </item>
-    
     <item>
       <title>Terraform Networking Trifecta</title>
       <link>https://jq1.io/posts/tnt/</link>
       <pubDate>Thu, 22 Jul 2021 20:11:22 -0600</pubDate>
-      
       <guid>https://jq1.io/posts/tnt/</guid>
       <description>Intro Initially I&amp;rsquo;d planned to blog more than just about Terraform but it hasn&amp;rsquo;t turned out that way due to lack of time.
 But that&amp;rsquo;s OK because I really do enjoy creating and writing about networking topics with Terraform in the cloud.
@@ -81,6 +71,5 @@ Content generation is hard so hats off to those who are consistently generating 
 This project is for all the Terraform headz building networks in the cloud!
 It&amp;rsquo;s building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code.</description>
     </item>
-    
   </channel>
 </rss>

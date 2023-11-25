@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.117.0">
+<meta name="generator" content="Hugo 0.120.4">
 
     
     
@@ -27,6 +27,7 @@ Earlier this season we abstracted a TGW Centralized Router.
 Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
 It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
 # snippet variable &#34;vpcs&#34; { type = map(object({ network = string az_to_private_route_table_id = map(string) az_to_public_route_table_id = map(string) })) } locals { # { vpc-1-network =&gt; [ &#34;vpc-1-private-rtb-id-1&#34;, &#34;vpc-1-public-rtb-id-1&#34;, ."/>
+<meta name="twitter:site" content="@JayQ_One"/>
 
 <meta property="og:title" content="Building a generate routes function using Terraform test" />
 <meta property="og:description" content="Welcome to the next episode of thinking out loud to route in the cloud, you know my steez!
@@ -38,6 +39,7 @@ It will create routes to other VPC networks in private and public route tables f
 <meta property="og:url" content="https://jq1.io/posts/generating_routes/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-03-05T16:59:00-07:00" />
 <meta property="article:modified_time" content="2022-03-05T16:59:00-07:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
 
 
     

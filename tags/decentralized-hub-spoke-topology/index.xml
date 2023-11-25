@@ -6,35 +6,31 @@
     <description>Recent content in decentralized-hub-spoke-topology on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 04 Mar 2023 15:44:09 -0700</lastBuildDate><atom:link href="https://jq1.io/tags/decentralized-hub-spoke-topology/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Mar 2023 15:44:09 -0700</lastBuildDate>
+    <atom:link href="https://jq1.io/tags/decentralized-hub-spoke-topology/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Finally published to the Terraform Cloud public registry</title>
       <link>https://jq1.io/posts/finally_published_to_public_registry/</link>
       <pubDate>Sat, 04 Mar 2023 15:44:09 -0700</pubDate>
-      
       <guid>https://jq1.io/posts/finally_published_to_public_registry/</guid>
       <description>Hey everyone,
 Great news! The Terraform modules that power the TNT Architecture and Super Router projects for &amp;ldquo;scaling&amp;rdquo; VPCs and TGWs in AWS have been published to the Terraform Cloud public registry at v1.0.0, like FINALLY! They can be composed together to build a decentralized hub spoke topology with automatic peering and routing for cross-region and intra-region VPC and TGW connectivity.
 Tiered VPC-NG Centralized Router (includes Generate Routes to Other VPCs) Super Router Intra VPC Security Group Rule Super Intra VPC Security Group Rules The modules are mostly the same as what&amp;rsquo;s in my Terraform development repo at v1.</description>
     </item>
-    
     <item>
       <title>Slappin&#39; chrome on the WIP</title>
       <link>https://jq1.io/posts/slappin_chrome_on_the_wip/</link>
       <pubDate>Sat, 28 Jan 2023 10:49:56 -0700</pubDate>
-      
       <guid>https://jq1.io/posts/slappin_chrome_on_the_wip/</guid>
       <description>Reflection in the Rear-View: Initially, I thought the TNT Architecture project and Super Router project were &amp;ldquo;good enough&amp;rdquo; to scale VPCs and TGWs in AWS.
 But, after looking back on what was built there were so many areas for improvement that I could not resist the extended refinement and discovery.
 I went ahead and gave the most useful Terraform networking modules a clean chrome wrapping with encoded engravings.
 Most of the work went into internal module changes and consolidating my favorite patterns to use.</description>
     </item>
-    
     <item>
       <title>$init super refactor</title>
       <link>https://jq1.io/posts/init_super_refactor/</link>
       <pubDate>Tue, 11 Oct 2022 08:11:58 -0600</pubDate>
-      
       <guid>https://jq1.io/posts/init_super_refactor/</guid>
       <description>Aaaand we&amp;rsquo;re back with another heavy hitting round of super refactorization in Terraform!
 I think the first iteration of Super Router for AWS went well.
@@ -42,6 +38,5 @@ It allowed us to peer and route both intra-region and cross-region TGWs and VPCs
 But there was one really annoying flaw.
 The caveat in the design is that the peer TGWs will have to go through the Super Router&amp;rsquo;s local provider region to get to other peer TGWs.</description>
     </item>
-    
   </channel>
 </rss>

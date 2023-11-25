@@ -6,12 +6,12 @@
     <description>Recent content in subnetting on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 22 Jul 2021 20:11:22 -0600</lastBuildDate><atom:link href="https://jq1.io/tags/subnetting/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 22 Jul 2021 20:11:22 -0600</lastBuildDate>
+    <atom:link href="https://jq1.io/tags/subnetting/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Terraform Networking Trifecta</title>
       <link>https://jq1.io/posts/tnt/</link>
       <pubDate>Thu, 22 Jul 2021 20:11:22 -0600</pubDate>
-      
       <guid>https://jq1.io/posts/tnt/</guid>
       <description>Intro Initially I&amp;rsquo;d planned to blog more than just about Terraform but it hasn&amp;rsquo;t turned out that way due to lack of time.
 But that&amp;rsquo;s OK because I really do enjoy creating and writing about networking topics with Terraform in the cloud.
@@ -19,26 +19,21 @@ Content generation is hard so hats off to those who are consistently generating 
 This project is for all the Terraform headz building networks in the cloud!
 It&amp;rsquo;s building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code.</description>
     </item>
-    
     <item>
       <title>Tiered Subnet Calculator in Terraform</title>
       <link>https://jq1.io/posts/tiered_subnet_calculator/</link>
       <pubDate>Tue, 01 Dec 2020 20:48:34 -0700</pubDate>
-      
       <guid>https://jq1.io/posts/tiered_subnet_calculator/</guid>
       <description>I&amp;rsquo;ve been thinking about adding support for building tiered subnets of any valid size for the next iteration of the Dynamic VPC Module (which ended up being called Tiered VPC-NG). It occurred to me that auto subnet generation inside the module actually makes the subnetting less dynamic.
 Furthermore, auto subnet calculation should be in assistance to the process of allocating subnets and should not be fed directly as input to the VPC module.</description>
     </item>
-    
     <item>
       <title>Dynamic VPC Module in Terraform 0.12</title>
       <link>https://jq1.io/posts/dynamic_vpc/</link>
       <pubDate>Fri, 21 Aug 2020 10:28:58 -0600</pubDate>
-      
       <guid>https://jq1.io/posts/dynamic_vpc/</guid>
       <description>TL;DR Just show me the code! This is a Dynamic VPC Module that builds a redundant network architecture in AWS based on structured input using for_each and for constructs. It will build a VPC with private and public subnets per AZ with the proper routing and labeling.
 Here is the related VPC network diagram for visual reference. Preface I was planning on releasing this blog post shortly after Terraform 0.12 released but there were unexpected delays.</description>
     </item>
-    
   </channel>
 </rss>

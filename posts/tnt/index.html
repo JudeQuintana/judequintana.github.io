@@ -11,7 +11,7 @@
 <meta http-equiv="Cache-Control" content="public" />
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.117.0">
+<meta name="generator" content="Hugo 0.120.4">
 
     
     
@@ -27,6 +27,7 @@ But that&rsquo;s OK because I really do enjoy creating and writing about network
 Content generation is hard so hats off to those who are consistently generating it.
 This project is for all the Terraform headz building networks in the cloud!
 It&rsquo;s building on my previous Tiered VPC idea but by adding a couple more abstractions we can build flexible networking between multiple AWS VPCs with minimal code."/>
+<meta name="twitter:site" content="@JayQ_One"/>
 
 <meta property="og:title" content="Terraform Networking Trifecta" />
 <meta property="og:description" content="Intro Initially I&rsquo;d planned to blog more than just about Terraform but it hasn&rsquo;t turned out that way due to lack of time.
@@ -38,6 +39,7 @@ It&rsquo;s building on my previous Tiered VPC idea but by adding a couple more a
 <meta property="og:url" content="https://jq1.io/posts/tnt/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-07-22T20:11:22-06:00" />
 <meta property="article:modified_time" content="2021-07-22T20:11:22-06:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
 
 
     
@@ -605,7 +607,7 @@ variable &#34;base_ec2_instance_attributes&#34; {
   ...
   default = {
     key_name      = &#34;my-ec2-key&#34;            # EC2 key pair name to use when launching an instance
-    ami           = &#34;ami-0518bb0e75d3619ca&#34; # AWS Linux 2 us-west-2
+    ami           = &#34;ami-01badf1deffd96f68&#34; # AWS Linux 2 us-west-2 x86
     instance_type = &#34;t2.micro&#34;
   }
 }

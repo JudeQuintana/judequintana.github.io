@@ -6,16 +6,15 @@
     <description>Recent content in hash-server on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2020 11:38:15 -0600</lastBuildDate><atom:link href="https://jq1.io/tags/hash-server/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Oct 2020 11:38:15 -0600</lastBuildDate>
+    <atom:link href="https://jq1.io/tags/hash-server/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hash Server 9000 in Go</title>
       <link>https://jq1.io/posts/hash_server_9000/</link>
       <pubDate>Sat, 10 Oct 2020 11:38:15 -0600</pubDate>
-      
       <guid>https://jq1.io/posts/hash_server_9000/</guid>
       <description>I took an internal dev challenge at work a while back because I wanted to learn more Go since I have an OO background and was not familiar with the procedural way of thinking. The goal was to build a simple non-persistent password hashing service using only the standard library while demonstrating the use of concurrency with the endpoint requirements below.
 Reading the blue and white book was definitely key to gaining deeper insight.</description>
     </item>
-    
   </channel>
 </rss>

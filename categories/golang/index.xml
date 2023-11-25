@@ -6,26 +6,23 @@
     <description>Recent content in Golang on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Oct 2020 11:38:15 -0600</lastBuildDate><atom:link href="https://jq1.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Oct 2020 11:38:15 -0600</lastBuildDate>
+    <atom:link href="https://jq1.io/categories/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hash Server 9000 in Go</title>
       <link>https://jq1.io/posts/hash_server_9000/</link>
       <pubDate>Sat, 10 Oct 2020 11:38:15 -0600</pubDate>
-      
       <guid>https://jq1.io/posts/hash_server_9000/</guid>
       <description>I took an internal dev challenge at work a while back because I wanted to learn more Go since I have an OO background and was not familiar with the procedural way of thinking. The goal was to build a simple non-persistent password hashing service using only the standard library while demonstrating the use of concurrency with the endpoint requirements below.
 Reading the blue and white book was definitely key to gaining deeper insight.</description>
     </item>
-    
     <item>
       <title>Go Modules Replace Use Case: Terratest and LocalStack</title>
       <link>https://jq1.io/posts/go_mod_terratest_localstack/</link>
       <pubDate>Wed, 23 Sep 2020 22:35:36 -0600</pubDate>
-      
       <guid>https://jq1.io/posts/go_mod_terratest_localstack/</guid>
       <description>At work we&amp;rsquo;re planning on having our IaC to grow up a bit. We&amp;rsquo;re really wanting it to get a job and start contributing more around here. Something like a shiny new Terraform Pipeline would be nice. That means we need to get our Terraform testing sorted out.
 I came across this HashiCorp video called Testing Infrastructure as Code on Localhost where Samuel Kihahu talks about combining Terratest + Terraform + LocalStack to allow him to test Terraform modules locally.</description>
     </item>
-    
   </channel>
 </rss>
