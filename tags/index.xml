@@ -6,20 +6,55 @@
     <description>Recent content in Tags on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 04 Mar 2023 15:44:09 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 12 Dec 2025 08:23:23 -0700</lastBuildDate>
     <atom:link href="https://jq1.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>aws</title>
       <link>https://jq1.io/tags/aws/</link>
-      <pubDate>Sat, 04 Mar 2023 15:44:09 -0700</pubDate>
+      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
       <guid>https://jq1.io/tags/aws/</guid>
       <description></description>
     </item>
     <item>
       <title>cloud-networking</title>
       <link>https://jq1.io/tags/cloud-networking/</link>
-      <pubDate>Sat, 04 Mar 2023 15:44:09 -0700</pubDate>
+      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
       <guid>https://jq1.io/tags/cloud-networking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>compiler-theory</title>
+      <link>https://jq1.io/tags/compiler-theory/</link>
+      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
+      <guid>https://jq1.io/tags/compiler-theory/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>full-mesh</title>
+      <link>https://jq1.io/tags/full-mesh/</link>
+      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
+      <guid>https://jq1.io/tags/full-mesh/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>transit-gateway</title>
+      <link>https://jq1.io/tags/transit-gateway/</link>
+      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
+      <guid>https://jq1.io/tags/transit-gateway/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>vpc</title>
+      <link>https://jq1.io/tags/vpc/</link>
+      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
+      <guid>https://jq1.io/tags/vpc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>white-paper</title>
+      <link>https://jq1.io/tags/white-paper/</link>
+      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
+      <guid>https://jq1.io/tags/white-paper/</guid>
       <description></description>
     </item>
     <item>
@@ -69,13 +104,6 @@
       <link>https://jq1.io/tags/tgw/</link>
       <pubDate>Sat, 04 Mar 2023 15:44:09 -0700</pubDate>
       <guid>https://jq1.io/tags/tgw/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>vpc</title>
-      <link>https://jq1.io/tags/vpc/</link>
-      <pubDate>Sat, 04 Mar 2023 15:44:09 -0700</pubDate>
-      <guid>https://jq1.io/tags/vpc/</guid>
       <description></description>
     </item>
     <item>

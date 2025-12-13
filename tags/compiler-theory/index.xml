@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>compiler-theory on jq1.io</title>
+    <link>https://jq1.io/tags/compiler-theory/</link>
+    <description>Recent content in compiler-theory on jq1.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 12 Dec 2025 08:23:23 -0700</lastBuildDate>
+    <atom:link href="https://jq1.io/tags/compiler-theory/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>From O(N²&#43;V²) to O(N&#43;V): Automated Multi-TGW Mesh Configuration Through Functional Composition</title>
+      <link>https://jq1.io/posts/white_paper/</link>
+      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
+      <guid>https://jq1.io/posts/white_paper/</guid>
+      <description>What began as a modular Terraform experiment evolved into a full compiler-style architecture for AWS networking. The system transforms a declarative map of VPCs and regions into complete multi-region Transit Gateway mesh configurations, performing automatic adjacency synthesis, route expansion, and deterministic cross-region propagation.
+Below is the white paper that documents the underlying model, a provable O(N² + V²) → O(N + V) reduction alongside empirical validation across multi-region deployments and is currently a work in progress.</description>
+    </item>
+  </channel>
+</rss>
