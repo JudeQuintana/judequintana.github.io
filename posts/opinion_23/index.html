@@ -25,7 +25,6 @@
 <meta name="twitter:description" content="Lately, I&rsquo;ve seen quite a bit of Terraform snippets that use a static map of maps to directly configure resources.
 For example:
 locals { map_of_maps = { name1 = { attribute1 = &#34;name1-value1&#34; attribute2 = &#34;name1-value2&#34; attribute3 = &#34;name1-value3&#34; } name2 = { attribute1 = &#34;name2-value1&#34; attribute2 = &#34;name2-value2&#34; attribute3 = &#34;name2-value3&#34; } name3 = { attribute1 = &#34;name3-value1&#34; attribute2 = &#34;name3-value2&#34; attribute3 = &#34;name3-value3&#34; } } } resource &#34;some_resource&#34; &#34;this&#34; { for_each = local."/>
-<meta name="twitter:site" content="@JayQ_One"/>
 
 <meta property="og:title" content="Terraform Opinion #23: Use list of objects over map of maps" />
 <meta property="og:description" content="Lately, I&rsquo;ve seen quite a bit of Terraform snippets that use a static map of maps to directly configure resources.
@@ -121,8 +120,6 @@ locals { map_of_maps = { name1 = { attribute1 = &#34;name1-value1&#34; attribute
 </div>
 
         <section class="social">
-	
-	<a href="https://twitter.com/JayQ_One" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
 	
 	
 	

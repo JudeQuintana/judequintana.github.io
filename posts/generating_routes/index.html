@@ -27,7 +27,6 @@ Earlier this season we abstracted a TGW Centralized Router.
 Part of it&rsquo;s responsibility is to manage routes between Tiered VPCs within a single region.
 It will create routes to other VPC networks in private and public route tables for each VPC (except itself).
 # snippet variable &#34;vpcs&#34; { type = map(object({ network = string az_to_private_route_table_id = map(string) az_to_public_route_table_id = map(string) })) } locals { # { vpc-1-network =&gt; [ &#34;vpc-1-private-rtb-id-1&#34;, &#34;vpc-1-public-rtb-id-1&#34;, ."/>
-<meta name="twitter:site" content="@JayQ_One"/>
 
 <meta property="og:title" content="Building a generate routes function using Terraform test" />
 <meta property="og:description" content="Welcome to the next episode of thinking out loud to route in the cloud, you know my steez!
@@ -125,8 +124,6 @@ It will create routes to other VPC networks in private and public route tables f
 </div>
 
         <section class="social">
-	
-	<a href="https://twitter.com/JayQ_One" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
 	
 	
 	
