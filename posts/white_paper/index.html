@@ -208,7 +208,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
     
     
     <br/>
-    <i class="fas fa-clock"></i> 20 min read
+    <i class="fas fa-clock"></i> 21 min read
 </div>
 
 
@@ -650,14 +650,15 @@ In the reference deployment:</p>
 <li>Github: <a href="https://github.com/JudeQuintana/terraform-aws-super-intra-vpc-security-group-rules">https://github.com/JudeQuintana/terraform-aws-super-intra-vpc-security-group-rules</a></li>
 </ul>
 <p>Diagram: <a href="https://jq1-io.s3.amazonaws.com/super-router/super-router-shokunin.png">https://jq1-io.s3.amazonaws.com/super-router/super-router-shokunin.png</a></p>
-<p>This topology composes two independent hub-and-spoke routing domains and connects them through a logical &ldquo;Super Router&rdquo; implemented as two Transit Gateways acting as a single inter-hub routing unit; the IR treats them as a unified propagation domain. This design demonstrates:</p>
+<p>This topology composes two independent hub-and-spoke routing domains and connects them through a logical Super Router, implemented as two Transit Gateways that collectively act as a single inter-hub routing unit. At the IR level, these TGWs are modeled as a unified propagation domain rather than as independent peers.</p>
+<p>Super Router design demonstrates:</p>
 <ul>
-<li>decentralized adjacency domains</li>
-<li>selective propagation sets</li>
-<li>hierarchical multi-hub routing structure</li>
-<li>compositional semantics beyond symmetric meshes</li>
+<li>decentralized adjacency domains, where routing relationships are scoped locally rather than globally,</li>
+<li>selective propagation sets, enabling controlled prefix visibility across domain boundaries,</li>
+<li>a hierarchical multi-hub routing structure, separating intra-domain and inter-domain connectivity,</li>
+<li>and compositional semantics beyond symmetric full-mesh topologies.</li>
 </ul>
-<p>This confirms that the IR transform generalizes beyond full meshes to asymmetric, hierarchical, and multi-hub routing graphs. (IPv4-only; no secondary CIDRs; no IPAM.)</p>
+<p>Collectively, this confirms that the IR transform generalizes beyond flat full meshes to asymmetric, hierarchical, and multi-hub routing graphs. In compiler terms, Super Router represents the &ldquo;nested scope + function call&rdquo; inflection point: it shows that topology domains can be composed hierarchically through well-defined interfaces, establishing the system as a general topology compiler rather than a fixed mesh generator. (IPv4-only; no secondary CIDRs; no IPAM.)</p>
 <p>⸻</p>
 <p><strong>Supplemental Engineering Notes (Non-Peer-Reviewed)</strong></p>
 <p>Early design reasoning and prototype discussions are documented in engineering blog posts:</p>
