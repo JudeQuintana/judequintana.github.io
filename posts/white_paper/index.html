@@ -317,7 +317,7 @@ This architecture assumes that all VPC and subnet CIDRs are globally non-overlap
 <ul>
 <li>Centralized Router is responsible for O(V²) relationships within a region.</li>
 <li>It does not perform TGW-to-TGW adjacency, it assumes one TGW per region.</li>
-<li>All IR passes are implemented as pure-function Terraform modules — zero-resource transformations that operate exclusively on data structures, enabling deterministic outputs, referential transparency, property-based testing, and formal verification of routing logic.</li>
+<li>All IR passes are implemented as pure-function Terraform modules, which are zero-resource transformations that operate exclusively on data structures, enabling deterministic outputs, referential transparency, property-based testing, and formal verification of routing logic.</li>
 </ul>
 <p>The IR emitted from this stage is:</p>
 <pre tabindex="0"><code>Regional IR = {
@@ -342,7 +342,7 @@ This architecture assumes that all VPC and subnet CIDRs are globally non-overlap
 </ul>
 <p>This stage corresponds to a compiler’s late-stage code generation: assembling multiple modules into a linked, globally optimized output.</p>
 <p>⸻</p>
-<p><strong>Stage 4 - Optional Optimization Pass - VPC Peering Deluxe (Selective Direct Edges):</strong></p>
+<p><strong>Stage 4 - Optional Optimization Pass - Selective Direct Edges (VPC Peering Deluxe):</strong></p>
 <p>On top of the TGW-based global mesh, specific traffic flows may require:</p>
 <ul>
 <li>lower latency</li>
@@ -432,7 +432,7 @@ Declarative:  O(N + V) topology intent to declare
 <li>The Regional IR pass, responsible for all O(V²) routing expansion, is implemented as a pure-function Terraform module and is formally verified through deterministic, property-based tests that validate routing invariants across diverse multi-VPC configurations.</li>
 <li>The Global IR pass (Full Mesh Trio) composes these verified regional outputs to synthesize N×N TGW adjacencies and cross-region propagation. While the Global IR layer does not yet include a dedicated formal test suite, its behavior is strictly compositional: it combines pre-verified regional IRs without mutating their routing semantics. As a result, the correctness guarantees established for the Regional IR pass transfer cleanly to the global topology.</li>
 </ul>
-<p>The compositional nature of this IR model is further demonstrated through hierarchical multi-hub architectures (see Artifact Availability: Super Router), where independent routing domains are linked through well-defined interfaces—analogous to nested scopes and function calls in programming language compilers.</p>
+<p>The compositional nature of this IR model is further demonstrated through hierarchical multi-hub architectures (see Artifact Availability: Super Router), where independent routing domains are linked through well-defined interfaces: analogous to nested scopes and function calls in programming language compilers.</p>
 <p>⸻</p>
 <ol start="3">
 <li>Embedded DSL for Declarative Multi-Region AWS Networking</li>
@@ -660,6 +660,7 @@ In the reference deployment:</p>
 <li>and compositional semantics beyond symmetric full-mesh topologies.</li>
 </ul>
 <p>Collectively, this confirms that the IR transform generalizes beyond flat full meshes to asymmetric, hierarchical, and multi-hub routing graphs. In compiler terms, Super Router represents the &ldquo;nested scope + function call&rdquo; inflection point: it shows that topology domains can be composed hierarchically through well-defined interfaces, establishing the system as a general topology compiler rather than a fixed mesh generator. (IPv4-only; no secondary CIDRs; no IPAM.)</p>
+<p>The Super Router evaluation also validates hierarchical security propagation. The Super Intra-VPC SG Rules module mirrors the routing hierarchy: security rules are synthesized per hub domain and selectively propagated across the inter-hub boundary, with the paired Transit Gateways treated as a single logical security domain at the IR level. This demonstrates that security semantics can be compiled from the same topology structure as routing.</p>
 <p>⸻</p>
 <p><strong>Supplemental Engineering Notes (Non-Peer-Reviewed)</strong></p>
 <p>Early design reasoning and prototype discussions are documented in engineering blog posts:</p>
