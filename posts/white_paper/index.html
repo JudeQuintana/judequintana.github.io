@@ -317,7 +317,7 @@ This architecture assumes that all VPC and subnet CIDRs are globally non-overlap
 <ul>
 <li>Centralized Router is responsible for O(V²) relationships within a region.</li>
 <li>It does not perform TGW-to-TGW adjacency, it assumes one TGW per region.</li>
-<li>All IR passes are implemented as pure-function Terraform modules, which are zero-resource transformations that operate exclusively on data structures, enabling deterministic outputs, referential transparency, property-based testing, and formal verification of routing logic.</li>
+<li>The Regional IR pass, responsible for all O(V²) routing expansion, is implemented as a pure-function Terraform module. This zero-resource transformation operates exclusively on data structures, enabling deterministic outputs, referential transparency, property-based testing, and formal verification of routing logic.</li>
 </ul>
 <p>The IR emitted from this stage is:</p>
 <pre tabindex="0"><code>Regional IR = {
@@ -331,9 +331,10 @@ This architecture assumes that all VPC and subnet CIDRs are globally non-overlap
 <p>In this work, the Global IR is realized via the Full Mesh Trio module, a concrete instantiation of the general N-TGW mesh synthesis for N = 3 regions, used as the production reference implementation for empirical evaluation.</p>
 <p>Full Mesh Trio composes multiple regional meshes into a global mesh:</p>
 <ul>
-<li>Establishes all N×N TGW peering adjacencies.</li>
+<li>Establishes all N(N−1)/2 TGW peering adjacencies.</li>
 <li>Creates cross-region V×V routing expansions so that VPCs in different regions inherit full reachability.</li>
 <li>Merges three regional IRs (one per region) into a single global IR representing a multi-region mesh.</li>
+<li>The Global IR pass deterministically composes these verified regional outputs using resource-creating modules, preserving correctness while synthesizing cross-region topology.</li>
 </ul>
 <p>Thus:</p>
 <ul>
@@ -366,7 +367,7 @@ This architecture assumes that all VPC and subnet CIDRs are globally non-overlap
 <li>Optional optimization passes (VPC Peering Deluxe)</li>
 </ol>
 <p>the system transforms an O(N² + V²) imperative configuration burden into O(N + V) declarative input.</p>
-<p>The remaining quadratic complexity is pushed entirely into deterministic IR transformations. The Regional IR pass, the semantic core of the system, is implemented as a pure-function module and mechanically verified, while the Global IR deterministically composes these verified outputs into a multi-region topology.</p>
+<p>The remaining quadratic complexity is pushed entirely into deterministic IR transformations. The Regional IR pass, the semantic core of the system, is implemented as a pure-function module and mechanically verified at the Regional IR layer while the Global IR deterministically composes these verified outputs into a multi-region topology.</p>
 <p>This shift from imperative, relationship-level configuration to compiler-generated topology is the core conceptual contribution of the architecture.</p>
 <p>A complete, production-grade implementation of this AST → Regional IR → Global IR pipeline is provided in the centralized egress dual-stack full-mesh trio demo, which composes Tiered VPC-NG, Centralized Router, Full Mesh Trio, VPC Peering Deluxe, the IPv4/IPv6 intra-VPC and full-mesh security group rule modules, and centralized egress into a unified topology compiler. This integration demonstrates the system operating end-to-end across three regions, nine VPCs, centralized egress, dual-stack CIDR propagation, and mixed TGW + VPC-peering edges. The demo serves as the reference implementation upon which the empirical results and analyses in this paper are based.</p>
 <p>In dual-stack deployments, this model enables asymmetric egress semantics: IPv4 traffic is routed through centralized NAT Gateways to achieve O(1) cost scaling, while IPv6 traffic follows decentralized, NAT-free egress paths, leveraging native IPv6 routing and TGW propagation. This behavior is demonstrated end-to-end in the centralized egress dual-stack full-mesh trio reference implementation.</p>
@@ -426,7 +427,7 @@ Declarative:  O(N + V) topology intent to declare
 <li>O(1) selective direct edges for low-latency or cost-sensitive paths</li>
 <li>subnet-level microsegmentation</li>
 </ul>
-<p>To the author’s knowledge, this work represents the first formal application of compiler-style abstractions, explicit AST construction, Regional IR expansion, and Global IR composition to the synthesis of multi-region AWS Transit Gateway network topologies.</p>
+<p>To the author’s knowledge, this work represents one of the first systems to apply compiler-style abstractions, explicit AST construction, Regional IR expansion, and Global IR composition to the synthesis of multi-region AWS Transit Gateway network topologies.</p>
 <p>Verified IR Transformation:</p>
 <ul>
 <li>The Regional IR pass, responsible for all O(V²) routing expansion, is implemented as a pure-function Terraform module and is formally verified through deterministic, property-based tests that validate routing invariants across diverse multi-VPC configurations.</li>
