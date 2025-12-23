@@ -239,7 +239,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
 <h2 id="2-introduction">2. Introduction</h2>
 <p>Large-scale AWS environments commonly adopt a multi-VPC model to isolate workloads, enforce blast-radius boundaries, and support multi-region resilience. Mature cloud organizations routinely operate 15–50 VPCs across several AWS regions, with some enterprises exceeding 100 VPCs globally. However, creating consistent connectivity across these environments exposes a fundamental scaling challenge: while VPCs are not directly peered in TGW-centric architectures, the underlying Transit Gateway (TGW) mesh requires explicit configuration of all adjacency relationships.</p>
 <p>For N Transit Gateways forming a full mesh, the number of TGW-to-TGW peering relationships grows quadratically:</p>
-<pre tabindex="0"><code>F(N) = N(N−1)/2 = O(N²),  where N = number of TGWs
+<pre tabindex="0"><code>F(N) = N(N−1)/2 = O(N²), where N = number of TGWs
 </code></pre><p>For V VPCs attached across these TGWs, operators must also configure route tables, security group rules, TGW attachments, and propagation settings across multiple availability zones and CIDR blocks. VPC-level routing and security relationships scale as O(V²), independently of TGW adjacency. Even a modest 9-VPC deployment across 3 TGWs produces:</p>
 <ul>
 <li>1,152 route entries (theoretical maximum assuming full dual-stack, multi-CIDR routing)</li>
@@ -302,6 +302,7 @@ This architecture assumes that all VPC and subnet CIDRs are globally non-overlap
 <li>Each VPC is a typed object specifying CIDRs, tiers (private/public/isolated), IPv4/IPv6 combinations, NAT policies, and egress attributes.</li>
 <li>Validations enforce semantic correctness (unique CIDRs, dual-stack integrity, NAT constraints, AZ structure).</li>
 <li>The output is a VPC AST map of size V, supplying the compiler with structured inputs.</li>
+<li>Exposes an intra_vpc_security_group_id interface for downstream security synthesis.</li>
 </ul>
 <p>This stage contains no routing logic. It defines what exists, not how it connects.</p>
 <p>⸻</p>
