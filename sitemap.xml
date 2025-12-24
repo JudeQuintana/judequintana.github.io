@@ -8,13 +8,10 @@
     <loc>https://jq1.io/tags/cloud-networking/</loc>
     <lastmod>2025-12-12T08:23:23-07:00</lastmod>
   </url><url>
-    <loc>https://jq1.io/tags/compiler-theory/</loc>
+    <loc>https://jq1.io/tags/complexity-transformation/</loc>
     <lastmod>2025-12-12T08:23:23-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/posts/white_paper/</loc>
-    <lastmod>2025-12-12T08:23:23-07:00</lastmod>
-  </url><url>
-    <loc>https://jq1.io/tags/full-mesh/</loc>
     <lastmod>2025-12-12T08:23:23-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/</loc>
@@ -26,7 +23,10 @@
     <loc>https://jq1.io/tags/</loc>
     <lastmod>2025-12-12T08:23:23-07:00</lastmod>
   </url><url>
-    <loc>https://jq1.io/tags/transit-gateway/</loc>
+    <loc>https://jq1.io/tags/tgw/</loc>
+    <lastmod>2025-12-12T08:23:23-07:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/unified-topology-compiler/</loc>
     <lastmod>2025-12-12T08:23:23-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/vpc/</loc>
@@ -60,9 +60,6 @@
     <lastmod>2023-03-04T15:44:09-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/categories/terraform/</loc>
-    <lastmod>2023-03-04T15:44:09-07:00</lastmod>
-  </url><url>
-    <loc>https://jq1.io/tags/tgw/</loc>
     <lastmod>2023-03-04T15:44:09-07:00</lastmod>
   </url><url>
     <loc>https://jq1.io/posts/slappin_chrome_on_the_wip/</loc>
