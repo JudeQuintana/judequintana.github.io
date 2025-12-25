@@ -6,8 +6,16 @@
     <description>Recent content in Terraform on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 04 Mar 2023 15:44:09 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 12 Dec 2025 08:23:23 -0700</lastBuildDate>
     <atom:link href="https://jq1.io/categories/terraform/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>From O(N²&#43;V²) to O(N&#43;V): Automated Multi-TGW Mesh Configuration Through Functional Composition</title>
+      <link>https://jq1.io/posts/white_paper/</link>
+      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
+      <guid>https://jq1.io/posts/white_paper/</guid>
+      <description>What began as a modular Terraform experiment evolved into a full compiler-style architecture for AWS networking. The system transforms a declarative map of VPCs and regions into complete multi-region Transit Gateway mesh configurations, performing automatic adjacency synthesis, route expansion, and deterministic cross-region propagation.
+Below is the white paper that documents the underlying model, a provable O(N² + V²) → O(N + V) reduction alongside empirical validation across multi-region deployments and is currently a work in progress.</description>
+    </item>
     <item>
       <title>Finally published to the Terraform Cloud public registry</title>
       <link>https://jq1.io/posts/finally_published_to_public_registry/</link>
