@@ -348,7 +348,7 @@ This architecture assumes that all VPC and subnet CIDRs are globally non-overlap
 <p>In this work, the Global IR is realized via the Full Mesh Trio module, a concrete instantiation of the general N-TGW mesh synthesis for N = 3 regions, used as the production reference implementation for empirical evaluation.</p>
 <p>Full Mesh Trio composes multiple regional meshes into a global mesh:</p>
 <ul>
-<li>Establishes all NxN TGW peering adjacencies.</li>
+<li>Establishes all N×N TGW peering adjacencies.</li>
 <li>Creates cross-region V×V routing expansions so that VPCs in different regions inherit full reachability.</li>
 <li>Merges three regional IRs (one per region) into a single global IR representing a multi-region mesh.</li>
 <li>The Global IR pass deterministically composes these verified regional outputs using resource-creating modules, preserving correctness while synthesizing cross-region topology.</li>
