@@ -13,7 +13,7 @@
       <link>https://jq1.io/posts/white_paper/</link>
       <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
       <guid>https://jq1.io/posts/white_paper/</guid>
-      <description>What began as a modular Terraform experiment evolved into a full compiler-style architecture for AWS networking. The system transforms a declarative map of VPCs and regions into complete multi-region Transit Gateway mesh configurations, performing automatic adjacency synthesis, route expansion, and deterministic cross-region propagation.
+      <description>What began as a modular Terraform experiment evolved into a full compiler-style architecture for AWS networking. The system transforms a declarative map of VPCs into complete multi-region Transit Gateway mesh configurations, performing automatic adjacency synthesis, route expansion, and deterministic cross-region propagation.
 Below is the white paper that documents the underlying model, a provable O(N² + V²) → O(N + V) reduction alongside empirical validation across multi-region deployments and is currently a work in progress.</description>
     </item>
     <item>
