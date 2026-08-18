@@ -6,20 +6,62 @@
     <description>Recent content in Tags on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 12 Dec 2025 08:23:23 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 17 Aug 2026 17:15:26 -0600</lastBuildDate>
     <atom:link href="https://jq1.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>aws</title>
       <link>https://jq1.io/tags/aws/</link>
-      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
+      <pubDate>Mon, 17 Aug 2026 17:15:26 -0600</pubDate>
       <guid>https://jq1.io/tags/aws/</guid>
       <description></description>
     </item>
     <item>
       <title>cloud-networking</title>
       <link>https://jq1.io/tags/cloud-networking/</link>
-      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
+      <pubDate>Mon, 17 Aug 2026 17:15:26 -0600</pubDate>
       <guid>https://jq1.io/tags/cloud-networking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>full-mesh-topology</title>
+      <link>https://jq1.io/tags/full-mesh-topology/</link>
+      <pubDate>Mon, 17 Aug 2026 17:15:26 -0600</pubDate>
+      <guid>https://jq1.io/tags/full-mesh-topology/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>hierarchical-topology</title>
+      <link>https://jq1.io/tags/hierarchical-topology/</link>
+      <pubDate>Mon, 17 Aug 2026 17:15:26 -0600</pubDate>
+      <guid>https://jq1.io/tags/hierarchical-topology/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>routing-policy-language</title>
+      <link>https://jq1.io/tags/routing-policy-language/</link>
+      <pubDate>Mon, 17 Aug 2026 17:15:26 -0600</pubDate>
+      <guid>https://jq1.io/tags/routing-policy-language/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>transit-gateway</title>
+      <link>https://jq1.io/tags/transit-gateway/</link>
+      <pubDate>Mon, 17 Aug 2026 17:15:26 -0600</pubDate>
+      <guid>https://jq1.io/tags/transit-gateway/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>unified-topology-compiler</title>
+      <link>https://jq1.io/tags/unified-topology-compiler/</link>
+      <pubDate>Mon, 17 Aug 2026 17:15:26 -0600</pubDate>
+      <guid>https://jq1.io/tags/unified-topology-compiler/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>vpc</title>
+      <link>https://jq1.io/tags/vpc/</link>
+      <pubDate>Mon, 17 Aug 2026 17:15:26 -0600</pubDate>
+      <guid>https://jq1.io/tags/vpc/</guid>
       <description></description>
     </item>
     <item>
@@ -27,41 +69,6 @@
       <link>https://jq1.io/tags/complexity-transformation/</link>
       <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
       <guid>https://jq1.io/tags/complexity-transformation/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>full-mesh-topology</title>
-      <link>https://jq1.io/tags/full-mesh-topology/</link>
-      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
-      <guid>https://jq1.io/tags/full-mesh-topology/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>hierarchical-topology</title>
-      <link>https://jq1.io/tags/hierarchical-topology/</link>
-      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
-      <guid>https://jq1.io/tags/hierarchical-topology/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>transit-gateway</title>
-      <link>https://jq1.io/tags/transit-gateway/</link>
-      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
-      <guid>https://jq1.io/tags/transit-gateway/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>unified-topology-compiler</title>
-      <link>https://jq1.io/tags/unified-topology-compiler/</link>
-      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
-      <guid>https://jq1.io/tags/unified-topology-compiler/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>vpc</title>
-      <link>https://jq1.io/tags/vpc/</link>
-      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
-      <guid>https://jq1.io/tags/vpc/</guid>
       <description></description>
     </item>
     <item>
