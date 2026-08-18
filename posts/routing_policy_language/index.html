@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.120.4">
+
+    
+    
+    
+
+<title>Routing Policy Language • jq1.io</title>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Routing Policy Language"/>
+<meta name="twitter:description" content="Compiling Cloud Network Topology I think cloud network engineers should take a serious look at the compilation approach given the routing policy language fell out of the architecture naturally. What started as a functional route generator evolved into something with algebraic properties and those properties change what&rsquo;s possible.
+From Aggregates to Identity Previous versions of the system built full meshes from VPC aggregate semantics. You&rsquo;d collect all VPCs, compute the cartesian product of route tables and CIDRs, and emit every possible route."/>
+
+<meta property="og:title" content="Routing Policy Language" />
+<meta property="og:description" content="Compiling Cloud Network Topology I think cloud network engineers should take a serious look at the compilation approach given the routing policy language fell out of the architecture naturally. What started as a functional route generator evolved into something with algebraic properties and those properties change what&rsquo;s possible.
+From Aggregates to Identity Previous versions of the system built full meshes from VPC aggregate semantics. You&rsquo;d collect all VPCs, compute the cartesian product of route tables and CIDRs, and emit every possible route." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jq1.io/posts/routing_policy_language/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2026-08-17T17:15:26-06:00" />
+<meta property="article:modified_time" content="2026-08-17T17:15:26-06:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/github.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" sizes="32x32" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://jq1.io/">jq1.io</a>
+      </span>
+      
+        
+        
+        
+        <div class="author-image">
+          <img src="https://jq1.io/img/thought.png" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+      
+      
+      <p class="site__description">
+         Ideas as Code 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">jq1.io</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	
+	
+	<a href="https://github.com/judequintana" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/jq1" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="mailto:jude@jq1.io" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	<a href="https://jq1.io/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2026 Jude Quintana
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a>
+</div>
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Routing Policy Language</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Aug 17, 2026
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 5 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="post">
+    <h3 id="compiling-cloud-network-topology">Compiling Cloud Network Topology</h3>
+<p>I think cloud network engineers should take a serious look at the compilation approach given the routing policy language fell out of the architecture naturally. What started as a functional route generator evolved into something with algebraic properties and those properties change what&rsquo;s possible.</p>
+<h3 id="from-aggregates-to-identity">From Aggregates to Identity</h3>
+<p>Previous versions of the system built full meshes from VPC aggregate semantics. You&rsquo;d collect all VPCs, compute the cartesian product of route tables and CIDRs, and emit every possible route. The result was always full mesh. Every VPC could reach every other VPC, with no ability to selectively control reachability.</p>
+<p>Now we operate on full VPC identity. Each VPC enters the compiler as a typed object with CIDRs, route tables, and address family information. The routing policy evaluates constraints against that identity to determine which routes should exist. The shift from &ldquo;generate all routes&rdquo; to &ldquo;generate the correct routes&rdquo; is the difference between a code generator and a compiler.</p>
+<h3 id="the-policy-algebra">The Policy Algebra</h3>
+<p>Four primitives with fixed precedence:</p>
+<pre tabindex="0"><code>deny &gt; allow &gt; segments &gt; default
+</code></pre><ul>
+<li><strong>deny</strong> unconditionally blocks routes between two VPCs</li>
+<li><strong>allow</strong> unconditionally permits routes between two VPCs</li>
+<li><strong>segments</strong> partitions VPCs into isolation groups</li>
+<li><strong>default</strong> is the fallthrough, either <code>&quot;allow&quot;</code> (full mesh) or <code>&quot;deny&quot;</code> (zero trust)</li>
+</ul>
+<p>Every VPC pair resolves to reachable or unreachable. No ambiguity. The algebra is total, monotonic, commutative, and deterministic. Same inputs always produce the same route set.</p>
+<p>A single declaration controls both IPv4 and IPv6 route generation. One policy, dual-stack output.</p>
+<h3 id="mathematically-guaranteed-routes">Mathematically Guaranteed Routes</h3>
+<p>The routes emitted by the compiler are mathematically guaranteed by the algebra. There is no configuration state where an unintended route can appear. If the policy says deny, the route is not emitted. If it says allow, the route exists. The precedence is fixed: deny always wins, regardless of what allow or segments say.</p>
+<p><code>terraform plan</code> becomes the complete proof of your network&rsquo;s reachability state. The plan output shows exactly which routes exist and which don&rsquo;t, before any infrastructure changes. You&rsquo;re not hoping the network does what you intended. You&rsquo;re reading a deterministic output that the algebra produced.</p>
+<pre tabindex="0"><code># terraform plan output for the policy above:
++ aws_route.this[&#34;rtb-abc|10.0.64.0/18&#34;]    # app -&gt; infra (explicit allow)
++ aws_route.this[&#34;rtb-abc|192.168.64.0/18&#34;] # app -&gt; general (same segment, workloads)
++ aws_route.this[&#34;rtb-def|10.0.64.0/18&#34;]    # general -&gt; app (same segment, workloads)
+# No route from general -&gt; infra (cross-segment deny, route not emitted)
+# No route from infra -&gt; general (cross-segment deny, route not emitted)
+</code></pre><p>The absence of a route <em>is</em> the enforcement. No firewall, no NACL, no security group. The packet never enters the TGW because the VPC has nowhere to send it.</p>
+<h3 id="shape-and-reshape-on-demand">Shape and Reshape on Demand</h3>
+<p>The topology is not a fixed artifact you build once. Changing a line in the routing policy reshapes which VPCs can communicate:</p>
+<pre tabindex="0"><code># Isolate db during an incident in one line
+deny = [
+  { from = module.vpcs[&#34;app&#34;], to = module.vpcs[&#34;db&#34;] }
+]
+</code></pre><p>The TGW stays untouched. The attachments stay untouched. The forwarding plane is unchanged. Only VPC route table entries shift. You reshape the network through language, not infrastructure operations. Remove the line, apply again, connectivity returns.</p>
+<h3 id="scope-invariance">Scope Invariance</h3>
+<p>The same policy language works identically at every scope:</p>
+<ul>
+<li><strong>Regional IR</strong> (Centralized Router): intra-region VPC routing</li>
+<li><strong>Global IR</strong> (Full Mesh Trio): cross-region VPC routing across three regions</li>
+<li><strong>Domain IR</strong> (Super Router): cross-region and intra-region across peered router domains</li>
+</ul>
+<p>The compilation unit doesn&rsquo;t know which scope it&rsquo;s operating in. It receives a set of VPCs and a set of constraints, and emits the permitted routes. Whether you&rsquo;re shaping a 3-VPC regional mesh or a 30-VPC cross-domain topology, the language is the same, the precedence is the same, and the guarantees are the same.</p>
+<p>This isn&rsquo;t three implementations of the same idea. It&rsquo;s one compilation unit parameterized over scope. The scope invariance wasn&rsquo;t designed, it fell out of the abstraction being at the right level.</p>
+<h3 id="compliance-as-a-terraform-file">Compliance as a Terraform File</h3>
+<p>Network compliance frameworks (PCI-DSS, HIPAA, FedRAMP, SOC 2) require demonstrable isolation between environments and evidence that access controls exist. Traditionally, this means separate documentation describing what the network <em>should</em> look like, reviewed against what it <em>actually</em> looks like.</p>
+<p>With the routing policy, the compliance artifact is the policy declaration itself:</p>
+<pre tabindex="0"><code>routing_policy = {
+  default  = &#34;deny&#34;
+  segments = {
+    payment   = [module.vpcs[&#34;checkout&#34;], module.vpcs[&#34;processor&#34;]]
+    general   = [module.vpcs[&#34;api&#34;], module.vpcs[&#34;web&#34;]]
+  }
+  allow = [
+    { from = module.vpcs[&#34;api&#34;], to = module.vpcs[&#34;checkout&#34;] }
+  ]
+}
+</code></pre><p>This is simultaneously the network configuration, the access control documentation, and the audit evidence. The gap between documentation and implementation that auditors typically probe does not exist. The documentation <em>is</em> the implementation. Git history is the change log. Plan output diffed between commits is the audit trail.</p>
+<h2 id="the-mental-model">The Mental Model</h2>
+<p>The mental model is now: declare what should communicate, the compiler handles the rest.</p>
+<p>You don&rsquo;t need to know routing. You don&rsquo;t need to manage route tables, propagation rules, or TGW attachments for policy. You declare intent: these VPCs are in one group, those are in another, this specific pair needs an exception. The compiler generates the mathematically correct route set across every route table, every CIDR (including secondaries), both address families, at whatever scope you&rsquo;re operating in.</p>
+<p>The strong part of this model is that it&rsquo;s scope-invariant. Learning the policy language once means you can shape any topology the system supports (regional, global, or domain) without learning a new tool or mental model for each. The algebra doesn&rsquo;t change. The guarantees don&rsquo;t change. Only the set of VPCs participating changes.</p>
+<hr>
+<p>The routing policy language specification is available at <a href="https://github.com/JudeQuintana/terraform-main/tree/main/docs/routing-policy-language.md">docs/routing-policy-language.md</a>.</p>
+<p>Working examples with segmentation and deny rules are in <a href="https://github.com/JudeQuintana/terraform-main/tree/main/centralized_egress_dual_stack_full_mesh_trio_demo">Centralized Egress Dual Stack Full Mesh Trio Demo</a> and full mesh (domain peering) is in <a href="https://github.com/JudeQuintana/terraform-main/tree/main/super_router_revamped_demo">Super Router Revamped Demo</a>.</p>
+<p>For the full compiler architecture and complexity analysis, see the <a href="https://github.com/JudeQuintana/terraform-main/blob/main/docs/WHITEPAPER.md">white paper</a> (work in progress).</p>
+
+  </div>
+  <div>
+	
+   <h2>Feedback</h2>
+   <p>What did you think about this post? <a href="mailto:jude@jq1.io">jude@jq1.io</a></p>
+	
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/white_paper/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">From O(N²&#43;V²) to O(N&#43;V): Automated Multi-TGW Mesh Configuration Through Functional Composition</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+  
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YE3FYNTXXN"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-YE3FYNTXXN', { 'anonymize_ip': false });
+}
+</script>
+
+
+<script src="https://use.fontawesome.com/releases/v6.2.0/js/all.js" integrity="sha384-W5zCdxUh9KjkijDohSc4bFCIfbZKNYcz/hdWjfRL1whrEJO6YBXMaZcAZU5YWJNW" crossorigin="anonymous"></script>
+
+
+    
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+        
+    
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>
