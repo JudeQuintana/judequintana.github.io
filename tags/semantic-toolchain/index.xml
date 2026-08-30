@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>routing-policy-language on jq1.io</title>
-    <link>https://jq1.io/tags/routing-policy-language/</link>
-    <description>Recent content in routing-policy-language on jq1.io</description>
+    <title>semantic-toolchain on jq1.io</title>
+    <link>https://jq1.io/tags/semantic-toolchain/</link>
+    <description>Recent content in semantic-toolchain on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 30 Aug 2026 14:09:21 -0600</lastBuildDate>
-    <atom:link href="https://jq1.io/tags/routing-policy-language/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://jq1.io/tags/semantic-toolchain/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Topology Compiler: Semantic Toolchain</title>
       <link>https://jq1.io/posts/topology_compiler_semantic_toolchain/</link>
@@ -15,14 +15,6 @@
       <guid>https://jq1.io/posts/topology_compiler_semantic_toolchain/</guid>
       <description>Previously, the routing policy language gave cloud network engineers a way to express topology intent through four algebraic primitives. Declare deny &amp;gt; allow &amp;gt; segments &amp;gt; default, run terraform plan, and the compiler emits the correct route set. The algebra and its mental model should simplify cloud network topology. And it does.
 But correctness by construction answers &amp;ldquo;is this valid?&amp;rdquo; It doesn&amp;rsquo;t answer &amp;ldquo;is this what I meant?&amp;rdquo; A policy can be structurally correct and semantically wrong.</description>
-    </item>
-    <item>
-      <title>Routing Policy Language</title>
-      <link>https://jq1.io/posts/routing_policy_language/</link>
-      <pubDate>Mon, 17 Aug 2026 17:15:26 -0600</pubDate>
-      <guid>https://jq1.io/posts/routing_policy_language/</guid>
-      <description>Compiling Cloud Network Topology I think cloud network engineers should take a serious look at the compilation approach given the routing policy language fell out of the architecture naturally. What started as a functional route generator evolved into something with algebraic properties and those properties change what&amp;rsquo;s possible.
-From Aggregates to Identity Previous versions of the system built full meshes from VPC aggregate semantics. You&amp;rsquo;d collect all VPCs, compute the cartesian product of route tables and CIDRs, and emit every possible route.</description>
     </item>
   </channel>
 </rss>

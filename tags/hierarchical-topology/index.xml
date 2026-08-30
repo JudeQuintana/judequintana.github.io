@@ -6,8 +6,16 @@
     <description>Recent content in hierarchical-topology on jq1.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Aug 2026 17:15:26 -0600</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2026 14:09:21 -0600</lastBuildDate>
     <atom:link href="https://jq1.io/tags/hierarchical-topology/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Topology Compiler: Semantic Toolchain</title>
+      <link>https://jq1.io/posts/topology_compiler_semantic_toolchain/</link>
+      <pubDate>Sun, 30 Aug 2026 14:09:21 -0600</pubDate>
+      <guid>https://jq1.io/posts/topology_compiler_semantic_toolchain/</guid>
+      <description>Previously, the routing policy language gave cloud network engineers a way to express topology intent through four algebraic primitives. Declare deny &amp;gt; allow &amp;gt; segments &amp;gt; default, run terraform plan, and the compiler emits the correct route set. The algebra and its mental model should simplify cloud network topology. And it does.
+But correctness by construction answers &amp;ldquo;is this valid?&amp;rdquo; It doesn&amp;rsquo;t answer &amp;ldquo;is this what I meant?&amp;rdquo; A policy can be structurally correct and semantically wrong.</description>
+    </item>
     <item>
       <title>Routing Policy Language</title>
       <link>https://jq1.io/posts/routing_policy_language/</link>

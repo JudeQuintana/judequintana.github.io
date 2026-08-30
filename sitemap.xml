@@ -3,45 +3,51 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://jq1.io/tags/aws/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/categories/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/cloud-networking/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/full-mesh-topology/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/hierarchical-topology/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/posts/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
-  </url><url>
-    <loc>https://jq1.io/posts/routing_policy_language/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/routing-policy-language/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/tags/semantic-toolchain/</loc>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/categories/terraform/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/posts/topology_compiler_semantic_toolchain/</loc>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/transit-gateway/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/unified-topology-compiler/</loc>
-    <lastmod>2026-08-17T17:15:26-06:00</lastmod>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/vpc/</loc>
+    <lastmod>2026-08-30T14:09:21-06:00</lastmod>
+  </url><url>
+    <loc>https://jq1.io/posts/routing_policy_language/</loc>
     <lastmod>2026-08-17T17:15:26-06:00</lastmod>
   </url><url>
     <loc>https://jq1.io/tags/complexity-transformation/</loc>
