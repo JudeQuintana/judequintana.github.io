@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>scope-invariant on jq1.io</title>
+    <link>https://jq1.io/tags/scope-invariant/</link>
+    <description>Recent content in scope-invariant on jq1.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 05 Sep 2026 10:00:56 -0600</lastBuildDate>
+    <atom:link href="https://jq1.io/tags/scope-invariant/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Moar Semantic Toolchain!</title>
+      <link>https://jq1.io/posts/moar_semantic_toolchain/</link>
+      <pubDate>Sat, 05 Sep 2026 10:00:56 -0600</pubDate>
+      <guid>https://jq1.io/posts/moar_semantic_toolchain/</guid>
+      <description>What&amp;rsquo;s better than 5 semantic outputs? 5 MOAR semantic outputs! The compiler semantic toolchain enables engineers to have reachability, diagnostics, provenance, policy diff, and equivalence. That answered &amp;ldquo;what did the compiler decide?&amp;rdquo; and &amp;ldquo;did my refactor break anything?&amp;rdquo;.
+Now the toolchain extends to ten semantic outputs total, answering &amp;ldquo;prove my invariants hold,&amp;rdquo; &amp;ldquo;how big is this change operationally,&amp;rdquo; &amp;ldquo;what does my network look like from one VPC&amp;rsquo;s perspective,&amp;rdquo; &amp;ldquo;is my policy carrying dead weight,&amp;rdquo; and &amp;ldquo;show me the topology.</description>
+    </item>
+    <item>
+      <title>Topology Compiler: Semantic Toolchain</title>
+      <link>https://jq1.io/posts/topology_compiler_semantic_toolchain/</link>
+      <pubDate>Sun, 30 Aug 2026 14:09:21 -0600</pubDate>
+      <guid>https://jq1.io/posts/topology_compiler_semantic_toolchain/</guid>
+      <description>Previously, the routing policy language gave cloud network engineers a way to express topology intent through four algebraic primitives. Declare deny &amp;gt; allow &amp;gt; segments &amp;gt; default, run terraform plan, and the compiler emits the correct route set. The algebra and its mental model should simplify cloud network topology. And it does.
+But correctness by construction answers &amp;ldquo;is this valid?&amp;rdquo; It doesn&amp;rsquo;t answer &amp;ldquo;is this what I meant?&amp;rdquo; A policy can be structurally correct and semantically wrong.</description>
+    </item>
+    <item>
+      <title>Routing Policy Language</title>
+      <link>https://jq1.io/posts/routing_policy_language/</link>
+      <pubDate>Mon, 17 Aug 2026 17:15:26 -0600</pubDate>
+      <guid>https://jq1.io/posts/routing_policy_language/</guid>
+      <description>Compiling Cloud Network Topology I think cloud network engineers should take a serious look at the compilation approach given the routing policy language fell out of the architecture naturally. What started as a functional route generator evolved into something with algebraic properties and those properties change what&amp;rsquo;s possible.
+From Aggregates to Identity Previous versions of the system built full meshes from VPC aggregate semantics. You&amp;rsquo;d collect all VPCs, compute the cartesian product of route tables and CIDRs, and emit every possible route.</description>
+    </item>
+    <item>
+      <title>From O(N²&#43;V²) to O(N&#43;V): Automated Multi-TGW Mesh Configuration Through Functional Composition</title>
+      <link>https://jq1.io/posts/white_paper/</link>
+      <pubDate>Fri, 12 Dec 2025 08:23:23 -0700</pubDate>
+      <guid>https://jq1.io/posts/white_paper/</guid>
+      <description>What began as a modular Terraform experiment evolved into a full compiler-style architecture for AWS networking. The system transforms a declarative map of VPCs into complete multi-region Transit Gateway mesh configurations, performing automatic adjacency synthesis, route expansion, and deterministic cross-region propagation.
+Below is the white paper that documents the underlying model, a provable O(N² + V²) → O(N + V) reduction alongside empirical validation across multi-region deployments and is currently a work in progress.</description>
+    </item>
+  </channel>
+</rss>
