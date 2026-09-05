@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.120.4">
+
+    
+    
+    
+
+<title>Moar Semantic Toolchain! • jq1.io</title>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Moar Semantic Toolchain!"/>
+<meta name="twitter:description" content="What&rsquo;s better than 5 semantic outputs? 5 MOAR semantic outputs! The compiler semantic toolchain enables engineers to have reachability, diagnostics, provenance, policy diff, and equivalence. That answered &ldquo;what did the compiler decide?&rdquo; and &ldquo;did my refactor break anything?&rdquo;.
+Now the toolchain extends to ten semantic outputs total, answering &ldquo;prove my invariants hold,&rdquo; &ldquo;how big is this change operationally,&rdquo; &ldquo;what does my network look like from one VPC&rsquo;s perspective,&rdquo; &ldquo;is my policy carrying dead weight,&rdquo; and &ldquo;show me the topology."/>
+
+<meta property="og:title" content="Moar Semantic Toolchain!" />
+<meta property="og:description" content="What&rsquo;s better than 5 semantic outputs? 5 MOAR semantic outputs! The compiler semantic toolchain enables engineers to have reachability, diagnostics, provenance, policy diff, and equivalence. That answered &ldquo;what did the compiler decide?&rdquo; and &ldquo;did my refactor break anything?&rdquo;.
+Now the toolchain extends to ten semantic outputs total, answering &ldquo;prove my invariants hold,&rdquo; &ldquo;how big is this change operationally,&rdquo; &ldquo;what does my network look like from one VPC&rsquo;s perspective,&rdquo; &ldquo;is my policy carrying dead weight,&rdquo; and &ldquo;show me the topology." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jq1.io/posts/moar_semantic_toolchain/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2026-09-05T10:00:56-06:00" />
+<meta property="article:modified_time" content="2026-09-05T10:00:56-06:00" /><meta property="og:site_name" content="The Art of Demolition" />
+
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/github.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.3081c4981fb69a2783dd36ecfdd0e6ba7a158d4cbfdd290ebce8f78ba0469fc6.css" integrity="sha256-MIHEmB&#43;2mieD3Tbs/dDmunoVjUy/3SkOvOj3i6BGn8Y=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" sizes="32x32" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://jq1.io/">jq1.io</a>
+      </span>
+      
+        
+        
+        
+        <div class="author-image">
+          <img src="https://jq1.io/img/thought.png" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+      
+      
+      <p class="site__description">
+         Ideas as Code 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">jq1.io</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	
+	
+	<a href="https://github.com/judequintana" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/jq1" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="mailto:jude@jq1.io" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	<a href="https://jq1.io/index.xml" rel="me"><i class="fas fa-rss fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2026 Jude Quintana
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a>
+</div>
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Moar Semantic Toolchain!</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Sep 5, 2026
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/terraform">TERRAFORM</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/aws">aws</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/unified-topology-compiler">unified-topology-compiler</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/routing-policy-language">routing-policy-language</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/semantic-toolchain">semantic-toolchain</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/vpc">vpc</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/transit-gateway">transit-gateway</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/full-mesh-topology">full-mesh-topology</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/hierarchical-topology">hierarchical-topology</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/cloud-networking">cloud-networking</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 7 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="post">
+    <p>What&rsquo;s better than 5 semantic outputs? 5 MOAR semantic outputs! The
+<a href="https://jq1.io/posts/topology_compiler_semantic_toolchain/">compiler semantic toolchain</a>
+enables engineers to have reachability, diagnostics, provenance, policy diff, and
+equivalence. That answered &ldquo;what did the compiler decide?&rdquo; and &ldquo;did my
+refactor break anything?&rdquo;.</p>
+<p>Now the toolchain extends to ten semantic outputs total, answering &ldquo;prove my
+invariants hold,&rdquo; &ldquo;how big is this change operationally,&rdquo; &ldquo;what does
+my network look like from one VPC&rsquo;s perspective,&rdquo; &ldquo;is my policy carrying
+dead weight,&rdquo; and &ldquo;show me the topology.&rdquo;</p>
+<p>Same principle as before: every output operates on the compiled
+reachability matrix, not route resources. Every output is
+scope-invariant across Regional IR (Centralized Router), Global IR
+(Full Mesh Trio), and Domain IR (Super Router). Enable them through the
+<code>inspect</code> field on any IR module.</p>
+<pre tabindex="0"><code>centralized_router = {
+  name           = &#34;mystique&#34;
+  routing_policy = local.routing_policy
+  vpcs           = module.vpcs
+  inspect = {
+    segment_report       = true
+    policy_normalization = true
+    connectivity_graph   = true
+    assertions = {
+      must_deny   = [{ from = vpcs[&#34;infra&#34;], to = vpcs[&#34;dev&#34;] }]
+      must_permit = [{ from = vpcs[&#34;app&#34;],  to = vpcs[&#34;db&#34;] }]
+    }
+  }
+}
+</code></pre><h2 id="five-new-semantic-outputs">Five New Semantic Outputs</h2>
+<h3 id="assertions-static-analysis-for-network-policy">Assertions: Static Analysis for Network Policy</h3>
+<p>The routing policy defines what connectivity should be. Assertions
+define what connectivity <em>must</em> be, verified against the compiled
+reachability matrix at plan time.</p>
+<p>Two assertion types:</p>
+<ul>
+<li><code>must_deny</code>: the pair must be denied</li>
+<li><code>must_permit</code>: the pair must be permitted</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;passed&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;violations&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;must_deny&#34;</span>: [],
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;must_permit&#34;</span>: []
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>When an invariant is violated:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;passed&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;violations&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;must_deny&#34;</span>: [],
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;must_permit&#34;</span>: [
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;pair&#34;</span>: <span style="color:#e6db74">&#34;app:db&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;verdict&#34;</span>: <span style="color:#e6db74">&#34;denied:default&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This separates policy authorship from policy verification. The network
+team writes the routing policy. A security team defines assertions
+independently: &ldquo;cardholder data VPCs must never reach general
+workloads,&rdquo; &ldquo;production must never reach development,&rdquo; &ldquo;monitoring must
+always reach application VPCs.&rdquo;</p>
+<p>Both live in Terraform. Both evaluate at plan time. A policy change that
+violates a standing assertion shows the exact pair and verdict in the
+output, before any infrastructure is applied.</p>
+<h3 id="blast-radius-impact-analysis">Blast Radius: Impact Analysis</h3>
+<p>Policy diff tells you <em>what changed</em> semantically. Blast radius tells
+you <em>how big the change is</em> operationally.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;affected_vpcs&#34;</span>: [<span style="color:#e6db74">&#34;app&#34;</span>, <span style="color:#e6db74">&#34;db&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;routes_added&#34;</span>: <span style="color:#ae81ff">12</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;routes_removed&#34;</span>: <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;pairs_changed&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;route_tables_affected&#34;</span>: <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The difference between &ldquo;app:db connectivity changed&rdquo; and &ldquo;this change
+touches 2 VPCs, 16 routes across 8 route tables.&rdquo; Engineers and change
+advisory boards care about scope, not just content.</p>
+<p>Blast radius is automatically computed whenever
+<code>policy_diff.previous_reachability</code> is provided. No separate toggle.
+Route counts account for secondary CIDRs and both directions. A VPC
+with 3 route tables and 2 CIDRs (primary + secondary) contributes 6
+routes per permitted pair direction, not 3. The math is exact because
+the compiler has full route table and CIDR metadata for every VPC.</p>
+<p>When nothing changed:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;affected_vpcs&#34;</span>: [],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;routes_added&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;routes_removed&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;pairs_changed&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;route_tables_affected&#34;</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="segment-report-the-vpc-oriented-view">Segment Report: The VPC-Oriented View</h3>
+<p>The reachability matrix is pair-oriented. That&rsquo;s the right shape for
+proving properties, but engineers troubleshoot from one VPC: &ldquo;what can
+app talk to?&rdquo; The segment report pivots the matrix to a per-VPC view.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;app&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;segment&#34;</span>: <span style="color:#e6db74">&#34;workers&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;reaches&#34;</span>: [<span style="color:#e6db74">&#34;cicd&#34;</span>, <span style="color:#e6db74">&#34;general&#34;</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;denied&#34;</span>: []
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;cicd&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;segment&#34;</span>: <span style="color:#e6db74">&#34;workers&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;reaches&#34;</span>: [<span style="color:#e6db74">&#34;app&#34;</span>, <span style="color:#e6db74">&#34;general&#34;</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;denied&#34;</span>: []
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;db&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;segment&#34;</span>: <span style="color:#e6db74">&#34;unsegmented&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;reaches&#34;</span>: [],
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;denied&#34;</span>: [<span style="color:#e6db74">&#34;app&#34;</span>, <span style="color:#e6db74">&#34;cicd&#34;</span>, <span style="color:#e6db74">&#34;general&#34;</span>]
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;general&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;segment&#34;</span>: <span style="color:#e6db74">&#34;unsegmented&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;reaches&#34;</span>: [<span style="color:#e6db74">&#34;app&#34;</span>, <span style="color:#e6db74">&#34;cicd&#34;</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;denied&#34;</span>: [<span style="color:#e6db74">&#34;db&#34;</span>]
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Three fields per VPC:</p>
+<ul>
+<li><strong>segment</strong>: which segment the VPC belongs to, or <code>&quot;unsegmented&quot;</code> if
+not in any segment</li>
+<li><strong>reaches</strong>: VPC names this VPC has permitted connectivity to</li>
+<li><strong>denied</strong>: VPC names this VPC is denied connectivity to</li>
+</ul>
+<p>Same information as the reachability matrix, different axis. When you
+need to answer &ldquo;why can&rsquo;t this VPC reach anything?&rdquo; or verify a VPC&rsquo;s
+isolation posture, the segment report is the direct lookup. The compiler
+analogy is a symbol table dump: per-symbol metadata extracted from the
+compiled output.</p>
+<h3 id="policy-normalization-the-decompiler">Policy Normalization: The Decompiler</h3>
+<p>Given any policy, the normalizer reconstructs the minimal equivalent
+policy that produces the same reachability. This is the inverse of
+compilation: instead of policy-to-routes, it&rsquo;s
+reachability-to-minimal-policy.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;current_rule_count&#34;</span>: <span style="color:#ae81ff">3</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;normalized_rule_count&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;normalized_policy&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;default&#34;</span>: <span style="color:#e6db74">&#34;deny&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;segments&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;group_0&#34;</span>: [<span style="color:#e6db74">&#34;app&#34;</span>, <span style="color:#e6db74">&#34;cicd&#34;</span>, <span style="color:#e6db74">&#34;general&#34;</span>]
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;allow&#34;</span>: [],
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;deny&#34;</span>: []
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The normalizer:</p>
+<ol>
+<li>Walks the compiled reachability matrix</li>
+<li>Fingerprints each VPC by its connectivity profile (which VPCs it can
+reach)</li>
+<li>Groups VPCs with identical fingerprints as segment candidates</li>
+<li>Tries both <code>default=&quot;deny&quot;</code> and <code>default=&quot;allow&quot;</code></li>
+<li>Picks whichever form uses fewer total primitives</li>
+</ol>
+<p>The reachability fingerprinting step is the key insight. VPCs with
+identical connectivity profiles are natural segment candidates. Three
+VPCs that all reach each other and nothing else are a segment, whether
+the original policy expressed them as a segment, three allow rules, or
+<code>default=&quot;allow&quot;</code> with denies to everything else.</p>
+<p>Compare <code>current_rule_count</code> to <code>normalized_rule_count</code>. If they&rsquo;re
+equal, your policy is already minimal. If the normalized count is lower,
+the <code>normalized_policy</code> shows the shorter form. Examples of what it
+detects:</p>
+<ul>
+<li>3 explicit allow rules forming a full mesh becomes <code>default=&quot;allow&quot;</code>
+with 0 rules</li>
+<li>2 allow rules under deny becomes 1 segment</li>
+<li>2 deny rules isolating a VPC becomes <code>default=&quot;allow&quot;</code> with 1 deny</li>
+</ul>
+<p>A lower count doesn&rsquo;t mean you should switch. The current policy may
+encode structural intent (meaningful segment names, explicit groupings)
+that the normalizer doesn&rsquo;t see.</p>
+<p>The output tells you the reachability cost of that intent:
+&ldquo;you wrote 3 rules but 1 would produce the same connectivity.&rdquo; Whether
+the extra structure is worth keeping is a judgment call. The normalizer
+gives you the data for that decision.</p>
+<h3 id="connectivity-graph-see-the-topology">Connectivity Graph: See the Topology</h3>
+<p>DOT format rendering of the reachability matrix. Nodes are VPCs, edges
+are permitted pairs with colored edges encoding the verdict reason, and
+segment memberships render as dashed subgraph clusters.</p>
+<pre tabindex="0"><code>graph connectivity {
+  graph [rankdir=LR]
+  node [shape=box, style=filled, fillcolor=&#34;#f0f0f0&#34;]
+  edge [fontsize=10]
+
+  subgraph cluster_workers {
+    label=&#34;workers&#34;
+    style=dashed
+    color=&#34;#95a5a6&#34;
+    &#34;app&#34;
+    &#34;cicd&#34;
+  }
+  &#34;general&#34;
+
+  &#34;app&#34; -- &#34;cicd&#34; [color=&#34;#2ecc71&#34;, label=&#34;segment&#34;]
+  &#34;app&#34; -- &#34;general&#34; [color=&#34;#3498db&#34;, label=&#34;allow&#34;]
+  &#34;cicd&#34; -- &#34;general&#34; [color=&#34;#3498db&#34;, label=&#34;allow&#34;]
+}
+</code></pre><p>The output is a <code>.dot</code> file written to
+<code>inspect/&lt;router-name&gt;-connectivity-graph.dot</code>. Render it with
+Graphviz:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>brew install graphviz
+</span></span><span style="display:flex;"><span>dot -Tpng inspect/myrouter-connectivity-graph.dot -o connectivity.png
+</span></span><span style="display:flex;"><span>dot -Tsvg inspect/myrouter-connectivity-graph.dot -o connectivity.svg
+</span></span></code></pre></div><p>Edge colors:</p>
+<ul>
+<li><strong>Blue (#3498db)</strong>: <code>allow</code> rule</li>
+<li><strong>Green (#2ecc71)</strong>: <code>segment</code> membership</li>
+<li><strong>Gray (#95a5a6)</strong>: <code>default</code> fallthrough</li>
+</ul>
+<p>Denied pairs produce no edges. A fully denied topology renders all nodes
+with no connections. Segment clusters appear as dashed boxes. Unsegmented
+VPCs appear as standalone nodes outside any cluster.</p>
+<p>Engineers scan a graph faster than they read a JSON matrix, especially
+as VPC count grows. Segment clusters make isolation boundaries visible
+at a glance, and edge colors distinguish <em>why</em> connectivity exists
+without reading verdict strings.</p>
+<h2 id="why-these-five">Why These Five</h2>
+<p>The first five outputs answered questions about the compilation itself:
+what was decided, why, what changed, and can I prove equivalence. The
+new five shift toward operational use:</p>
+<ul>
+<li><strong>Assertions</strong> let you codify invariants that survive policy changes.
+A standing assertion catches regressions at plan time, not during an
+incident.</li>
+<li><strong>Blast radius</strong> gives change advisory boards the scope metric they
+need: not just &ldquo;connectivity changed&rdquo; but &ldquo;how many VPCs, routes, and
+route tables are affected.&rdquo;</li>
+<li><strong>Segment report</strong> gives the VPC-oriented view that individual
+engineers need when troubleshooting or verifying isolation.</li>
+<li><strong>Policy normalization</strong> tells you whether your policy is carrying
+unnecessary complexity and shows the minimal equivalent form.</li>
+<li><strong>Connectivity graph</strong> makes the topology visual. The graph is the
+artifact you put in a design doc, a PR review, or an architecture
+diagram.</li>
+</ul>
+<p>Together with the original five, the toolchain covers the full
+lifecycle: compile, inspect, verify, diff, prove, analyze, normalize,
+and visualize. Ten outputs, one compilation unit, same algebra at every
+scope.</p>
+<h2 id="compiler-analogy-where-each-output-fits">Compiler Analogy: Where Each Output Fits</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Output</th>
+<th style="text-align:left">Compiler Analogy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Reachability</td>
+<td style="text-align:left">IR dump</td>
+</tr>
+<tr>
+<td style="text-align:left">Diagnostics</td>
+<td style="text-align:left">-Wall</td>
+</tr>
+<tr>
+<td style="text-align:left">Provenance</td>
+<td style="text-align:left">Debug symbols</td>
+</tr>
+<tr>
+<td style="text-align:left">Policy Diff</td>
+<td style="text-align:left">Incremental compilation</td>
+</tr>
+<tr>
+<td style="text-align:left">Equivalence</td>
+<td style="text-align:left">Translation validation</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Assertions</strong></td>
+<td style="text-align:left"><strong>Static analysis</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Blast Radius</strong></td>
+<td style="text-align:left"><strong>Impact analysis</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Segment Report</strong></td>
+<td style="text-align:left"><strong>Symbol table dump</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Normalization</strong></td>
+<td style="text-align:left"><strong>Optimizer / decompiler</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Connectivity Graph</strong></td>
+<td style="text-align:left"><strong>CFG export</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="test-coverage">Test Coverage</h2>
+<p>The compiler now has 143 passing <code>terraform test</code> cases. The five new
+outputs added 40 tests: 9 assertions, 8 blast radius, 8 segment
+report, 8 policy normalization, 7 connectivity graph. Each test
+asserts on the exact output structure, not just that the output exists.</p>
+<p>As before, declare intent, compile routes, inspect semantics, refactor with proof but now with even MOAR confidence!</p>
+<h3 id="resources">Resources</h3>
+<ul>
+<li><a href="https://github.com/JudeQuintana/terraform-main/tree/main/docs/compiler-semantic-toolchain.md">Compiler Semantic Toolchain Docs</a></li>
+<li><a href="https://github.com/JudeQuintana/terraform-main/tree/main/docs/routing-policy-language.md">Routing Policy Language Docs</a></li>
+<li><a href="https://github.com/JudeQuintana/terraform-main/tree/main/centralized_egress_dual_stack_full_mesh_trio_demo">Centralized Egress Dual Stack Full Mesh Trio Demo</a></li>
+<li><a href="https://github.com/JudeQuintana/terraform-main/tree/main/super_router_revamped_demo">Super Router Revamped Demo</a></li>
+<li><a href="https://github.com/JudeQuintana/terraform-aws-generate-routes-to-other-vpcs">Generate Routes to Other VPCs</a></li>
+<li><a href="https://github.com/JudeQuintana/terraform-main/tree/main/docs/WHITEPAPER.md">White Paper (WIP)</a></li>
+</ul>
+
+  </div>
+  <div>
+	
+   <h2>Feedback</h2>
+   <p>What did you think about this post? <a href="mailto:jude@jq1.io">jude@jq1.io</a></p>
+	
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/topology_compiler_semantic_toolchain/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Topology Compiler: Semantic Toolchain</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+  
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YE3FYNTXXN"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-YE3FYNTXXN', { 'anonymize_ip': false });
+}
+</script>
+
+
+<script src="https://use.fontawesome.com/releases/v6.2.0/js/all.js" integrity="sha384-W5zCdxUh9KjkijDohSc4bFCIfbZKNYcz/hdWjfRL1whrEJO6YBXMaZcAZU5YWJNW" crossorigin="anonymous"></script>
+
+
+    
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+        
+    
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>
