@@ -13,7 +13,7 @@
       <link>https://jq1.io/posts/moar_semantic_toolchain/</link>
       <pubDate>Sat, 05 Sep 2026 10:00:56 -0600</pubDate>
       <guid>https://jq1.io/posts/moar_semantic_toolchain/</guid>
-      <description>What&amp;rsquo;s better than 5 semantic outputs? 5 MOAR semantic outputs! The first 5 outputs in the compiler semantic toolchain enabled engineers to have reachability, diagnostics, provenance, policy diff, and equivalence. That answered &amp;ldquo;what did the compiler decide?&amp;rdquo; and &amp;ldquo;did my refactor break anything?&amp;rdquo;.
+      <description>What&amp;rsquo;s better than 5 semantic outputs? 5 MOAR semantic outputs! The first outputs in the compiler semantic toolchain enabled engineers to have reachability, diagnostics, provenance, policy diff, and equivalence. That answered &amp;ldquo;what did the compiler decide?&amp;rdquo; and &amp;ldquo;did my refactor break anything?&amp;rdquo;.
 Now the toolchain extends to 10 semantic outputs total, answering &amp;ldquo;prove my invariants hold,&amp;rdquo; &amp;ldquo;how big is this change operationally,&amp;rdquo; &amp;ldquo;what does my network look like from one VPC&amp;rsquo;s perspective,&amp;rdquo; &amp;ldquo;is my policy carrying dead weight,&amp;rdquo; and &amp;ldquo;show me the topology.</description>
     </item>
     <item>
