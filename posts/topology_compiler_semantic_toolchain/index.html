@@ -227,7 +227,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
     
     
     <br/>
-    <i class="fas fa-clock"></i> 7 min read
+    <i class="fas fa-clock"></i> 8 min read
 </div>
 
 
@@ -279,22 +279,25 @@ Regional IR, Global IR, and Domain IR.</p>
 <p>This is the algebra&rsquo;s per-pair verdict as structured data. Every VPC pair
 resolves to one of six outcomes mapping directly to the precedence chain:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;app3:general3&#34;</span>   : <span style="color:#e6db74">&#34;permitted:segment&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;app3:infra3&#34;</span>     : <span style="color:#e6db74">&#34;permitted:allow&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;general3:infra3&#34;</span> : <span style="color:#e6db74">&#34;denied:default&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;schema_version&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;entries&#34;</span>: [
+</span></span><span style="display:flex;"><span>    { <span style="color:#f92672">&#34;from&#34;</span>: <span style="color:#e6db74">&#34;app3&#34;</span>, <span style="color:#f92672">&#34;to&#34;</span>: <span style="color:#e6db74">&#34;general3&#34;</span>, <span style="color:#f92672">&#34;verdict&#34;</span>: <span style="color:#e6db74">&#34;permitted&#34;</span>, <span style="color:#f92672">&#34;reason&#34;</span>: <span style="color:#e6db74">&#34;segment&#34;</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#f92672">&#34;from&#34;</span>: <span style="color:#e6db74">&#34;app3&#34;</span>, <span style="color:#f92672">&#34;to&#34;</span>: <span style="color:#e6db74">&#34;infra3&#34;</span>, <span style="color:#f92672">&#34;verdict&#34;</span>: <span style="color:#e6db74">&#34;permitted&#34;</span>, <span style="color:#f92672">&#34;reason&#34;</span>: <span style="color:#e6db74">&#34;allow&#34;</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#f92672">&#34;from&#34;</span>: <span style="color:#e6db74">&#34;general3&#34;</span>, <span style="color:#f92672">&#34;to&#34;</span>: <span style="color:#e6db74">&#34;infra3&#34;</span>, <span style="color:#f92672">&#34;verdict&#34;</span>: <span style="color:#e6db74">&#34;denied&#34;</span>, <span style="color:#f92672">&#34;reason&#34;</span>: <span style="color:#e6db74">&#34;default&#34;</span> }
+</span></span><span style="display:flex;"><span>  ]
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Each entry represents bidirectional routes so <code>&quot;app3:general3&quot;</code> covers both
-<code>app3 -&gt; general3</code> and <code>general3 -&gt; app3</code>. The output is deduplicated: only the
-lexicographically-first key is shown, no mirror entries. Three VPCs produce
-three pairs, not six.</p>
-<p>Six verdicts, no ambiguity:</p>
+</span></span></code></pre></div><p>The output is a versioned envelope. Each entry has four fields: <code>from</code> and <code>to</code>
+(the VPC pair, lexicographically ordered), <code>verdict</code> (<code>&quot;permitted&quot;</code> or
+<code>&quot;denied&quot;</code>), and <code>reason</code> (which precedence level determined the outcome).
+Entries are deduplicated since rules are bidirectional: <code>from: &quot;app3&quot;, to: &quot;general3&quot;</code> covers both directions. Three VPCs produce three pairs, not six.</p>
+<p>Six verdict/reason combinations, mapping directly to the precedence chain:</p>
 <ul>
-<li><code>permitted:segment</code></li>
-<li><code>denied:cross-segment</code></li>
-<li><code>permitted:allow</code></li>
-<li><code>denied:deny</code></li>
-<li><code>permitted:default</code></li>
-<li><code>denied:default</code></li>
+<li><code>permitted</code> / <code>allow</code></li>
+<li><code>permitted</code> / <code>segment</code></li>
+<li><code>permitted</code> / <code>default</code></li>
+<li><code>denied</code> / <code>deny</code></li>
+<li><code>denied</code> / <code>cross-segment</code></li>
+<li><code>denied</code> / <code>default</code></li>
 </ul>
 <p>This is the compiled intermediate representation made inspectable. It separates &ldquo;what the
 policy decided&rdquo; from &ldquo;what routes were emitted.&rdquo;</p>

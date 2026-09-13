@@ -227,7 +227,7 @@ Built with <a href="https://gohugo.io">Hugo</a>
     
     
     <br/>
-    <i class="fas fa-clock"></i> 7 min read
+    <i class="fas fa-clock"></i> 8 min read
 </div>
 
 
@@ -367,10 +367,10 @@ isolation posture, the segment report is the direct lookup. The compiler
 analogy is a symbol table dump: per-symbol metadata extracted from the
 compiled output.</p>
 <h3 id="policy-normalization-the-decompiler">Policy Normalization: The Decompiler</h3>
-<p>Given any policy, the normalizer reconstructs the minimal equivalent
+<p>Given any policy, the normalizer attempts to find a shorter equivalent
 policy that produces the same reachability. This is the inverse of
 compilation: instead of policy-to-routes, it&rsquo;s
-reachability-to-minimal-policy.</p>
+reachability-to-shorter-policy.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;current_rule_count&#34;</span>: <span style="color:#ae81ff">3</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;normalized_rule_count&#34;</span>: <span style="color:#ae81ff">1</span>,
@@ -381,6 +381,10 @@ reachability-to-minimal-policy.</p>
 </span></span><span style="display:flex;"><span>    },
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;allow&#34;</span>: [],
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;deny&#34;</span>: []
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;roundtrip&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;consistent&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;mismatches&#34;</span>: {}
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The normalizer:</p>
@@ -391,16 +395,34 @@ reach)</li>
 <li>Groups VPCs with identical fingerprints as segment candidates</li>
 <li>Tries both <code>default=&quot;deny&quot;</code> and <code>default=&quot;allow&quot;</code></li>
 <li>Picks whichever form uses fewer total primitives</li>
+<li>Clamps: if the normalizer&rsquo;s best isn&rsquo;t shorter than the current
+policy, reports the current rule count unchanged</li>
 </ol>
 <p>The reachability fingerprinting step is the key insight. VPCs with
 identical connectivity profiles are natural segment candidates. Three
 VPCs that all reach each other and nothing else are a segment, whether
 the original policy expressed them as a segment, three allow rules, or
 <code>default=&quot;allow&quot;</code> with denies to everything else.</p>
+<p>The algorithm is sound but not a complete minimizer. It sidesteps
+the NP-hard minimum clique cover problem by using a polynomial
+heuristic, which means it can miss segments whose members differ in
+external connectivity. For example, a segment <code>{A, B, C, D}</code> with an
+additional <code>allow {A, E}</code> gives A a different fingerprint than B/C/D.
+The normalizer finds only <code>{B, C, D}</code> as a segment candidate, missing
+the full group. The clamp in step 6 ensures the normalizer never
+reports a count higher than your current policy, so an already-optimal
+policy is never presented as improvable.</p>
+<p>The normalizer also validates itself: it feeds its output back through
+the precedence algebra (deny &gt; allow &gt; segment &gt; default) and compares
+the result against the original reachability matrix, pair by pair. If
+the normalized policy ever diverges from the original on any pair,
+<code>roundtrip.consistent</code> goes false and the mismatches show exactly which
+pairs broke. This turns soundness from a claim into a checked invariant
+on every plan.</p>
 <p>Compare <code>current_rule_count</code> to <code>normalized_rule_count</code>. If they&rsquo;re
-equal, your policy is already minimal. If the normalized count is lower,
-the <code>normalized_policy</code> shows the shorter form. Examples of what it
-detects:</p>
+equal, the normalizer can&rsquo;t find a shorter equivalent form. If the
+normalized count is lower, the <code>normalized_policy</code> shows the shorter
+form. Examples of what it detects:</p>
 <ul>
 <li>3 explicit allow rules forming a full mesh becomes <code>default=&quot;allow&quot;</code>
 with 0 rules</li>
@@ -416,8 +438,8 @@ the extra structure is worth keeping is a judgment call. The normalizer
 gives you the data for that decision.</p>
 <h3 id="connectivity-graph-see-the-topology">Connectivity Graph: See the Topology</h3>
 <p>DOT format rendering of the reachability matrix. Nodes are VPCs, edges
-are permitted pairs with colored edges encoding the verdict reason, and
-segment memberships render as dashed subgraph clusters.</p>
+encode permitted pairs and explicit deny rules, and segment memberships
+render as dashed subgraph clusters.</p>
 <pre tabindex="0"><code>graph connectivity {
   graph [rankdir=LR]
   node [shape=box, style=filled, fillcolor=&#34;#f0f0f0&#34;]
@@ -434,7 +456,7 @@ segment memberships render as dashed subgraph clusters.</p>
 
   &#34;app&#34; -- &#34;cicd&#34; [color=&#34;#2ecc71&#34;, label=&#34;segment&#34;]
   &#34;app&#34; -- &#34;general&#34; [color=&#34;#3498db&#34;, label=&#34;allow&#34;]
-  &#34;cicd&#34; -- &#34;general&#34; [color=&#34;#3498db&#34;, label=&#34;allow&#34;]
+  &#34;app&#34; -- &#34;quarantine&#34; [color=&#34;#e74c3c&#34;, style=dashed, label=&#34;deny&#34;]
 }
 </code></pre><p>The output is a <code>.dot</code> file written to
 <code>inspect/&lt;router-name&gt;-connectivity-graph.dot</code>. Render it with
@@ -442,19 +464,28 @@ Graphviz:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>brew install graphviz
 </span></span><span style="display:flex;"><span>dot -Tpng inspect/myrouter-connectivity-graph.dot -o connectivity.png
 </span></span><span style="display:flex;"><span>dot -Tsvg inspect/myrouter-connectivity-graph.dot -o connectivity.svg
-</span></span></code></pre></div><p>Edge colors:</p>
+</span></span></code></pre></div><p>Edge colors and styles:</p>
 <ul>
-<li><strong>Blue (#3498db)</strong>: <code>allow</code> rule</li>
-<li><strong>Green (#2ecc71)</strong>: <code>segment</code> membership</li>
-<li><strong>Gray (#95a5a6)</strong>: <code>default</code> fallthrough</li>
+<li><strong>Blue (#3498db)</strong> solid: <code>allow</code> rule</li>
+<li><strong>Green (#2ecc71)</strong> solid: <code>segment</code> membership</li>
+<li><strong>Gray (#95a5a6)</strong> solid: <code>default</code> fallthrough</li>
+<li><strong>Red (#e74c3c)</strong> dashed: explicit <code>deny</code> rule</li>
 </ul>
-<p>Denied pairs produce no edges. A fully denied topology renders all nodes
-with no connections. Segment clusters appear as dashed boxes. Unsegmented
-VPCs appear as standalone nodes outside any cluster.</p>
+<p>Default-denied pairs (denied by fallthrough, not by an explicit rule)
+produce no edges. Under <code>default=&quot;deny&quot;</code> with a handful of allows, the
+recommended posture, the graph used to be mostly floating nodes with no
+indication of where the operator deliberately blocked traffic. Now
+explicit deny rules render as dashed red edges, making intentional
+boundaries visible. Drawing every default-denied pair would be V^2
+noise; showing only explicit denies keeps the graph readable while
+surfacing the constraints an auditor looks for.</p>
+<p>Segment clusters appear as dashed boxes. Unsegmented VPCs appear as
+standalone nodes outside any cluster.</p>
 <p>Engineers scan a graph faster than they read a JSON matrix, especially
 as VPC count grows. Segment clusters make isolation boundaries visible
-at a glance, and edge colors distinguish <em>why</em> connectivity exists
-without reading verdict strings.</p>
+at a glance, edge colors distinguish <em>why</em> connectivity exists, and
+dashed red edges highlight where the policy author deliberately blocked
+traffic.</p>
 <h2 id="why-these-five">Why These Five</h2>
 <p>The first five outputs answered questions about the compilation itself:
 what was decided, why, what changed, and can I prove equivalence. The
@@ -469,7 +500,8 @@ route tables are affected.&rdquo;</li>
 <li><strong>Segment report</strong> gives the VPC-oriented view that individual
 engineers need when troubleshooting or verifying isolation.</li>
 <li><strong>Policy normalization</strong> tells you whether your policy is carrying
-unnecessary complexity and shows the minimal equivalent form.</li>
+unnecessary complexity, shows a shorter equivalent form when one
+exists, and validates its own output on every run.</li>
 <li><strong>Connectivity graph</strong> makes the topology visual. The graph is the
 artifact you put in a design doc, a PR review, or an architecture
 diagram.</li>
@@ -530,10 +562,12 @@ scope.</p>
 </tbody>
 </table>
 <h2 id="test-coverage">Test Coverage</h2>
-<p>The compiler now has 143 passing <code>terraform test</code> cases. The five new
-outputs added 40 tests: 9 assertions, 8 blast radius, 8 segment
-report, 8 policy normalization, 7 connectivity graph. Each test
-asserts on the exact output structure, not just that the output exists.</p>
+<p>The compiler now has 152 passing <code>terraform test</code> cases. The five new
+outputs added 43 tests: 9 assertions, 8 blast radius, 8 segment
+report, 9 policy normalization (including round-trip soundness checks on
+every test), 9 connectivity graph (including explicit deny edge
+rendering). Each test asserts on the exact output structure, not just
+that the output exists.</p>
 <p>As before, declare intent, compile routes, inspect semantics, refactor with proof but now with even MOAR confidence!</p>
 <h3 id="resources">Resources</h3>
 <ul>
