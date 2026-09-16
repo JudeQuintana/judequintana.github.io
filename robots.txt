@@ -1,1 +1,4 @@
 User-agent: *
+Allow: /
+
+Sitemap: https://jq1.io/sitemap.xml
